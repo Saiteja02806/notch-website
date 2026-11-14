@@ -1,0 +1,16 @@
+---
+import { trustItems } from '@/data/site'
+---
+
+<div class="wrap">
+  <div class="trust" role="list">
+    {
+      trustItems.map((item) => (
+        <div role="listitem">
+          <strong>{item.label}</strong>
+          <span>{item.detail}</span>
+        </div>
+      ))
+    }
+  </div>
+</div>

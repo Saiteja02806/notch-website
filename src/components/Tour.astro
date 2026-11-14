@@ -1,0 +1,108 @@
+---
+import { tour } from '@/data/content'
+---
+
+<section class="section tour" id="tour">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot"></span> The tour</span>
+      <h2 class="h2">Six tabs, one hover away.</h2>
+      <p class="lede">
+        Every panel below is a screenshot of the real app, taken with a demo notes folder. No
+        mockups, no invented controls.
+      </p>
+    </div>
+
+    <div class="tour-grid">
+      <div class="tour-tabs" role="tablist" aria-label="Feature tour" aria-orientation="vertical">
+        {
+          tour.map((item, index) => (
+            <button
+              class="tour-tab"
+              type="button"
+              role="tab"
+              id={`tour-tab-${item.id}`}
+              aria-controls={`tour-panel-${item.id}`}
+              aria-selected={index === 0 ? 'true' : 'false'}
+              tabindex={index === 0 ? 0 : -1}
+              data-tour-tab={item.id}
+            >
+              <span class="num">{String(index + 1).padStart(2, '0')}</span>
+              <span class="name">{item.label}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="tour-stage">
+        {
+          tour.map((item, index) => (
+            <div
+              class="tour-pane"
+              role="tabpanel"
+              id={`tour-panel-${item.id}`}
+              aria-labelledby={`tour-tab-${item.id}`}
+              hidden={index !== 0}
+              data-tour-pane={item.id}
+            >
+              <div class="tour-media">
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  width="1600"
+                  height="1000"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  onerror="this.style.display='none'"
+                />
+              </div>
+              <div class="tour-copy">
+                <h3>{item.title}</h3>
+                <p>{item.caption}</p>
+                <span class="notice">{item.notice}</span>
+              </div>
+              <div class="tour-progress" aria-hidden="true">
+                {tour.map((dot) => <span class:list={{ 'is-active': dot.id === item.id }} />)}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const tablist = document.querySelector<HTMLElement>('[role="tablist"]')
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-tour-tab]'))
+  const panes = Array.from(document.querySelectorAll<HTMLElement>('[data-tour-pane]'))
+
+  const select = (id: string, focus = true): void => {
+    for (const tab of tabs) {
+      const active = tab.dataset.tourTab === id
+      tab.setAttribute('aria-selected', String(active))
+      tab.tabIndex = active ? 0 : -1
+      if (active && focus) tab.focus()
+    }
+    for (const pane of panes) {
+      pane.hidden = pane.dataset.tourPane !== id
+    }
+  }
+
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => select(tab.dataset.tourTab ?? ''))
+  }
+
+  tablist?.addEventListener('keydown', (event) => {
+    const current = tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true')
+    if (current < 0) return
+    let next = current
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (current + 1) % tabs.length
+    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length
+    else if (event.key === 'Home') next = 0
+    else if (event.key === 'End') next = tabs.length - 1
+    else return
+    event.preventDefault()
+    select(tabs[next].dataset.tourTab ?? '')
+  })
+</script>

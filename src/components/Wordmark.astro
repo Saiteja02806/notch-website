@@ -1,0 +1,12 @@
+---
+interface Props {
+  href?: string
+  label?: string
+}
+const { href = '/', label = 'notch' } = Astro.props
+---
+
+<a class="wordmark" href={href} aria-label="Notch home">
+  <span class="glyph" aria-hidden="true"></span>
+  <span>{label}</span>
+</a>

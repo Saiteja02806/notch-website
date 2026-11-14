@@ -1,0 +1,37 @@
+---
+import { Bell } from '@lucide/astro'
+---
+
+<section class="notice-band on-night" aria-labelledby="notice-title">
+  <div class="wrap notice-band-grid">
+    <div class="notice-band-copy">
+      <span class="eyebrow eyebrow--night"><span class="dot"></span> Reminders</span>
+      <h2 id="notice-title">The one alert that reaches you <em>mid-flow.</em></h2>
+      <p>
+        Notifications usually land in a corner you are not looking at. Notch puts the card directly
+        under the collapsed tab, at the top of the screen, for twelve seconds — over whatever has
+        focus.
+      </p>
+
+      <ul class="notice-points">
+        <li><Bell size={13} /> Title and time, no window to close.</li>
+        <li>It never steals focus from your editor.</li>
+        <li>The system notification still lands where Windows allows it.</li>
+      </ul>
+
+      <a class="link link--night" href="/help#reminder-missing">How reminders work</a>
+    </div>
+
+    <figure class="notice-figure">
+      <img
+        src="/screenshots/notice.png"
+        width="1588"
+        height="404"
+        alt="The collapsed notch bar with a reminder card below it: “Reminder · Stand up and stretch, Today at 3:30 PM”."
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>Real screenshot · collapsed bar and reminder card</figcaption>
+    </figure>
+  </div>
+</section>

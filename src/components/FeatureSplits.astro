@@ -1,0 +1,53 @@
+---
+import { ArrowRight } from '@lucide/astro'
+import { features } from '@/data/content'
+---
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot"></span> Features</span>
+      <h2 class="h2">Five surfaces, one strip of screen.</h2>
+      <p class="lede">
+        Each one is complete on its own. Together they replace the five windows you keep open all
+        day.
+      </p>
+    </div>
+
+    <div class="splits">
+      {
+        features.map((feature, index) => (
+          <article class:list={['split', index % 2 === 1 && 'split--flip']}>
+            <div class="split-copy">
+              <span class="kicker">{feature.kicker}</span>
+              <h2>{feature.title}</h2>
+              <p>{feature.body}</p>
+              <ul class="split-list">
+                {feature.bullets.map((bullet) => (
+                  <li>{bullet}</li>
+                ))}
+              </ul>
+              <a class="link" href="#tour">
+                See it in the tour <ArrowRight size={13} />
+              </a>
+            </div>
+
+            <div class="split-media">
+              <div class="frame">
+                <img
+                  src={feature.image}
+                  alt={feature.alt}
+                  width="1600"
+                  height="1000"
+                  loading="lazy"
+                  decoding="async"
+                  onerror="this.style.display='none'"
+                />
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

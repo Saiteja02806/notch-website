@@ -1,0 +1,255 @@
+---
+import Base from '@/layouts/Base.astro'
+import { site } from '@/data/site'
+
+const groups = [
+  {
+    id: 'install',
+    title: 'Install',
+    items: [
+      {
+        id: 'publisher',
+        q: 'Windows says “unknown publisher”. Is that normal?',
+        a: 'Yes. The build is not code-signed, so Windows shows the standard prompt. Choose More info, then Run anyway — or verify the SHA-256 first.'
+      },
+      {
+        id: 'smart-app-control',
+        q: 'Smart App Control blocked the installer.',
+        a: 'Smart App Control on Windows 11 refuses unsigned apps. Try the portable build. If that is blocked too, the only fix is changing that setting, which weakens protection system-wide, so decide deliberately.'
+      },
+      {
+        id: 'update',
+        q: 'How do I update?',
+        a: 'Download the next release and run it over the current install. There is no auto-update yet.'
+      },
+      {
+        id: 'settings-file',
+        q: 'Where are my settings stored?',
+        a: 'In %APPDATA%\\notch\\notch-state.json. The file is readable JSON, so you can inspect or back it up.'
+      }
+    ]
+  },
+  {
+    id: 'app',
+    title: 'Notch behaviour',
+    items: [
+      {
+        id: 'hover',
+        q: 'It will not open on hover.',
+        a: 'Check the hover delay in Settings, or click the tab instead. A full-screen exclusive game or another always-on-top window can also cover the top edge.'
+      },
+      {
+        id: 'close',
+        q: 'How do I close the panel?',
+        a: 'Press Esc, or use the collapse arrow at the top right. Clicking outside the panel also folds it.'
+      },
+      {
+        id: 'taskbar',
+        q: 'Why is there no taskbar icon?',
+        a: 'By design. The window is created as a tool window, so it never appears on the taskbar, in Alt-Tab, or in Task View. Use the tray icon to quit.'
+      }
+    ]
+  },
+  {
+    id: 'spotify',
+    title: 'Spotify',
+    items: [
+      {
+        id: 'spotify-client-id',
+        q: 'Do I need a Spotify developer app?',
+        a: 'Not for basic control. If Spotify Desktop is running, Notch reads the Windows media session. A free developer app adds the queue, volume, shuffle and repeat.'
+      },
+      {
+        id: 'spotify-idle',
+        q: 'Spotify is open but nothing plays.',
+        a: 'Press play once on any device so there is an active session, then reopen the Music page. If credentials are already saved, the page says so instead of asking for setup.'
+      },
+      {
+        id: 'spotify-queue',
+        q: 'The queue is empty.',
+        a: 'Spotify returns an empty queue when no device is actively playing. Start playback and refresh.'
+      }
+    ]
+  },
+  {
+    id: 'notes',
+    title: 'Notes',
+    items: [
+      {
+        id: 'vault',
+        q: 'Can I use my existing notes folder?',
+        a: 'Yes. Point Notch at the folder. It edits plain Markdown files in place; nothing is imported or converted.'
+      },
+      {
+        id: 'canvas',
+        q: 'Why can’t I edit a canvas file?',
+        a: 'Canvas files can be listed and renamed, but the editor only handles Markdown and .txt.'
+      },
+      {
+        id: 'sync',
+        q: 'Does it sync?',
+        a: 'Notch does not sync anything. If the folder lives in OneDrive, iCloud or a git repository, that tool syncs Notch’s edits like any other file change.'
+      }
+    ]
+  },
+  {
+    id: 'planner',
+    title: 'Planner and reminders',
+    items: [
+      {
+        id: 'reminder-missing',
+        q: 'My reminder did not appear.',
+        a: 'Notch must be running. Check that the task has a reminder time, is not completed, and that notifications are enabled in Settings.'
+      },
+      {
+        id: 'reminder-dismiss',
+        q: 'The notice disappeared quickly.',
+        a: 'Reminder notices fold away after 12 seconds. The system notification stays in the Windows notification centre where Windows allows it.'
+      }
+    ]
+  },
+  {
+    id: 'posture',
+    title: 'Posture and the camera',
+    items: [
+      {
+        id: 'posture-score',
+        q: 'The score is stuck or empty.',
+        a: 'Enable posture, allow camera access, and run Test posture setup once so the signals match your camera and chair. The score clears after a short watchdog if frames stop arriving.'
+      },
+      {
+        id: 'posture-empty-chair',
+        q: 'It rings at an empty chair.',
+        a: 'It should not: threshold alerts require a detected pose. Update to v1.0.21 or later, and report it if it still happens.'
+      },
+      {
+        id: 'posture-privacy',
+        q: 'Does it record me?',
+        a: 'No. Frames are scored in memory and discarded. Nothing is written or uploaded, and the Windows camera light stays on while it is in use.'
+      }
+    ]
+  },
+  {
+    id: 'privacy',
+    title: 'Privacy and uninstall',
+    items: [
+      {
+        id: 'stored',
+        q: 'What is stored, and where?',
+        a: 'Settings, tasks and posture totals in %APPDATA%\\notch\\notch-state.json; Spotify tokens in spotify-auth.json and spotify-credentials.json; logs in notch.log. Your notes stay in your own folder.'
+      },
+      {
+        id: 'uninstall',
+        q: 'How do I remove everything?',
+        a: 'Uninstall from Settings → Apps, then delete %APPDATA%\\notch. Your notes remain until you delete them yourself.'
+      }
+    ]
+  }
+]
+---
+
+<Base
+  title="Notch help — install, Spotify, camera, shortcuts"
+  description="Answers for installing Notch, the SmartScreen prompt, Smart App Control, Spotify setup, notes, reminders and the posture camera."
+>
+  <section class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="dot"></span> Help</span>
+      <h1>Answers, without a support queue.</h1>
+      <p class="lede">
+        Install problems, Spotify setup, notes, reminders and the camera. If something is missing,
+        the repository issues are the fastest route.
+      </p>
+    </div>
+
+    <div class="help-grid">
+      {
+        groups.map((group) => (
+          <section class="help-group" id={group.id}>
+            <h2>{group.title}</h2>
+            <div class="faq-list">
+              {group.items.map((item) => (
+                <details id={item.id}>
+                  <summary>
+                    {item.q}
+                    <span class="sign" aria-hidden="true" />
+                  </summary>
+                  <div class="answer">{item.a}</div>
+                </details>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <div class="help-foot">
+      <p>Still stuck?</p>
+      <div class="btns">
+        <a class="btn btn--ink btn--sm" href={`mailto:${site.email}`}>Email {site.email}</a>
+        <a class="btn btn--ghost btn--sm" href={site.issuesUrl} rel="noopener">Open an issue</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .help-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    padding-block: 48px;
+  }
+
+  .help-group {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .help-group h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    position: sticky;
+    top: 88px;
+  }
+
+  .help-group .faq-list {
+    max-width: none;
+  }
+
+  .help-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px 0 72px;
+    border-top: 1px solid var(--line);
+  }
+
+  .help-foot p {
+    font-family: var(--serif);
+    font-size: 24px;
+  }
+
+  .help-foot .btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 860px) {
+    .help-group {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .help-group h2 {
+      position: static;
+    }
+  }
+</style>

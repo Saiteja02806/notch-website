@@ -1,0 +1,79 @@
+---
+import Wordmark from './Wordmark.astro'
+import { site } from '@/data/site'
+import { release } from '@/data/release'
+
+const product = [
+  { href: '/#tour', label: 'Tour' },
+  { href: '/#features', label: 'Features' },
+  { href: '/#install', label: 'Install' },
+  { href: '/changelog', label: 'Changelog' },
+  { href: '/download', label: 'Download' }
+]
+
+const project = [
+  { href: site.repoUrl, label: 'GitHub', external: true },
+  { href: site.releasesUrl, label: 'All releases', external: true },
+  { href: site.issuesUrl, label: 'Report an issue', external: true },
+  { href: `${site.repoUrl}/blob/main/README.md`, label: 'Read the docs', external: true }
+]
+
+const help = [
+  { href: '/help', label: 'Help centre' },
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/terms', label: 'Terms' },
+  { href: `mailto:${site.email}`, label: 'Contact' }
+]
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <Wordmark />
+        <p>{site.tagline} A free Windows app that keeps music, notes, plans, posture and your AI sessions one hover away.</p>
+        <span class="chip">v{release.version}</span>
+      </div>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          {product.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Project</h4>
+        <ul>
+          {
+            project.map((item) => (
+              <li>
+                <a href={item.href} rel="noopener">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          {help.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-fine">
+      <p>
+        Notch is an independent project, not affiliated with Spotify, OpenAI, Obsidian or any other
+        product it integrates with. Product names are used only to describe compatibility.
+      </p>
+      <div class="row">
+        <span>© {site.year} {site.author}. Built with Astro.</span>
+        <span>Free · Windows 10/11 · Unsigned build</span>
+      </div>
+    </div>
+  </div>
+</footer>

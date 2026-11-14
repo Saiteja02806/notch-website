@@ -1,0 +1,43 @@
+---
+import Wordmark from './Wordmark.astro'
+import { nav, site } from '@/data/site'
+import { release } from '@/data/release'
+---
+
+<header class="nav">
+  <div class="wrap">
+    <Wordmark />
+
+    <nav class="nav-links" aria-label="Primary">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="nav-end">
+      <span class="chip">v{release.version}</span>
+      <a class="btn btn--ink btn--sm" href="/download">
+        Download
+      </a>
+
+      <details class="nav-mobile">
+        <summary aria-label="Open menu">
+          <span></span><span></span>
+        </summary>
+        <div class="nav-mobile-panel">
+          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+          <a href={site.releasesUrl} rel="noopener">GitHub releases</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.nav')
+  if (header) {
+    const sync = (): void => {
+      header.classList.toggle('is-stuck', window.scrollY > 6)
+    }
+    sync()
+    window.addEventListener('scroll', sync, { passive: true })
+  }
+</script>

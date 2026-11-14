@@ -1,0 +1,27 @@
+---
+import { limits } from '@/data/content'
+---
+
+<section class="section" aria-labelledby="limits-title">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot"></span> Honest limits</span>
+      <h2 class="h2" id="limits-title">What it does not do.</h2>
+      <p class="lede">
+        Every utility has edges. These are ours, stated before you download rather than after.
+      </p>
+    </div>
+
+    <ul class="limits">
+      {
+        limits.map((limit) => (
+          <li>
+            <span>
+              <strong>{limit.title}</strong> {limit.body}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

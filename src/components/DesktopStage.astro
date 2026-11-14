@@ -1,0 +1,77 @@
+---
+interface Props {
+  image?: string
+  alt?: string
+  caption?: string
+}
+
+const {
+  image = '/screenshots/hero.png',
+  alt = 'The expanded Notch panel: a playing track, the day’s plan and a posture score.',
+  caption = 'closes it'
+} = Astro.props
+---
+
+<figure class="stage" data-stage>
+  <div class="stage-bg"></div>
+
+  <div class="stage-notch">
+    <button class="stage-tab" type="button" aria-expanded="false" aria-controls="stage-panel" aria-label="Unfold the notch">
+      <span class="dot"></span>
+      <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    </button>
+
+    <div class="stage-panel" id="stage-panel">
+      <img
+        src={image}
+        alt={alt}
+        width="1760"
+        height="972"
+        loading="eager"
+        decoding="async"
+        onerror="this.style.display='none'"
+      />
+    </div>
+  </div>
+
+  <div class="stage-taskbar" aria-hidden="true">
+    <span class="start"></span>
+    <span class="app"></span>
+    <span class="app"></span>
+    <span class="app"></span>
+  </div>
+
+  <figcaption class="stage-caption">
+    <span class="key">Esc</span>
+    <span>{caption}</span>
+  </figcaption>
+</figure>
+
+<script>
+  const stage = document.querySelector<HTMLElement>('[data-stage]')
+  const tab = stage?.querySelector<HTMLButtonElement>('.stage-tab')
+
+  if (stage && tab) {
+    const setOpen = (open: boolean): void => {
+      stage.classList.toggle('is-open', open)
+      tab.setAttribute('aria-expanded', String(open))
+    }
+
+    // The panel is the product. Unfold it once shortly after load so a visitor
+    // who never hovers still sees the app, then hand control back to hover.
+    window.setTimeout(() => setOpen(true), 700)
+
+    tab.addEventListener('click', () => {
+      setOpen(!stage.classList.contains('is-open'))
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && stage.classList.contains('is-open')) {
+        setOpen(false)
+        tab.focus()
+      }
+    })
+
+    stage.addEventListener('mouseleave', () => setOpen(false))
+  }
+</script>

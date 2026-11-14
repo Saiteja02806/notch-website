@@ -1,0 +1,57 @@
+---
+import { Download, ExternalLink, ShieldCheck } from '@lucide/astro'
+import { release, formattedReleaseDate } from '@/data/release'
+---
+
+<div class="release-bar">
+  <span>Version <strong>{release.version}</strong></span>
+  <span class="sep"></span>
+  <span>Released <strong>{formattedReleaseDate}</strong></span>
+  <span class="sep"></span>
+  <span>Windows 10 / 11 · 64-bit</span>
+  <span class="sep"></span>
+  <a href={release.notesUrl} rel="noopener">Release notes</a>
+</div>
+
+<div class="download-grid">
+  <article class="dl-card is-primary">
+    <span class="tag">Recommended</span>
+    <h2>Installer</h2>
+    <p>
+      Adds a Start-menu shortcut and an uninstaller. Installs for the current user, with no admin
+      prompt.
+    </p>
+    <span class="meta">{release.setup.sizeMb} MB · .exe</span>
+    <a class="btn btn--coral" href={release.setup.url}>
+      <Download size={15} /> Download installer
+    </a>
+  </article>
+
+  <article class="dl-card">
+    <span class="tag">Nothing installed</span>
+    <h2>Portable</h2>
+    <p>
+      Unzip and run from any folder. The better choice for locked-down PCs and Smart App Control.
+    </p>
+    <span class="meta">{release.portable.sizeMb} MB · .exe</span>
+    <a class="btn btn--ghost" href={release.portable.url}>
+      <Download size={15} /> Download portable
+    </a>
+  </article>
+</div>
+
+<div class="hash-row">
+  <ShieldCheck size={15} />
+  <code>SHA-256 {release.setup.sha256}</code>
+  <button class="copy-inline" type="button" data-copy={release.setup.sha256}>Copy</button>
+</div>
+
+<p class="lede" style="margin-top:16px;font-size:13.5px">
+  Every release publishes <a href={release.sumsUrl} rel="noopener">SHA256SUMS.txt</a>. Verify before
+  running:
+  <code style="font-family:var(--mono);font-size:12px">Get-FileHash .\Notch-Setup.exe -Algorithm SHA256</code>
+</p>
+
+<a class="link" href={release.notesUrl} rel="noopener" style="margin-top:20px">
+  Full release notes <ExternalLink size={13} />
+</a>

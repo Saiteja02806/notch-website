@@ -1,0 +1,79 @@
+---
+import Base from '@/layouts/Base.astro'
+import { site } from '@/data/site'
+---
+
+<Base
+  title="Notch privacy — local by default"
+  description="What Notch stores on your PC, how the camera and Spotify tokens are handled, and what this website collects."
+>
+  <section class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="dot"></span> Privacy</span>
+      <h1>Local by default.</h1>
+      <p class="lede">
+        Notch has no backend. There is no account, no telemetry endpoint, and no server that could
+        receive your data.
+      </p>
+    </div>
+
+    <div class="prose">
+      <h2>What stays on your PC</h2>
+      <table>
+        <thead>
+          <tr><th>File</th><th>Contents</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>%APPDATA%\notch\notch-state.json</code></td>
+            <td>Settings, tasks, timer state and posture totals.</td>
+          </tr>
+          <tr>
+            <td><code>%APPDATA%\notch\spotify-auth.json</code></td>
+            <td>Spotify access and refresh tokens. PKCE, so no client secret exists.</td>
+          </tr>
+          <tr>
+            <td><code>%APPDATA%\notch\notch.log</code></td>
+            <td>Startup and diagnostic lines.</td>
+          </tr>
+          <tr>
+            <td>Your notes folder</td>
+            <td>Plain Markdown files, edited in place.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>The camera</h2>
+      <p>
+        Frames are captured in the app process, scored, and discarded. Nothing is written to disk,
+        buffered for later, or sent anywhere. The Windows camera indicator stays lit while the camera
+        is in use, and posture is off until you enable it.
+      </p>
+
+      <h2>Spotify</h2>
+      <p>
+        Desktop control uses the Windows system media session and needs no account. The optional full
+        connection uses OAuth PKCE, so no client secret exists. Tokens are stored locally and can be
+        removed with <strong>Disconnect</strong>.
+      </p>
+
+      <h2>AI sessions</h2>
+      <p>
+        Notch reads the local session files those tools already write. Sending a message starts the
+        tool’s own CLI process; content goes to that provider under their terms, not through Notch.
+      </p>
+
+      <h2>This website</h2>
+      <p>
+        Cookieless analytics: page views and download events, with no identifiers and no cross-site
+        tracking. Downloads are served by GitHub, whose own privacy terms apply.
+      </p>
+
+      <h2>Deleting everything</h2>
+      <p>
+        Uninstall the app, then delete <code>%APPDATA%\notch</code>. Your notes remain until you
+        delete them yourself. Questions go to <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</Base>

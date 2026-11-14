@@ -1,0 +1,18 @@
+---
+import { Download, GitBranch } from '@lucide/astro'
+import { site } from '@/data/site'
+---
+
+<section class="cta-band">
+  <div class="wrap">
+    <div class="cta-inner">
+      <span class="eyebrow" style="color: rgba(242,240,233,.5)">Free for Windows 10 and 11</span>
+      <h2>Put it at the top of your screen.</h2>
+      <p>Free, local, and about a minute to install.</p>
+      <div class="btns">
+        <a class="btn btn--coral" href="/download"><Download size={15} /> Download for Windows</a>
+        <a class="btn btn--night" href={site.repoUrl} rel="noopener"><GitBranch size={15} /> View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,42 @@
+---
+import Base from '@/layouts/Base.astro'
+import { site } from '@/data/site'
+---
+
+<Base
+  title="Notch terms"
+  description="Plain-language terms for the free Notch Windows app."
+>
+  <section class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="dot"></span> Terms</span>
+      <h1>Terms, in plain language.</h1>
+    </div>
+
+    <div class="prose">
+      <p>
+        Notch is free software provided as-is, without warranty. You may use it personally or at
+        work. The source is public at <a href={site.repoUrl} rel="noopener">the repository</a>; check
+        the license there before redistributing.
+      </p>
+
+      <p>
+        It integrates with third-party products but is not affiliated with or endorsed by them. Those
+        products have their own terms that still apply.
+      </p>
+
+      <p>
+        Do not use the posture feature as a medical device or a substitute for professional advice.
+        It is an awareness aid, not a measurement instrument.
+      </p>
+
+      <p>
+        These terms may change with a release. Continued use means you accept the current version.
+      </p>
+
+      <p>
+        Contact: <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </div>
+  </section>
+</Base>

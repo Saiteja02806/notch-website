@@ -1,0 +1,67 @@
+---
+import Base from '@/layouts/Base.astro'
+import DownloadCard from '@/components/DownloadCard.astro'
+import { release, formattedReleaseDate } from '@/data/release'
+import { site } from '@/data/site'
+---
+
+<Base
+  title="Download Notch for Windows — free, unsigned, verified"
+  description="Download the latest Notch build for Windows 10 and 11. Installer or portable, SHA-256 checksums published, no account required."
+>
+  <section class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="dot"></span> Download</span>
+      <h1>Download Notch for Windows.</h1>
+      <p class="lede">
+        One file, no account. Choose the installer for a Start-menu shortcut, or the portable build
+        if you would rather not install anything.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom: clamp(48px, 6vw, 80px)">
+    <div style="margin-top: 32px">
+      <DownloadCard />
+    </div>
+
+    <div class="prose">
+      <h2>If Windows warns you</h2>
+      <p>
+        SmartScreen shows “Windows protected your PC”. Choose <strong>More info</strong>, then
+        <strong>Run anyway</strong>. This appears because the build is unsigned, not because
+        anything was detected. The same file is produced by the public workflow in the repository.
+      </p>
+
+      <h2>If Smart App Control blocks it</h2>
+      <p>
+        Smart App Control on Windows 11 refuses unsigned apps. Try the portable build first. If that
+        is blocked too, Notch cannot run without changing that setting — and turning it off weakens
+        protection for everything on the PC, so decide deliberately.
+      </p>
+
+      <h2>After installing</h2>
+      <ul>
+        <li>Hover the top centre of the screen. The notch unfolds.</li>
+        <li>Press Esc, or use the collapse arrow, to fold it back.</li>
+        <li>Turn on posture only if you want it; the camera is requested at that moment.</li>
+        <li>Spotify Desktop is picked up automatically. A full connection is optional.</li>
+        <li>Set <strong>Launch at login</strong> in Settings if you want it always available.</li>
+      </ul>
+
+      <h2>Uninstall</h2>
+      <p>
+        Settings → Apps → Notch. Notes in your folder are untouched. Delete
+        <code>%APPDATA%\notch</code> to remove settings, logs and Spotify tokens as well.
+      </p>
+
+      <h2>Stay current</h2>
+      <p>
+        Notch does not auto-update. The latest version is <strong>{release.version}</strong>, released
+        {formattedReleaseDate}. Every build is listed on
+        <a href={site.releasesUrl} rel="noopener">GitHub releases</a>, and the
+        <a href="/changelog">changelog</a> explains what changed.
+      </p>
+    </div>
+  </section>
+</Base>

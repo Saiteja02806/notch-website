@@ -1,0 +1,17 @@
+{
+  "version": "1.0.22",
+  "tag": "v1.0.22",
+  "releasedAt": "2026-11-14T09:26:00Z",
+  "repo": "Saiteja02806/heronotch",
+  "stableAssets": false,
+  "setup": {
+    "fileName": "Notch-Setup-1.0.22.exe",
+    "sizeMb": 128.2,
+    "sha256": "4242e7547ccbfb8c84c26741b8b1a495468a33eebf5176bf0d401e6453cd6c7a"
+  },
+  "portable": {
+    "fileName": "Notch-Portable-1.0.22.exe",
+    "sizeMb": 112.6,
+    "sha256": "efb81f3dd1e5e61810afef7ed7932dbf4214fd6fe159114f009b965df7f1a5bd"
+  }
+}

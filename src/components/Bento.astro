@@ -1,0 +1,37 @@
+---
+import { AppWindow, Palette, Move, MousePointer2, FileText, Video } from '@lucide/astro'
+import { bento } from '@/data/content'
+
+const icons = {
+  taskbar: AppWindow,
+  palette: Palette,
+  move: Move,
+  pointer: MousePointer2,
+  file: FileText,
+  camera: Video
+}
+---
+
+<section class="section" aria-labelledby="details-title">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot"></span> The quiet details</span>
+      <h2 class="h2" id="details-title">Details you only notice when they are missing.</h2>
+    </div>
+
+    <div class="bento">
+      {
+        bento.map((item) => {
+          const Icon = icons[item.icon]
+          return (
+            <article>
+              <span class="icon"><Icon size={16} stroke-width={1.5} /></span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          )
+        })
+      }
+    </div>
+  </div>
+</section>
