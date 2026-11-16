@@ -212,6 +212,11 @@ const scenes: Scene[] = [
   const island = document.querySelector<HTMLElement>('[data-island]')
 
   if (root && track && island) {
+    // Demo deep links must land instantly — kill smooth scrolling for this load.
+    if (window.location.hash.startsWith('#demo-')) {
+      document.documentElement.style.scrollBehavior = 'auto'
+    }
+
     const labels = Array.from(track.querySelectorAll<HTMLElement>('[data-scene-pane]')).map(
       (pane) => pane.dataset.scenePane ?? ''
     )
@@ -326,7 +331,9 @@ const scenes: Scene[] = [
         }
         settle()
         window.setTimeout(settle, 60)
-        window.setTimeout(settle, 250)
+        window.setTimeout(settle, 300)
+        window.setTimeout(settle, 900)
+        window.setTimeout(settle, 1600)
       }
     }
 
