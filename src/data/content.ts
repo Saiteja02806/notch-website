@@ -1,3 +1,5 @@
+import { pricing } from '@/data/pricing'
+
 export interface TourItem {
   id: string
   label: string
@@ -210,8 +212,8 @@ export const limits: { title: string; body: string }[] = [
 
 export const faq: { q: string; a: string }[] = [
   {
-    q: 'Is it really free?',
-    a: 'Yes. No account, no trial, no license key, no paid tier.'
+    q: 'How much does it cost?',
+    a: `One license, one price: $${pricing.earlyBird.price.toFixed(2)} for the first ${pricing.earlyBird.seats} buyers, then $${pricing.standard.price.toFixed(2)}. It is a one-time payment, not a subscription — details on the pricing page.`
   },
   {
     q: 'Where does my data go?',

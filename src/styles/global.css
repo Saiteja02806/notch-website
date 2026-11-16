@@ -628,9 +628,10 @@ ul {
   object-position: top center;
 }
 
-.stage.is-open .stage-panel,
-.stage-notch:hover .stage-panel,
-.stage-notch:focus-within .stage-panel {
+/* JS owns the open state (hover, click-to-pin, Esc). Keeping hover/focus in
+   CSS here made the panel impossible to close: focusing the tab re-opened it
+   through :focus-within, and Escape returned focus to that same tab. */
+.stage.is-open .stage-panel {
   opacity: 1;
   transform: translateY(0);
   clip-path: inset(0 0 0 0 round 0 0 22px 22px);
@@ -1861,6 +1862,194 @@ ul {
   color: var(--ink);
 }
 
+/* ----------------------------------------------------------------- pricing */
+
+.page-head h1 em.price-flip {
+  font-style: italic;
+  color: var(--coral-deep);
+}
+
+/* Three-step explainer: the "why two prices" story in one glance. */
+.price-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line-strong);
+  margin-top: 8px;
+}
+
+.price-steps li {
+  padding: 20px 28px 6px 0;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.price-steps li:last-child {
+  border-right: 0;
+}
+
+.price-steps .num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--coral-deep);
+}
+
+.price-steps p {
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--muted);
+  max-width: 30ch;
+}
+
+.price-steps strong {
+  color: var(--ink);
+  font-weight: 550;
+}
+
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.price-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 30px;
+  background: color-mix(in srgb, var(--paper) 60%, #fff 40%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.price-card.is-early {
+  border-color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0 24px 60px -44px rgba(11, 12, 13, 0.55);
+}
+
+.price-card .tag {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.price-card.is-early .tag {
+  color: var(--coral-deep);
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.price-card .price {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(52px, 6vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.price-card.is-early .price {
+  color: var(--coral-deep);
+}
+
+.price-card .was {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--muted-2);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--coral);
+}
+
+.price-card .note {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.price-card .meter {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.price-card .meter span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--coral);
+}
+
+.price-card .desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--muted);
+  flex: 1;
+}
+
+.price-card .btn {
+  align-self: flex-start;
+}
+
+.price-fineprint {
+  margin-top: 18px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted-2);
+}
+
+.price-fineprint a {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.price-fineprint a:hover {
+  border-color: var(--coral);
+}
+
+/* "What is included" grid, same rhythm as the bento. */
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.included-grid article {
+  padding: 24px 26px 26px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 70%, #fff 30%);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.included-grid h3 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.included-grid p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
 /* --------------------------------------------------------------- changelog */
 
 .log {
@@ -2070,6 +2259,28 @@ ul {
   }
 
   .download-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .price-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .price-steps li {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+  }
+
+  .price-steps li:last-child {
+    border-bottom: 0;
+  }
+
+  .price-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .included-grid {
     grid-template-columns: 1fr;
   }
 

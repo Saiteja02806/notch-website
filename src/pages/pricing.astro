@@ -1,0 +1,214 @@
+---
+import Base from '@/layouts/Base.astro'
+import { pricing, seatsLeft, formatPrice } from '@/data/pricing'
+import { site } from '@/data/site'
+
+const earlyBirdHref =
+  `mailto:${site.email}?subject=` + encodeURIComponent(`Early bird license — ${formatPrice(pricing.earlyBird.price)}`)
+const standardHref =
+  `mailto:${site.email}?subject=` + encodeURIComponent(`Notch license — ${formatPrice(pricing.standard.price)}`)
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Notch',
+  description: 'A Windows notch app for music, notes, plans, posture and AI sessions. One-time license.',
+  brand: { '@type': 'Brand', name: site.name },
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Early bird — first 50 licenses',
+      price: pricing.earlyBird.price,
+      priceCurrency: pricing.currency,
+      availability:
+        seatsLeft > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut'
+    },
+    {
+      '@type': 'Offer',
+      name: 'Standard',
+      price: pricing.standard.price,
+      priceCurrency: pricing.currency
+    }
+  ]
+}
+
+const included = [
+  {
+    title: 'Every feature, unlocked',
+    body: 'Music, Notes, Plan, Posture and Sessions. No tiers, no upsells inside the app.'
+  },
+  {
+    title: 'One-time payment',
+    body: 'A license, not a subscription. Pay once and Notch stays yours.'
+  },
+  {
+    title: 'Your price is locked in',
+    body: `Early buyers keep ${formatPrice(pricing.earlyBird.price)} — the later price never applies to you.`
+  },
+  {
+    title: 'Free updates',
+    body: 'Every future version of Notch v1 is included. No update fee.'
+  }
+]
+
+const faq = [
+  {
+    q: `Why only the first 50?`,
+    a: `${pricing.earlyBird.seats} licenses is the launch window. It rewards the people who took a chance on Notch while it is young — and once those ${pricing.earlyBird.seats} are gone, the price moves to ${formatPrice(pricing.standard.price)}. No exceptions, no extensions.`
+  },
+  {
+    q: 'Is it a subscription?',
+    a: `No. Both ${formatPrice(pricing.earlyBird.price)} and ${formatPrice(pricing.standard.price)} are one-time payments. You get a license that does not expire.`
+  },
+  {
+    q: 'What if I already downloaded the free build?',
+    a: `Then you are exactly who the early-bird price is for. Anyone who installs during the first ${pricing.earlyBird.seats} licenses keeps the launch price — and everything you already have carries over.`
+  },
+  {
+    q: `What happens when the ${pricing.earlyBird.seats} are gone?`,
+    a: `The price on this page changes to ${formatPrice(pricing.standard.price)} and the early-bird card is removed. That is the only difference — the app itself never changes.`
+  },
+  {
+    q: 'Do you offer refunds?',
+    a: 'Yes, within 14 days, no questions asked. Email the address on this page and we sort it out.'
+  }
+]
+
+const meterWidth =
+  pricing.seatsClaimed > 0
+    ? Math.min(100, Math.round((pricing.seatsClaimed / pricing.earlyBird.seats) * 100))
+    : 0
+---
+
+<Base title={`Notch pricing — ${formatPrice(pricing.earlyBird.price)} for the first ${pricing.earlyBird.seats}, then ${formatPrice(pricing.standard.price)}`} description={`Early bird: the first ${pricing.earlyBird.seats} people pay ${formatPrice(pricing.earlyBird.price)} for a lifetime license. After that it is ${formatPrice(pricing.standard.price)}. One-time payment, every feature, free updates.`} jsonLd={jsonLd}>
+  <section class="wrap">
+    <div class="page-head">
+      <span class="eyebrow eyebrow--coral"><span class="dot"></span> Pricing</span>
+      <h1>
+        <em class="price-flip">{formatPrice(pricing.earlyBird.price)}</em> for the first
+        {pricing.earlyBird.seats}. Then {formatPrice(pricing.standard.price)}.
+      </h1>
+      <p class="lede">
+        Simple, on purpose: whoever arrives first pays less. One license, every feature, one
+        payment — and the early-bird price is locked in forever once you have it.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom: clamp(20px, 3vw, 36px)">
+    <ol class="price-steps">
+      <li>
+        <span class="num">Step 01</span>
+        <p>
+          The first <strong>{pricing.earlyBird.seats} licenses</strong> cost
+          <strong>{formatPrice(pricing.earlyBird.price)}</strong>.
+        </p>
+      </li>
+      <li>
+        <span class="num">Step 02</span>
+        <p>
+          When they are gone, the price becomes <strong>{formatPrice(pricing.standard.price)}</strong>
+          — for everyone after.
+        </p>
+      </li>
+      <li>
+        <span class="num">Step 03</span>
+        <p>
+          Early buyers keep their price forever. The change never touches them.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="wrap" style="padding-bottom: clamp(56px, 7vw, 96px)">
+    <div class="price-grid">
+      <article class="price-card is-early">
+        <span class="tag">Early bird · first {pricing.earlyBird.seats} licenses</span>
+        <div class="price-row">
+          <span class="price">{formatPrice(pricing.earlyBird.price)}</span>
+          <span class="was">{formatPrice(pricing.standard.price)}</span>
+        </div>
+        <p class="note">
+          One-time payment · {seatsLeft} of {pricing.earlyBird.seats} left
+        </p>
+        {pricing.seatsClaimed > 0 && (
+          <div
+            class="meter"
+            role="progressbar"
+            aria-valuenow={pricing.seatsClaimed}
+            aria-valuemin={0}
+            aria-valuemax={pricing.earlyBird.seats}
+            aria-label={`${pricing.seatsClaimed} of ${pricing.earlyBird.seats} early-bird licenses claimed`}
+          >
+            <span style={`width: ${meterWidth}%`}></span>
+          </div>
+        )}
+        <p class="desc">
+          Everything in Notch, for less than lunch. You are buying early because you found it
+          early — the price says thanks.
+        </p>
+        <a class="btn btn--coral" href={earlyBirdHref}>Get the early-bird license</a>
+      </article>
+
+      <article class="price-card">
+        <span class="tag">After the first {pricing.earlyBird.seats}</span>
+        <div class="price-row">
+          <span class="price">{formatPrice(pricing.standard.price)}</span>
+        </div>
+        <p class="note">One-time payment · the standard price</p>
+        <p class="desc">
+          Same app, same features, same license. If the early-bird window has closed, this is the
+          price — and it will not quietly rise later.
+        </p>
+        <a class="btn btn--ghost" href={standardHref}>Get a license</a>
+      </article>
+    </div>
+
+    <p class="price-fineprint">
+      Prices in USD. Checkout goes to {site.email} for now — the store link appears here the day
+      it is live. Read the <a href="/terms">terms</a> and <a href="/privacy">privacy</a>.
+    </p>
+  </section>
+
+  <section class="wrap" style="padding-bottom: clamp(64px, 8vw, 110px)">
+    <div class="section-head" style="margin-bottom: 32px">
+      <span class="eyebrow"><span class="dot"></span> What is included</span>
+      <h2 class="h2">Every license is the same license.</h2>
+    </div>
+    <div class="included-grid">
+      {included.map((item) => (
+        <article>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="section-head" style="margin: clamp(48px, 6vw, 72px) 0 32px">
+      <span class="eyebrow"><span class="dot"></span> Questions</span>
+      <h2 class="h2">Pricing, answered.</h2>
+    </div>
+    <div class="faq-list">
+      {faq.map((item) => (
+        <details>
+          <summary>{item.q}<span class="sign"></span></summary>
+          <div class="answer">{item.a}</div>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div class="cta-inner">
+        <span class="eyebrow" style="color: rgba(242,240,233,.5)">Early bird · first {pricing.earlyBird.seats} licenses</span>
+        <h2>Lock in {formatPrice(pricing.earlyBird.price)} while it lasts.</h2>
+        <p>One payment. Every feature. The early-bird price is yours for good.</p>
+        <div class="btns">
+          <a class="btn btn--coral" href={earlyBirdHref}>Get the early-bird license</a>
+          <a class="btn btn--night" href="/download">Download first, decide after</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

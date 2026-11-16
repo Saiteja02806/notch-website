@@ -49,9 +49,12 @@ const {
 
 <script>
   const stage = document.querySelector<HTMLElement>('[data-stage]')
+  const notch = stage?.querySelector<HTMLElement>('.stage-notch')
   const tab = stage?.querySelector<HTMLButtonElement>('.stage-tab')
 
-  if (stage && tab) {
+  if (stage && notch && tab) {
+    let pinned = false
+
     const setOpen = (open: boolean): void => {
       stage.classList.toggle('is-open', open)
       tab.setAttribute('aria-expanded', String(open))
@@ -61,17 +64,23 @@ const {
     // who never hovers still sees the app, then hand control back to hover.
     window.setTimeout(() => setOpen(true), 700)
 
+    notch.addEventListener('mouseenter', () => setOpen(true))
+
+    notch.addEventListener('mouseleave', () => {
+      if (!pinned) setOpen(false)
+    })
+
     tab.addEventListener('click', () => {
-      setOpen(!stage.classList.contains('is-open'))
+      pinned = !pinned
+      setOpen(pinned)
     })
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && stage.classList.contains('is-open')) {
+        pinned = false
         setOpen(false)
         tab.focus()
       }
     })
-
-    stage.addEventListener('mouseleave', () => setOpen(false))
   }
 </script>

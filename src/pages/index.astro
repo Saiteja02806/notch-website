@@ -13,6 +13,7 @@ import FinalCta from '@/components/FinalCta.astro'
 import { Play, Download } from '@lucide/astro'
 import { site } from '@/data/site'
 import { release } from '@/data/release'
+import { pricing, formatPrice } from '@/data/pricing'
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -22,7 +23,20 @@ const jsonLd = {
   operatingSystem: 'Windows 10, Windows 11',
   softwareVersion: release.version,
   downloadUrl: `${site.url}/download`,
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Early bird — first 50 licenses',
+      price: pricing.earlyBird.price,
+      priceCurrency: pricing.currency
+    },
+    {
+      '@type': 'Offer',
+      name: 'Standard',
+      price: pricing.standard.price,
+      priceCurrency: pricing.currency
+    }
+  ],
   author: { '@type': 'Person', name: site.author },
   license: site.repoUrl,
   screenshot: `${site.url}/screenshots/hero.png`
@@ -30,13 +44,13 @@ const jsonLd = {
 ---
 
 <Base
-  title="Notch — a free Windows notch for music, notes and focus"
+  title="Notch — a Windows notch for music, notes and focus"
   description={site.description}
   jsonLd={jsonLd}
 >
   <section class="hero">
     <div class="wrap">
-      <span class="eyebrow"><span class="dot"></span> Free · Windows 10/11 · Local-first</span>
+      <span class="eyebrow"><span class="dot"></span> Early bird {formatPrice(pricing.earlyBird.price)} · Windows 10/11 · Local-first</span>
 
       <h1>The top of your screen, <em>finally useful.</em></h1>
 
