@@ -260,7 +260,7 @@ const scenes: Scene[] = [
       }
     }
 
-    let current = 'closed'
+    let current = ''
 
     const setScene = (id: string): void => {
       if (id === current) return
@@ -308,6 +308,27 @@ const scenes: Scene[] = [
 
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
+
+    // A deep link like #demo-music should land on that scene instantly, not
+    // smooth-scroll 5000px from the top. The browser's fragment jump starts
+    // the move; this correction cancels it and settles on the exact step.
+    const hash = window.location.hash
+    if (hash.startsWith('#demo-')) {
+      const wanted = hash.slice(6)
+      const index = labels.indexOf(wanted)
+      if (index >= 0) {
+        const settle = (): void => {
+          const rect = track.getBoundingClientRect()
+          const span = rect.height - window.innerHeight
+          const target = window.scrollY + rect.top + (index / Math.max(labels.length - 1, 1)) * span
+          window.scrollTo({ top: target, behavior: 'auto' })
+          setScene(wanted)
+        }
+        settle()
+        window.setTimeout(settle, 60)
+        window.setTimeout(settle, 250)
+      }
+    }
 
     // Taskbar tiles jump to a scene.
     tiles.forEach((tile) => {
