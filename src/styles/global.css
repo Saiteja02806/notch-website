@@ -2071,8 +2071,17 @@ ul {
 
 /* The track is tall on purpose: its scroll distance is the timeline. */
 .demo-track {
+  --demo-step: 72vh;
   position: relative;
-  height: calc(var(--steps, 7) * 72vh);
+  height: calc(var(--steps, 7) * var(--demo-step));
+}
+
+.demo-anchor {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
 }
 
 .demo-sticky {
@@ -2644,7 +2653,7 @@ ul {
 /* Small screens: tighter island sizes so nothing clips. */
 @media (max-width: 640px) {
   .demo-track {
-    height: calc(var(--steps, 7) * 64vh);
+    --demo-step: 64vh;
   }
 
   .demo-sticky {

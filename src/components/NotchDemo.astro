@@ -72,6 +72,15 @@ const scenes: Scene[] = [
   </div>
 
   <div class="demo-track" data-demo-track style={`--steps:${scenes.length}`}>
+    {/* Scroll anchors: #demo-music etc. land the sticky device on that scene. */}
+    {scenes.map((scene, i) => (
+      <span
+        id={`demo-${scene.id}`}
+        aria-hidden="true"
+        class="demo-anchor"
+        style={`top: calc(((var(--steps) * var(--demo-step)) - 100vh) / (var(--steps) - 1) * ${i})`}
+      ></span>
+    ))}
     <div class="demo-sticky">
       <div class="demo-device">
         <div class="demo-screen">
