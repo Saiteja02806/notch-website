@@ -1,0 +1,314 @@
+---
+/**
+ * Scroll-driven "watch the notch work" demo, in the spirit of a launch-film
+ * tour: a sticky fake Windows desktop where the notch collapses, opens and
+ * morphs through every feature as the visitor scrolls the track. The taskbar
+ * tiles jump straight to a scene. No screenshots — the island is real DOM,
+ * so it animates like the app does.
+ */
+interface Scene {
+  id: string
+  label: string
+  title: string
+  note: string
+}
+
+const scenes: Scene[] = [
+  {
+    id: 'closed',
+    label: 'The notch',
+    title: 'Collapsed, it is thirty pixels of quiet.',
+    note: 'A sliver at the top edge of the screen. Hover opens it; Esc folds it away.'
+  },
+  {
+    id: 'music',
+    label: 'Now Playing',
+    title: 'Your music, in the notch.',
+    note: 'Spotify is picked up automatically. Transport and seek without leaving your work.'
+  },
+  {
+    id: 'notes',
+    label: 'Notes',
+    title: 'Plain Markdown, rendered inline.',
+    note: 'Point it at any folder. Formatting applies as you type; nothing is imported.'
+  },
+  {
+    id: 'plan',
+    label: 'Plan',
+    title: 'Reminders that reach you anywhere.',
+    note: 'A card unfolds under the notch at the set time — over whatever app has focus.'
+  },
+  {
+    id: 'posture',
+    label: 'Posture',
+    title: 'A posture coach, scored on-device.',
+    note: 'Frames are processed in memory and discarded. The ring reacts when you slip.'
+  },
+  {
+    id: 'sessions',
+    label: 'Sessions',
+    title: 'Every AI agent, one board.',
+    note: 'Codex, OpenCode and Anti Gravity — live turns, tokens and the project folder.'
+  },
+  {
+    id: 'styles',
+    label: 'Appearance',
+    title: 'Five accents. Any spot on the edge.',
+    note: 'Pick a colour and the whole panel follows. Drag places the notch anywhere up top.'
+  }
+]
+---
+
+<section class="demo" id="demo" data-demo>
+  <div class="wrap">
+    <div class="section-head demo-head">
+      <span class="eyebrow"><span class="dot"></span> Watch it work</span>
+      <h2 class="h2">The notch, doing its job.</h2>
+      <p class="lede">
+        Scroll and the notch opens, moves between its six tabs and folds away again — exactly as
+        it behaves on a desktop. The tiles in the taskbar jump to a feature.
+      </p>
+    </div>
+  </div>
+
+  <div class="demo-track" data-demo-track style={`--steps:${scenes.length}`}>
+    <div class="demo-sticky">
+      <div class="demo-device">
+        <div class="demo-screen">
+          <div class="demo-wall" aria-hidden="true"></div>
+
+          <div class="demo-top" aria-hidden="true">
+            <span>File</span><span>Edit</span><span>View</span><span>Help</span>
+            <span class="demo-clock">12:47</span>
+          </div>
+
+          <div class="demo-notch" data-island data-scene="closed">
+            <div class="island" data-island-box>
+              {scenes.map((scene, index) => (
+                <div class={`is-scene is-${scene.id}`} data-scene-pane={scene.id} aria-hidden={index === 0 ? 'false' : 'true'}>
+                  {scene.id === 'music' && (
+                    <div class="is-music">
+                      <span class="is-art" aria-hidden="true"></span>
+                      <span class="is-meta">
+                        <span class="is-title">rockstar</span>
+                        <span class="is-sub">Post Malone</span>
+                      </span>
+                      <span class="is-transport" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5h3v14H8zm5 0h3v14h-3z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg>
+                      </span>
+                    </div>
+                    <div class="is-progress" aria-hidden="true"><span></span></div>
+                  )}
+
+                  {scene.id === 'notes' && (
+                    <div class="is-notes">
+                      <span class="is-h">## Ship the release</span>
+                      <label class="is-task is-done"><span class="is-box" aria-hidden="true"></span>tag v1.0.22</label>
+                      <label class="is-task"><span class="is-box" aria-hidden="true"></span>publish the site</label>
+                      <label class="is-task"><span class="is-box" aria-hidden="true"></span>write the changelog</label>
+                    </div>
+                  )}
+
+                  {scene.id === 'plan' && (
+                    <div class="is-plan">
+                      <span class="is-remind">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>
+                        <span>
+                          <span class="is-title">Standup in 10 minutes</span>
+                          <span class="is-sub">Plan · 13:00 reminder</span>
+                        </span>
+                      </span>
+                    </div>
+                  )}
+
+                  {scene.id === 'posture' && (
+                    <div class="is-posture">
+                      <svg class="is-ring" viewBox="0 0 40 40" aria-hidden="true">
+                        <circle class="is-ring-bg" cx="20" cy="20" r="16"></circle>
+                        <circle class="is-ring-fg" cx="20" cy="20" r="16"></circle>
+                      </svg>
+                      <span class="is-meta">
+                        <span class="is-title">82 / 100</span>
+                        <span class="is-sub">Sitting well</span>
+                      </span>
+                    </div>
+                  )}
+
+                  {scene.id === 'sessions' && (
+                    <div class="is-sessions">
+                      <span class="is-row"><span class="is-dot is-on"></span><span class="is-name">Codex</span><span class="is-sub">running · 12.4k tok</span></span>
+                      <span class="is-row"><span class="is-dot is-on"></span><span class="is-name">OpenCode</span><span class="is-sub">running · 3.1k tok</span></span>
+                      <span class="is-row"><span class="is-dot"></span><span class="is-name">Anti Gravity</span><span class="is-sub">idle</span></span>
+                    </div>
+                  )}
+
+                  {scene.id === 'styles' && (
+                    <div class="is-styles">
+                      <span class="is-swatch is-a" aria-hidden="true"></span>
+                      <span class="is-swatch is-b" aria-hidden="true"></span>
+                      <span class="is-swatch is-c" aria-hidden="true"></span>
+                      <span class="is-swatch is-d" aria-hidden="true"></span>
+                      <span class="is-swatch is-e" aria-hidden="true"></span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="demo-taskbar" aria-hidden="false">
+            <span class="demo-start" aria-hidden="true"></span>
+            <span class="demo-tb-app" aria-hidden="true"></span>
+            {scenes.filter((s) => s.id !== 'closed').map((scene, i) => (
+              <button
+                class="demo-tile"
+                type="button"
+                data-demo-tile={scene.id}
+                aria-label={`Show ${scene.label} in the notch`}
+              >
+                {scene.id === 'music' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>}
+                {scene.id === 'notes' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>}
+                {scene.id === 'plan' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>}
+                {scene.id === 'posture' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>}
+                {scene.id === 'sessions' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17l6-5-6-5M12 19h8"/></svg>}
+                {scene.id === 'styles' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="13.5" r="2.5"/><circle cx="8.5" cy="9.5" r="2.5"/><circle cx="7" cy="16.5" r="2.5"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.6-1.4-.4-.4-.6-.9-.6-1.4 0-1.1.9-2 2-2h2.4A8 8 0 0 0 20 12c0-5.5-3.6-10-8-10z"/></svg>}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div class="demo-caption">
+          <div class="demo-caption-row">
+            <span class="demo-label" data-demo-label>The notch</span>
+            <span class="demo-count" data-demo-count>1 / {scenes.length}</span>
+          </div>
+          <p class="demo-title" data-demo-title>Collapsed, it is thirty pixels of quiet.</p>
+          <p class="demo-note" data-demo-note>A sliver at the top edge of the screen. Hover opens it; Esc folds it away.</p>
+          <div class="demo-progress" data-demo-progress aria-hidden="true">
+            {scenes.map((scene) => <span data-seg={scene.id}></span>)}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-demo]')
+  const track = document.querySelector<HTMLElement>('[data-demo-track]')
+  const island = document.querySelector<HTMLElement>('[data-island]')
+
+  if (root && track && island) {
+    const labels = Array.from(track.querySelectorAll<HTMLElement>('[data-scene-pane]')).map(
+      (pane) => pane.dataset.scenePane ?? ''
+    )
+    const captionLabel = root.querySelector<HTMLElement>('[data-demo-label]')
+    const captionTitle = root.querySelector<HTMLElement>('[data-demo-title]')
+    const captionNote = root.querySelector<HTMLElement>('[data-demo-note]')
+    const captionCount = root.querySelector<HTMLElement>('[data-demo-count]')
+    const segments = Array.from(root.querySelectorAll<HTMLElement>('[data-demo-progress] > span'))
+    const tiles = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-demo-tile]'))
+
+    const captions: Record<string, { label: string; title: string; note: string }> = {
+      closed: {
+        label: 'The notch',
+        title: 'Collapsed, it is thirty pixels of quiet.',
+        note: 'A sliver at the top edge of the screen. Hover opens it; Esc folds it away.'
+      },
+      music: {
+        label: 'Now Playing',
+        title: 'Your music, in the notch.',
+        note: 'Spotify is picked up automatically. Transport and seek without leaving your work.'
+      },
+      notes: {
+        label: 'Notes',
+        title: 'Plain Markdown, rendered inline.',
+        note: 'Point it at any folder. Formatting applies as you type; nothing is imported.'
+      },
+      plan: {
+        label: 'Plan',
+        title: 'Reminders that reach you anywhere.',
+        note: 'A card unfolds under the notch at the set time — over whatever app has focus.'
+      },
+      posture: {
+        label: 'Posture',
+        title: 'A posture coach, scored on-device.',
+        note: 'Frames are processed in memory and discarded. The ring reacts when you slip.'
+      },
+      sessions: {
+        label: 'Sessions',
+        title: 'Every AI agent, one board.',
+        note: 'Codex, OpenCode and Anti Gravity — live turns, tokens and the project folder.'
+      },
+      styles: {
+        label: 'Appearance',
+        title: 'Five accents. Any spot on the edge.',
+        note: 'Pick a colour and the whole panel follows. Drag places the notch anywhere up top.'
+      }
+    }
+
+    let current = 'closed'
+
+    const setScene = (id: string): void => {
+      if (id === current) return
+      current = id
+      island.dataset.scene = id
+
+      for (const pane of track.querySelectorAll<HTMLElement>('[data-scene-pane]')) {
+        const active = pane.dataset.scenePane === id
+        pane.classList.toggle('is-active', active)
+        pane.setAttribute('aria-hidden', String(!active))
+      }
+
+      const caption = captions[id] ?? captions.closed
+      if (captionLabel) captionLabel.textContent = caption.label
+      if (captionTitle) captionTitle.textContent = caption.title
+      if (captionNote) captionNote.textContent = caption.note
+
+      const stepIndex = labels.indexOf(id)
+      if (captionCount && stepIndex >= 0) {
+        captionCount.textContent = `${stepIndex + 1} / ${labels.length}`
+      }
+      segments.forEach((seg, i) => seg.classList.toggle('is-active', i <= stepIndex))
+
+      tiles.forEach((tile) => tile.classList.toggle('is-on', tile.dataset.demoTile === id))
+    }
+
+    // Scroll drives the story: the tall track maps to the scene sequence.
+    let ticking = false
+    const onScroll = (): void => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        ticking = false
+        const rect = track.getBoundingClientRect()
+        const span = rect.height - window.innerHeight
+        if (span <= 0) return
+        const progress = Math.min(1, Math.max(0, -rect.top / span))
+        const index = Math.min(
+          labels.length - 1,
+          Math.floor(progress * labels.length + 1e-6)
+        )
+        setScene(labels[index] ?? 'closed')
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+
+    // Taskbar tiles jump to a scene.
+    tiles.forEach((tile) => {
+      tile.addEventListener('click', () => {
+        const id = tile.dataset.demoTile ?? ''
+        const index = labels.indexOf(id)
+        if (index < 0) return
+        const rect = track.getBoundingClientRect()
+        const span = rect.height - window.innerHeight
+        const target = window.scrollY + rect.top + (index / Math.max(labels.length - 1, 1)) * span
+        window.scrollTo({ top: target, behavior: 'smooth' })
+      })
+    })
+  }
+</script>
