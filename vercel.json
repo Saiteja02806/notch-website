@@ -1,0 +1,22 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "buildnotch.app" }],
+      "destination": "https://heronotch.app/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.buildnotch.app" }],
+      "destination": "https://heronotch.app/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.heronotch.app" }],
+      "destination": "https://heronotch.app/:path*",
+      "permanent": true
+    }
+  ]
+}

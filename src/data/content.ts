@@ -12,64 +12,64 @@ export interface TourItem {
 
 export const tour: TourItem[] = [
   {
-    id: 'music',
-    label: 'Music',
-    title: 'Music, without leaving the work.',
-    caption:
-      'If Spotify Desktop is running, Notch picks it up by itself. The collapsed tab shows the track and its progress; open it for transport, queue, shuffle and volume.',
-    notice: 'Basic control needs no login. A free developer app adds the queue.',
-    image: '/screenshots/music.png',
-    alt: 'The Music page: album art, track title, seek bar, transport controls and the Up Next queue.'
-  },
-  {
     id: 'notes',
     label: 'Notes',
-    title: 'Your folder of Markdown, rendered.',
+    title: 'Your Obsidian vault or Markdown folder, rendered inline.',
     caption:
-      'Point Notch at any folder of .md files. It never imports them. The editor applies formatting as you type, and Preview gives you the clean read.',
-    notice: 'Checklist boxes are clickable. Your files stay plain Markdown.',
+      'Point Notch at any local folder or Obsidian vault (.obsidian, .trash and .git are ignored automatically). Write with live inline - [ ] checkboxes, # headings, **bold**, `code` and > blockquotes, search files and content with Ctrl+K, or flip to clean Preview mode.',
+    notice: '750ms auto-save to plain .md on disk · One-click Open in Obsidian or Explorer.',
     image: '/screenshots/notes.png',
-    alt: 'The Notes editor with a Markdown checklist rendered inline, toolbar above and note list at left.'
-  },
-  {
-    id: 'plan',
-    label: 'Plan',
-    title: 'The day, with reminders that reach you.',
-    caption:
-      'A month calendar, priorities and times. Give a task a reminder and a card unfolds under the collapsed notch when it fires, over whatever app has focus.',
-    notice: 'No extra window, nothing to dismiss mid-flow.',
-    image: '/screenshots/plan.png',
-    alt: 'The Plan page: November calendar, the day’s tasks with times, and a reminders panel.'
-  },
-  {
-    id: 'posture',
-    label: 'Posture',
-    title: 'A posture coach that stays on-device.',
-    caption:
-      'Off until you turn it on. When it runs, Notch scores your alignment 0–100 from the webcam, and a small ring reacts when you drop below your threshold.',
-    notice: 'Frames are scored in memory and discarded. Never uploaded.',
-    image: '/screenshots/posture.png',
-    alt: 'The Posture page in its off state, with a local-camera note and a turn-on button.'
+    alt: 'The Notes workspace with folder tree, inline Markdown checklist editor, Ctrl+K search and Obsidian vault actions.'
   },
   {
     id: 'sessions',
     label: 'Sessions',
-    title: 'Your AI work, in one place.',
+    title: 'Claude Code, Codex, OpenCode & Anti Gravity in one board.',
     caption:
-      'Codex, OpenCode and Anti Gravity sessions with live turns, models, tokens and the project folder. Reply from the notch without switching windows.',
-    notice: 'Read from local session files. Subagent noise is hidden by default.',
+      'Notch reads your local session stores to display live turns, active models, token usage and project folders across all four AI coding tools. Catch OpenCode approval alerts and send verified follow-up replies straight from the notch.',
+    notice: 'Delivered reply verification · Auto-watch for locked Codex threads.',
     image: '/screenshots/sessions.png',
-    alt: 'The Sessions page: running tools on the left, live and recent coding sessions on the right.'
+    alt: 'The Sessions page showing Claude Code, Codex, OpenCode and Anti Gravity sessions with token counts and reply box.'
+  },
+  {
+    id: 'plan',
+    label: 'Plan',
+    title: 'Day planner, Google Calendar agenda & under-notch reminders.',
+    caption:
+      'Combine a month calendar, daily priorities and time blocks with your live Google Calendar agenda. When a task reminder triggers, a crisp card unfolds directly beneath the collapsed notch over whatever app has focus.',
+    notice: '12-second auto-dismiss card under the notch · Never steals focus.',
+    image: '/screenshots/plan.png',
+    alt: 'The Plan page with month calendar, Google Calendar agenda strip, daily tasks and reminder times.'
+  },
+  {
+    id: 'music',
+    label: 'Music',
+    title: 'Instant system media control, plus Spotify queue.',
+    caption:
+      'Hero Notch detects any playing media session on macOS and Windows automatically with native album art extraction and iTunes cover fallback. Connect an optional PKCE Spotify app to unlock the Up Next queue, volume, shuffle and repeat.',
+    notice: 'Zero login needed for transport & seek · Optional PKCE Spotify Web API.',
+    image: '/screenshots/music.png',
+    alt: 'The Music page: album art, track title, seek bar, transport controls and the Up Next queue.'
+  },
+  {
+    id: 'posture',
+    label: 'Posture',
+    title: 'An on-device posture coach that never touches disk.',
+    caption:
+      'Off until you turn it on. When enabled, Notch scores your alignment 0–100 from the webcam in real time, displaying a live threshold ring that chimes softly only when a person is actually in frame.',
+    notice: 'Frames are scored in memory and discarded immediately. Never uploaded.',
+    image: '/screenshots/posture.png',
+    alt: 'The Posture page showing the on-device privacy notice and live alignment threshold ring.'
   },
   {
     id: 'styles',
-    label: 'Appearance',
-    title: 'Make it yours.',
+    label: 'Workspace',
+    title: 'Multi-monitor placement, Phone QR transfer & focus blur.',
     caption:
-      'Five accents applied across the whole panel, seven notch shapes, and a placement map that puts it anywhere along the top edge.',
-    notice: 'It stays flush with the edge, the way a notch should.',
+      'Pin the notch to any monitor with a drag-anywhere placement map, transfer files (up to 16 MB) or clipboard snippets two ways between phone and PC via local Wi-Fi QR, or enable the focus blur backdrop.',
+    notice: 'Browser-aware auto-hide · Hydration glass tracker & breathing timer built in.',
     image: '/screenshots/styles.png',
-    alt: 'Appearance settings with five accent colours, a live notch preview and a name field.'
+    alt: 'Workspace and appearance settings with multi-monitor placement map, monochrome & accent themes, and utility controls.'
   }
 ]
 
@@ -85,74 +85,74 @@ export interface Feature {
 
 export const features: Feature[] = [
   {
-    id: 'music',
-    kicker: '01 — Music',
-    title: 'Your music, at the top of the screen.',
-    body:
-      'If Spotify Desktop is open, Notch picks up the session automatically. The collapsed bar shows what is playing and how far along it is. Open it for play, pause, skip, seek and the queue.',
-    bullets: [
-      'No login required for basic control.',
-      'An optional free developer app adds queue, volume, shuffle and repeat.',
-      'Works alongside your code, not on top of it.'
-    ],
-    image: '/screenshots/music.png',
-    alt: 'Music page with a playing track, cover art, controls and the queue.'
-  },
-  {
     id: 'notes',
-    kicker: '02 — Notes',
-    title: 'A real Markdown editor, in a notch.',
+    kicker: '01 — Notes · Local Markdown & Obsidian Vaults',
+    title: 'A real Markdown editor that lives on your local files.',
     body:
-      'Point Notch at any folder of Markdown files. It reads the same files you already have — no import, no sync, no proprietary format. Formatting applies while you type, and Preview shows the finished page.',
+      'Point Notch at any folder of .md files or your active Obsidian vault. There is no import step, no cloud sync account and no proprietary database — Notch edits the exact same plain text files on disk with 750ms auto-save while automatically ignoring .obsidian, .trash and .git.',
     bullets: [
-      'Headings, checkboxes, bold, code and lists, with the syntax kept visible while you edit.',
-      'Create notes and folders inline. Drag to move.',
-      'Autosave to disk. Your files stay plain .md.'
+      'Live inline Markdown: clickable - [ ] checkboxes, # and ## headings, **bold**, _italic_, `code`, > blockquotes and [links](url) — plus one-click rendered Preview.',
+      'Full nested folder tree with note counts, Expand All, drag-and-drop file organization, and instant Ctrl+K filename + full-text search.',
+      'Open the active note directly in Obsidian or reveal it in Windows Explorer whenever you want your full desktop window.'
     ],
     image: '/screenshots/notes-preview.png',
-    alt: 'A note in Preview mode: a rendered heading, a checklist and a code chip.'
-  },
-  {
-    id: 'plan',
-    kicker: '03 — Plan',
-    title: 'Reminders that actually reach you.',
-    body:
-      'A day planner with a month calendar, priorities and times. Set a reminder and it fires while you are in another app: a small card unfolds under the collapsed notch with the title and time.',
-    bullets: [
-      'Reminders at the time, or 5/10/30/60 minutes before.',
-      'A card under the notch, plus a system notification where Windows allows it.',
-      'Nothing to dismiss mid-flow — it folds away on its own.'
-    ],
-    image: '/screenshots/plan.png',
-    alt: 'Planner with the day’s tasks and a reminder attached to one of them.'
-  },
-  {
-    id: 'posture',
-    kicker: '04 — Posture',
-    title: 'A posture coach that never leaves your PC.',
-    body:
-      'Enable the camera and Notch scores your posture from 0 to 100 in real time. Set a threshold and it plays a soft two-note chime when you drop below it — only when someone is actually in frame.',
-    bullets: [
-      'Frames are processed on-device. Nothing stored, nothing uploaded.',
-      'It will not ring at an empty chair.',
-      'Daily totals, plus a one-time setup fitted to your camera and chair.'
-    ],
-    image: '/screenshots/posture.png',
-    alt: 'Posture page in its off state, explaining the local camera and privacy.'
+    alt: 'A Markdown note in Notch showing inline checkboxes, headings, code spans and folder tree.'
   },
   {
     id: 'sessions',
-    kicker: '05 — Sessions',
-    title: 'Codex, OpenCode and Anti Gravity, side by side.',
+    kicker: '02 — AI Coding Sessions',
+    title: 'Claude Code, Codex, OpenCode and Anti Gravity, side by side.',
     body:
-      'Notch reads the local session state of each tool and shows live turns, models, tokens and the project folder. Open a session directory, or send a follow-up message from the notch.',
+      'Notch inspects local session stores across all four coding agents to show live turn state, active model, token consumption and project directory in one quiet board — so you can monitor long-running tasks without terminal-hopping.',
     bullets: [
-      'One board for every agent you are running.',
-      'Search, and hide subagent noise by default.',
-      'Sending starts the provider’s own CLI — your approval rules still apply.'
+      'Send follow-up prompts directly from the notch with Delivered verification against local session logs and auto-watch for locked Codex threads.',
+      'Surface OpenCode approval alerts immediately so a waiting tool call never stalls unnoticed.',
+      'Filter by provider, search across sessions, jump to the project folder, and keep noisy subagent threads hidden by default.'
     ],
     image: '/screenshots/sessions.png',
-    alt: 'Sessions board with running tools and coding sessions.'
+    alt: 'Sessions board with Claude Code, Codex, OpenCode and Anti Gravity coding sessions.'
+  },
+  {
+    id: 'plan',
+    kicker: '03 — Planner & Google Calendar',
+    title: 'Your day plan and Google Calendar, with reminders that reach you.',
+    body:
+      'A focused day planner with a month calendar, priority levels, time blocks and a live Google Calendar agenda strip. When a reminder fires, a compact card unfolds right beneath the collapsed notch over whatever window has focus.',
+    bullets: [
+      'Sync your Google Calendar agenda alongside local tasks and daily priorities.',
+      'Trigger reminders on time or 5, 10, 30 or 60 minutes early — unfolding for 12 seconds under the notch without stealing keyboard focus.',
+      'Includes a Home breathing focus timer and daily glass-by-glass hydration tracker with interval nudges.'
+    ],
+    image: '/screenshots/plan.png',
+    alt: 'Planner with the day’s tasks, Google Calendar agenda strip and a reminder attached.'
+  },
+  {
+    id: 'music',
+    kicker: '04 — Music & System Media',
+    title: 'Zero-setup media control, plus PKCE Spotify queue.',
+    body:
+      'As soon as audio plays in Spotify Desktop or any media app on macOS or Windows, Hero Notch picks up the session automatically with native album art and iTunes cover fallback.',
+    bullets: [
+      'Play, pause, skip and seek from the top edge with zero login or configuration required.',
+      'Connect an optional free Spotify developer Client ID (PKCE) to unlock the Up Next queue, volume control, shuffle and repeat.',
+      'Collapsed bar displays live waveform, track title and progress while staying out of your editor’s way.'
+    ],
+    image: '/screenshots/music.png',
+    alt: 'Music page with a playing track, native cover art, transport controls and the Up Next queue.'
+  },
+  {
+    id: 'posture',
+    kicker: '05 — Phone QR Transfer & On-Device Posture',
+    title: 'Local Wi-Fi phone transfer and a posture coach that stays in RAM.',
+    body:
+      'Beam files (up to 16 MB), clipboard text or snippets two ways between your phone and PC by scanning a local Wi-Fi QR code — or enable the opt-in webcam posture coach that scores alignment 0–100 entirely on-device.',
+    bullets: [
+      'Two-way Phone QR transfer runs over your local network with zero cloud uploads, accounts or pairing apps.',
+      'Posture webcam frames are scored in memory and discarded immediately — never saved to disk or sent over the network.',
+      'Multi-monitor selector, drag-anywhere top-edge placement map, focus blur backdrop and browser-aware auto-hide.'
+    ],
+    image: '/screenshots/posture.png',
+    alt: 'Posture and local utility view explaining on-device processing and local Wi-Fi QR transfer.'
   }
 ]
 
@@ -164,83 +164,69 @@ export interface BentoItem {
 
 export const bento: BentoItem[] = [
   {
-    icon: 'taskbar',
-    title: 'Off the taskbar',
-    body:
-      'Notch lives in the tray and the top edge only. No taskbar button, no Alt-Tab entry, no Task View tile.'
+    icon: 'file',
+    title: 'Obsidian & plain .md vaults',
+    body: 'Edit live - [ ] checkboxes, headings and [[wiki-links]] in place with 750ms auto-save while .obsidian, .trash and .git stay ignored.'
   },
   {
-    icon: 'palette',
-    title: 'Five accents',
-    body: 'Coral, mint, violet, ice and gold — applied across the whole panel.'
+    icon: 'taskbar',
+    title: 'AI Coding Sessions board',
+    body: 'Monitor live turns, models and tokens across Claude Code, Codex, OpenCode and Anti Gravity without hopping terminal tabs.'
   },
   {
     icon: 'move',
-    title: 'Drag to place',
-    body: 'Drop the notch anywhere along the top edge with a live placement map.'
+    title: 'Google Calendar & 12s alerts',
+    body: 'Keep your day plan and live calendar agenda at the top edge with quiet 12-second under-notch reminders that never steal focus.'
+  },
+  {
+    icon: 'palette',
+    title: 'MacBook & Windows media',
+    body: 'Control Spotify Desktop or system audio out of the box with native album art, plus optional PKCE Up Next queue and volume.'
   },
   {
     icon: 'pointer',
-    title: 'Hover or click',
-    body: 'Open on hover with a delay you choose, or click to pin it open.'
-  },
-  {
-    icon: 'file',
-    title: 'Your files',
-    body: 'Notes are plain Markdown in your folder. State is a JSON file you can read.'
+    title: 'Local Wi-Fi Phone QR',
+    body: 'Scan a temporary LAN QR code to beam files up to 16 MB or clipboard snippets between phone and computer with zero cloud relay.'
   },
   {
     icon: 'camera',
-    title: 'Camera off by default',
-    body: 'Posture is opt-in. The camera is only requested when you enable it.'
+    title: 'Multi-monitor, hydration & focus blur',
+    body: 'Pin the notch to any display with drag placement, log daily water glasses, blur background clutter, and keep zero Dock or taskbar icons.'
   }
 ]
 
 export const limits: { title: string; body: string }[] = [
-  { title: 'Unsigned.', body: 'Windows may warn, and Smart App Control may block it.' },
-  { title: 'No auto-update.', body: 'Updating means downloading the next release.' },
-  { title: 'Windows only.', body: 'Built and tested on Windows 10 and 11, 64-bit.' },
+  { title: 'macOS & Windows.', body: 'Built for MacBook (Apple Silicon & Intel) and Windows 10/11 (64-bit), including multi-monitor setups.' },
+  { title: 'No silent background updater.', body: 'Updating uses the private installer link from your license receipt when you choose.' },
   {
-    title: 'Electron.',
-    body: 'About 128 MB for the installer, 113 MB portable — the trade for one app instead of six.'
+    title: 'Spotify queue is optional.',
+    body: 'Native system media control works out of the box; Up Next queue, volume and shuffle use a free Spotify developer Client ID.'
   },
   {
-    title: 'Spotify queue needs setup.',
-    body: 'Basic control works out of the box; queue, volume and shuffle need a free Spotify developer app.'
+    title: 'Local LAN for Phone QR.',
+    body: 'Phone file and clipboard transfer works when your phone and laptop are on the same local Wi-Fi network (up to 16 MB per file).'
   }
 ]
 
 export const faq: { q: string; a: string }[] = [
   {
-    q: 'How much does it cost?',
-    a: `One license, one price: $${pricing.earlyBird.price.toFixed(2)} for the first ${pricing.earlyBird.seats} buyers, then $${pricing.standard.price.toFixed(2)}. It is a one-time payment, not a subscription — details on the pricing page.`
+    q: 'Can I point Notes at my existing Obsidian vault or Markdown folder?',
+    a: 'Yes. Point Hero Notch at any local folder or Obsidian vault. It edits your plain .md files in place with 750ms auto-save, ignores .obsidian, .trash and .git folders automatically, supports Ctrl/Cmd+K full-text search, and lets you open any note in Obsidian with one click.'
+  },
+  {
+    q: 'Does one license cover both MacBook and Windows?',
+    a: `Yes. One payment (${`$${pricing.earlyBird.price.toFixed(2)}`} Early Bird, then ${`$${pricing.standard.price.toFixed(2)}`} at launch) unlocks Hero Notch for both your MacBook (macOS) and Windows 10/11 machines with zero recurring fees.`
+  },
+  {
+    q: 'How do I get the app after prebooking?',
+    a: 'Both MacBook (macOS) and Windows builds are currently coming soon. Right after prebooking you receive your lifetime Early Bird license key immediately, and your macOS and Windows builds will unlock with that key as soon as downloads open.'
+  },
+  {
+    q: 'Which AI coding tools are supported in Sessions?',
+    a: 'Claude Code, Codex, OpenCode and Anti Gravity. Hero Notch reads their local session stores to show live turns, models, token usage and approval alerts so you can follow progress right from the top bar.'
   },
   {
     q: 'Where does my data go?',
-    a: 'Nowhere. Notes are files in a folder you choose. Settings live in a JSON file on your PC. Posture frames are processed in memory and discarded. Spotify tokens stay on the machine.'
-  },
-  {
-    q: 'Does it need the camera?',
-    a: 'Only if you turn posture on. The camera is not requested at startup, and the Windows camera light stays on while it is in use — that is your confirmation nothing is hidden.'
-  },
-  {
-    q: 'Will it slow my PC down?',
-    a: 'It idles quietly with the panel collapsed. Posture is the only continuously active feature, and it is off by default. There is no claim of “0% CPU” here — measure it on your own machine.'
-  },
-  {
-    q: 'Can I use my existing notes folder?',
-    a: 'Yes. Point it at the folder. Notch reads and writes plain Markdown, so nothing is converted or locked in.'
-  },
-  {
-    q: 'Which AI tools are supported?',
-    a: 'Codex, OpenCode and Anti Gravity today. Discovery relies on their local session data, so a provider update can temporarily hide sessions.'
-  },
-  {
-    q: 'Does it show up in Alt-Tab?',
-    a: 'No. It is a tool window: no taskbar button, no Alt-Tab entry, no Task View tile.'
-  },
-  {
-    q: 'How do I uninstall it?',
-    a: 'Settings → Apps → Notch. Your notes are untouched. To remove settings and logs as well, delete %APPDATA%\\notch.'
+    a: 'Nowhere. Notes remain plain .md files in your local folder, app state stays locally on your Mac or PC, posture webcam frames are scored in RAM and discarded immediately, and local Wi-Fi Phone QR never touches external servers.'
   }
 ]

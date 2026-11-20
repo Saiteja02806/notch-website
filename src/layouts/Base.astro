@@ -30,8 +30,8 @@ const ogImage = new URL(image, origin).href
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#f4f1ea" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="color-scheme" content="dark" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
@@ -47,6 +47,13 @@ const ogImage = new URL(image, origin).href
     <meta name="twitter:image" content={ogImage} />
 
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <script
+      is:inline
+      defer
+      data-website-id="dfid_hGgAZtlKylOV1PQ4pBCrc"
+      data-domain="heronotch.app"
+      src="https://datafa.st/js/script.js"
+    ></script>
     <slot name="head" />
   </head>
   <body>
@@ -74,6 +81,63 @@ const ogImage = new URL(image, origin).href
           }, 1600)
         })
       }
+    </script>
+    <script>
+      // Show immediate loading spinner feedback on CTA/button page transitions & checkout redirects.
+      const LOADING_SELECTOR = 'a.btn, a.hc-pill, a[href^="/api/checkout"], a[data-loading-link]'
+      const clearBusy = () => {
+        for (const el of document.querySelectorAll<HTMLElement>('.is-loading')) {
+          el.classList.remove('is-loading')
+          el.removeAttribute('aria-busy')
+        }
+      }
+      const markBusy = (link: HTMLAnchorElement) => {
+        link.classList.add('is-loading')
+        link.setAttribute('aria-busy', 'true')
+        window.setTimeout(() => {
+          link.classList.remove('is-loading')
+          link.removeAttribute('aria-busy')
+        }, 15000)
+      }
+      document.addEventListener('click', (event) => {
+        if (
+          event.defaultPrevented ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          event.button !== 0
+        ) {
+          return
+        }
+        const target = event.target as HTMLElement | null
+        const link = target?.closest<HTMLAnchorElement>(LOADING_SELECTOR)
+        if (!link) return
+        const rawHref = link.getAttribute('href') || ''
+        if (
+          !rawHref ||
+          rawHref.startsWith('#') ||
+          rawHref.startsWith('mailto:') ||
+          rawHref.startsWith('tel:') ||
+          rawHref.startsWith('javascript:')
+        ) {
+          return
+        }
+        if (link.target && link.target !== '_self') return
+        try {
+          const dest = new URL(link.href, window.location.href)
+          const sameDocument =
+            dest.origin === window.location.origin &&
+            dest.pathname === window.location.pathname &&
+            dest.search === window.location.search
+          if (sameDocument && !dest.pathname.startsWith('/api/')) return
+        } catch {
+          return
+        }
+        markBusy(link)
+      })
+      // Coming back via the browser's back button restores the page from cache.
+      window.addEventListener('pageshow', clearBusy)
     </script>
   </body>
 </html>

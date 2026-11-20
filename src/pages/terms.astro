@@ -1,81 +1,94 @@
 ---
 import Base from '@/layouts/Base.astro'
 import { pricing, formatPrice } from '@/data/pricing'
+import { release } from '@/data/release'
 import { site } from '@/data/site'
 ---
 
 <Base
-  title="Notch terms"
-  description="Plain-language terms for buying and using the Notch Windows app."
+  title="Hero Notch terms of use & licensing"
+  description="Plain-language terms for buying, downloading, and using the Hero Notch macOS and Windows desktop workspace."
 >
   <section class="wrap">
     <div class="page-head">
-      <span class="eyebrow"><span class="dot"></span> Terms</span>
+      <span class="eyebrow"><span class="dot"></span> Terms &amp; License</span>
       <h1>Terms, in plain language.</h1>
       <p class="lede">
-        Short version: one payment, a license that does not expire, a 14-day refund if it is not
-        for you.
+        Short version: one payment, a lifetime Notch v1 license with no recurring subscription, and
+        local-first ownership of your files.
       </p>
     </div>
 
     <div class="prose">
-      <h2>What you buy</h2>
+      <h2>1. One-time license &amp; pricing</h2>
       <p>
-        Notch is a paid Windows app sold as a one-time license — not a subscription. The price is
-        {formatPrice(pricing.earlyBird.price)} for the first {pricing.earlyBird.seats} licenses
-        (early bird) and {formatPrice(pricing.standard.price)} afterwards. Early buyers keep their
-        price permanently; the later price never applies to them. Every license includes all
-        features and all Notch v1 updates.
+        Hero Notch is a macOS and Windows desktop application licensed through a one-time payment — never a
+        subscription. The launch price is <strong>{formatPrice(pricing.earlyBird.price)}</strong> for
+        the first <strong>{pricing.earlyBird.seats} licenses</strong> (Early Bird) and
+        <strong>{formatPrice(pricing.standard.price)}</strong> afterwards (Standard). Early buyers
+        keep their launch price permanently; subsequent price transitions never apply retroactively.
+        Every license unlocks all workspace modules (Notes Vault, Music, Planner &amp; Google
+        Calendar, AI Sessions, Posture Coach, Local Wi-Fi Phone Transfer, and Hydration + Focus
+        Timer) and includes all Notch v1.x updates.
       </p>
 
-      <h2>Payment</h2>
+      <h2>2. Final sale &amp; no-refund policy</h2>
       <p>
-        Checkout is handled by a third-party payment provider. We never see or store your card
-        details. Prices are in USD. See the
-        <a href="/privacy">privacy page</a> for what happens to purchase-related data.
+        Because Hero Notch issues your permanent Early Bird license key immediately upon prebooking,
+        all purchases are final and non-refundable. Both MacBook (macOS) and Windows builds are
+        currently coming soon and will unlock with your license key at launch. For questions or
+        support, email <a href={`mailto:${site.email}`}>{site.email}</a>.
       </p>
 
-      <h2>Refunds</h2>
-      <p>
-        If Notch is not for you, email <a href={`mailto:${site.email}`}>{site.email}</a> within
-        14 days of purchase for a full refund, no questions asked.
-      </p>
-
-      <h2>What the license allows</h2>
+      <h2>3. What your license allows</h2>
       <ul>
-        <li>Use Notch on your own Windows PCs, personally or at work.</li>
-        <li>Do not resell, redistribute or repackage the app or your license.</li>
-        <li>The source is public at <a href={site.repoUrl} rel="noopener">the repository</a>; check the license there before redistributing code.</li>
+        <li>
+          Install and use Hero Notch on any MacBook (macOS) and Windows 10 or Windows 11 computers
+          that you personally own or use for your work.
+        </li>
+        <li>
+          Connect Hero Notch to any local Markdown or Obsidian vaults for personal or commercial
+          writing, engineering, and planning.
+        </li>
+        <li>
+          Do not resell, sublicense, bypass payment gates, or publicly redistribute license keys or
+          paid installer binaries.
+        </li>
       </ul>
 
-      <h2>Third-party products</h2>
+      <h2>4. Local files &amp; third-party integrations</h2>
       <p>
-        Notch integrates with third-party products such as Spotify and local AI coding tools, but
-        is not affiliated with or endorsed by them. Those products have their own terms that still
-        apply when you use them together with Notch.
+        Notch edits plain Markdown (<code>.md</code>) and text (<code>.txt</code>) files directly
+        inside the folder you select. While deletions from the Notch file tree use the Windows
+        Recycle Bin and saves are atomic, you remain responsible for backing up your local vaults.
+      </p>
+      <p>
+        Notch interoperates with third-party software and services — including Obsidian, Spotify,
+        Google Calendar, OpenAI Codex, OpenCode, Google Anti Gravity, and Anthropic Claude Code —
+        but is an independent product and is not affiliated with or endorsed by those providers.
+        When you use optional OAuth connections or send a prompt to a local coding CLI, the
+        respective provider’s terms of service and privacy policy apply.
       </p>
 
-      <h2>Posture</h2>
+      <h2>5. Webcam posture coach &amp; hydration reminders</h2>
       <p>
-        Do not use the posture feature as a medical device or a substitute for professional advice.
-        It is an awareness aid, not a measurement instrument.
+        The on-device posture coach and hydration tracker are ergonomic and habit-awareness aids,
+        not medical devices. They do not provide medical diagnosis, physical therapy, or clinical
+        advice.
       </p>
 
-      <h2>No warranty</h2>
+      <h2>6. Warranty disclaimer &amp; installer verification</h2>
       <p>
-        The build is unsigned and provided as-is, without warranty. Windows may show a standard
-        “unknown publisher” warning; every release is produced by a public workflow with a
-        published SHA-256 checksum.
+        Hero Notch is provided “as-is” without warranty of any kind. Independent desktop releases may
+        trigger standard macOS Gatekeeper or Windows SmartScreen confirmation on first launch; every
+        licensed installer package includes an integrity checksum on your delivery receipt.
       </p>
 
-      <h2>Changes</h2>
+      <h2>7. Updates to these terms</h2>
       <p>
-        These terms may change with a release. Continued use means you accept the current version.
-        The price you paid is never affected — existing licenses keep their purchase price.
-      </p>
-
-      <p>
-        Contact: <a href={`mailto:${site.email}`}>{site.email}</a>
+        We may update these terms as new Notch releases ship. Updates never alter the one-time nature
+        of your existing license or increase a price you have already paid. Questions? Contact
+        <a href={`mailto:${site.email}`}>{site.email}</a>.
       </p>
     </div>
   </section>

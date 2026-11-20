@@ -1,57 +1,529 @@
 ---
-import { Download, ExternalLink, ShieldCheck } from '@lucide/astro'
-import { release, formattedReleaseDate } from '@/data/release'
+import { Lock, ArrowRight, Check, Mail, KeyRound } from '@lucide/astro'
+import { pricing, formatPrice, resolveCheckoutUrl } from '@/data/pricing'
+import { site } from '@/data/site'
+
+const earlyPrice = formatPrice(pricing.earlyBird.price)
+const standardPrice = formatPrice(pricing.standard.price)
+const checkoutHref = resolveCheckoutUrl()
+const macCheckoutHref = resolveCheckoutUrl('mac')
+const winCheckoutHref = resolveCheckoutUrl('win')
+
+const supportHref =
+  `mailto:${site.email}?subject=` +
+  encodeURIComponent('Hero Notch — Prebook inquiry')
 ---
 
-<div class="release-bar">
-  <span>Version <strong>{release.version}</strong></span>
-  <span class="sep"></span>
-  <span>Released <strong>{formattedReleaseDate}</strong></span>
-  <span class="sep"></span>
-  <span>Windows 10 / 11 · 64-bit</span>
-  <span class="sep"></span>
-  <a href={release.notesUrl} rel="noopener">Release notes</a>
+<div id="post-purchase-banner" class="license-gate-banner is-unlocked" hidden>
+  <div class="lgb-copy">
+    <span class="eyebrow"><Check size={12} /> <span id="post-purchase-eyebrow">Prebook confirmed</span></span>
+    <h2>Thank you for prebooking Hero Notch.</h2>
+    <p id="post-purchase-subcopy">
+      Your Early Bird spot is locked in for both MacBook (macOS) and Windows.
+    </p>
+
+    <ul class="prebook-confirm-list" aria-label="What happens next">
+      <li>
+        <Mail size={14} aria-hidden="true" />
+        <span><strong>Your license key will be sent to your email.</strong> Check your inbox for your Dodo Payments receipt and key.</span>
+      </li>
+      <li>
+        <Check size={14} aria-hidden="true" />
+        <span><strong>We'll email you when the desktop app is ready to install.</strong> Both MacBook (macOS) and Windows builds are coming soon.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="lgb-actions">
+    <div class="coming-soon-box">
+      <span class="cs-badge">macOS &amp; Windows · Coming Soon</span>
+      <p>Your prebook is active and covers both MacBook and Windows when launch downloads open.</p>
+    </div>
+    <a class="btn btn--ghost btn--sm" href="/">Back to Home</a>
+  </div>
 </div>
 
-<div class="download-grid">
+<div id="pre-purchase-banner" class="license-gate-banner">
+  <div class="lgb-copy">
+    <span class="eyebrow"><Lock size={12} /> <span id="pre-purchase-eyebrow">Coming Soon · Prebook Open</span></span>
+    <h2 id="pre-purchase-heading">Prebook Hero Notch ({earlyPrice} · then {standardPrice})</h2>
+    <p id="pre-purchase-copy">
+      Both MacBook (macOS) and Windows builds are coming soon — downloads are not available yet.
+      Prebook once to lock in {earlyPrice} (then {standardPrice} at launch) for both platforms. Your
+      license key will be emailed to you, and we'll notify you as soon as the desktop apps are ready
+      to install.
+    </p>
+
+    <form id="manual-key-form" class="manual-key-form" hidden>
+      <label class="sr-only" for="manual-license-key-input">Enter your Hero Notch license key</label>
+      <input
+        id="manual-license-key-input"
+        type="text"
+        class="manual-key-input"
+        placeholder="Paste your prebook license key…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button type="submit" id="manual-key-submit" class="btn btn--ink btn--sm">
+        Check Status
+      </button>
+      <span id="manual-key-status" class="manual-key-status" role="status" aria-live="polite"></span>
+    </form>
+  </div>
+  <div class="lgb-actions">
+    <a class="btn btn--coral" href={checkoutHref} id="pre-purchase-checkout-cta">
+      Prebook Early Bird — {earlyPrice} <ArrowRight size={15} />
+    </a>
+    <button type="button" class="btn btn--ghost btn--sm" id="toggle-manual-key-btn">
+      <KeyRound size={13} /> Already prebooked?
+    </button>
+    <a class="btn btn--ghost btn--sm" href={supportHref}>
+      <Mail size={13} /> Contact support
+    </a>
+  </div>
+</div>
+
+<div class="download-grid" id="platform-download-grid">
   <article class="dl-card is-primary">
-    <span class="tag">Recommended</span>
-    <h2>Installer</h2>
+    <div class="dl-card-head">
+      <span class="tag">macOS · Coming Soon</span>
+      <span class="file-pill">Prebook Open</span>
+    </div>
+    <h2>MacBook Build (Coming Soon)</h2>
     <p>
-      Adds a Start-menu shortcut and an uninstaller. Installs for the current user, with no admin
-      prompt.
+      MacBook (Apple Silicon &amp; Intel · macOS 13+) support is coming soon. Prebook now at the{' '}
+      {earlyPrice} Early Bird price to lock in your lifetime license before launch.
     </p>
-    <span class="meta">{release.setup.sizeMb} MB · .exe</span>
-    <a class="btn btn--coral" href={release.setup.url}>
-      <Download size={15} /> Download installer
-    </a>
+
+    <ul class="dl-specs">
+      <li><Check size={13} /> <span>macOS download is coming soon — prebook locks in {earlyPrice}</span></li>
+      <li><Check size={13} /> <span>One license covers both MacBook (macOS) and Windows on launch</span></li>
+      <li><Check size={13} /> <span>License key sent to your email; install email sent at launch</span></li>
+    </ul>
+
+    <div class="dl-cta-row">
+      <a class="btn btn--ink" href={macCheckoutHref} data-mac-dl-cta id="mac-locked-cta">
+        <Lock size={14} /> <span>Prebook for MacBook — {earlyPrice}</span>
+      </a>
+    </div>
   </article>
 
-  <article class="dl-card">
-    <span class="tag">Nothing installed</span>
-    <h2>Portable</h2>
+  <article class="dl-card is-primary">
+    <div class="dl-card-head">
+      <span class="tag">Windows 10 &amp; 11 · Coming Soon</span>
+      <span class="file-pill">Prebook Open</span>
+    </div>
+    <h2>Windows Build (Coming Soon)</h2>
     <p>
-      Unzip and run from any folder. The better choice for locked-down PCs and Smart App Control.
+      Windows 10 &amp; 11 support is coming soon. Prebook now at the {earlyPrice} Early Bird price to
+      lock in your lifetime license before launch.
     </p>
-    <span class="meta">{release.portable.sizeMb} MB · .exe</span>
-    <a class="btn btn--ghost" href={release.portable.url}>
-      <Download size={15} /> Download portable
-    </a>
+
+    <ul class="dl-specs">
+      <li><Check size={13} /> <span>Windows download is coming soon — prebook locks in {earlyPrice}</span></li>
+      <li><Check size={13} /> <span>One license covers both MacBook (macOS) and Windows on launch</span></li>
+      <li><Check size={13} /> <span>License key sent to your email; install email sent at launch</span></li>
+    </ul>
+
+    <div class="dl-cta-row" id="win-dl-cta-row">
+      <a class="btn btn--ink" href={winCheckoutHref} id="win-locked-cta">
+        <Lock size={14} /> <span>Prebook for Windows — {earlyPrice}</span>
+      </a>
+    </div>
   </article>
 </div>
 
-<div class="hash-row">
-  <ShieldCheck size={15} />
-  <code>SHA-256 {release.setup.sha256}</code>
-  <button class="copy-inline" type="button" data-copy={release.setup.sha256}>Copy</button>
-</div>
+<script>
+  type OrderData = {
+    ok?: boolean
+    authError?: boolean
+    succeeded?: boolean
+    status?: string
+  }
 
-<p class="lede" style="margin-top:16px;font-size:13.5px">
-  Every release publishes <a href={release.sumsUrl} rel="noopener">SHA256SUMS.txt</a>. Verify before
-  running:
-  <code style="font-family:var(--mono);font-size:12px">Get-FileHash .\Notch-Setup.exe -Algorithm SHA256</code>
-</p>
+  function parseDownloadParams() {
+    let rawSearch = window.location.search || ''
+    if (rawSearch.indexOf('?', 1) !== -1) {
+      rawSearch = '?' + rawSearch.slice(1).replace(/\?/g, '&')
+    }
+    return new URLSearchParams(rawSearch)
+  }
 
-<a class="link" href={release.notesUrl} rel="noopener" style="margin-top:20px">
-  Full release notes <ExternalLink size={13} />
-</a>
+  /** Server-side check against our own Dodo product. The Dodo API key never reaches the browser. */
+  async function verifyLicenseKey(key: string): Promise<'valid' | 'invalid' | 'error'> {
+    try {
+      const resp = await fetch('/api/verify-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ license_key: key.trim() })
+      })
+      if (resp.status === 429) return 'error'
+      const data = (await resp.json()) as { ok?: boolean; valid?: boolean }
+      if (!data?.ok) return 'error'
+      return data.valid ? 'valid' : 'invalid'
+    } catch {
+      return 'error'
+    }
+  }
+
+  async function initPrebookStatus() {
+    const postBanner = document.getElementById('post-purchase-banner')
+    const preBanner = document.getElementById('pre-purchase-banner')
+    if (!postBanner || !preBanner) return
+    if (postBanner.dataset.initialized === '1') return
+    postBanner.dataset.initialized = '1'
+
+    const params = parseDownloadParams()
+    const status = (params.get('status') || '').trim().toLowerCase()
+    const paymentId = (params.get('payment_id') || '').trim()
+    const urlKey = (params.get('license_key') || params.get('key') || '').trim()
+    const purchasedFlag = params.get('purchased') === '1'
+
+    const $ = (id: string) => document.getElementById(id)
+    const preEyebrow = $('pre-purchase-eyebrow')
+    const preHeading = $('pre-purchase-heading')
+    const preCopy = $('pre-purchase-copy')
+    const preCta = $('pre-purchase-checkout-cta')
+    const platformGrid = $('platform-download-grid')
+
+    const setConfirmedUi = (confirmed: boolean) => {
+      preBanner.hidden = confirmed
+      postBanner.hidden = !confirmed
+      if (platformGrid) platformGrid.hidden = confirmed
+    }
+
+    const showPaymentIncomplete = (msg: string) => {
+      setConfirmedUi(false)
+      if (preEyebrow) preEyebrow.textContent = 'Prebook Not Completed'
+      if (preHeading) preHeading.textContent = 'Complete Checkout to Confirm Prebook'
+      if (preCopy) preCopy.textContent = msg
+      if (preCta) {
+        const label = preCta.firstChild
+        if (label && label.nodeType === Node.TEXT_NODE) label.textContent = 'Try Checkout Again '
+      }
+    }
+
+    // ---- "Already prebooked?" key status check (no key displayed back on screen) ----
+    const toggleManualBtn = $('toggle-manual-key-btn')
+    const manualForm = $('manual-key-form') as HTMLFormElement | null
+    const manualInput = $('manual-license-key-input') as HTMLInputElement | null
+    const manualSubmit = $('manual-key-submit') as HTMLButtonElement | null
+    const manualStatus = $('manual-key-status')
+
+    toggleManualBtn?.addEventListener('click', () => {
+      if (!manualForm) return
+      manualForm.hidden = !manualForm.hidden
+      if (!manualForm.hidden) manualInput?.focus()
+    })
+
+    manualForm?.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const entered = (manualInput?.value || '').trim()
+      if (!entered) {
+        if (manualStatus) manualStatus.textContent = 'Paste your license key first.'
+        return
+      }
+      if (manualSubmit) manualSubmit.disabled = true
+      if (manualStatus) manualStatus.textContent = 'Checking prebook status…'
+      const result = await verifyLicenseKey(entered)
+      if (manualSubmit) manualSubmit.disabled = false
+      if (result === 'valid') {
+        setConfirmedUi(true)
+        if (manualStatus) manualStatus.textContent = ''
+      } else if (result === 'invalid') {
+        if (manualStatus)
+          manualStatus.textContent = 'That key was not recognized or is no longer active.'
+      } else if (manualStatus) {
+        manualStatus.textContent = 'Could not check the key right now. Please try again in a moment.'
+      }
+    })
+
+    // ---- Failed / cancelled checkout ----
+    const failedStatuses = ['failed', 'cancelled', 'canceled', 'expired']
+    if (failedStatuses.includes(status)) {
+      showPaymentIncomplete(
+        'Your checkout did not complete, so no charge was finalized. You can retry prebooking anytime.'
+      )
+      return
+    }
+
+    // ---- Returned without a completed payment marker ----
+    if (!paymentId && !urlKey && status !== 'succeeded') {
+      if (purchasedFlag) {
+        showPaymentIncomplete(
+          'We did not receive a completed payment for this visit, so no charge was finalized. You can retry prebooking anytime.'
+        )
+      }
+      return
+    }
+
+    // ---- Show confirmation immediately (no license key displayed on screen) ----
+    setConfirmedUi(true)
+
+    // Remove sensitive query params like license_key from the browser URL bar cleanly.
+    if (urlKey && window.history?.replaceState) {
+      const cleanParams = new URLSearchParams()
+      cleanParams.set('purchased', '1')
+      if (paymentId) cleanParams.set('payment_id', paymentId)
+      window.history.replaceState({}, '', `${window.location.pathname}?${cleanParams.toString()}`)
+    }
+
+    // Background sanity check when payment_id is present to catch failed payments.
+    if (paymentId) {
+      try {
+        const resp = await fetch(`/api/order?payment_id=${encodeURIComponent(paymentId)}`, {
+          cache: 'no-store'
+        })
+        if (resp.ok) {
+          const data = (await resp.json()) as OrderData
+          const s = String(data?.status || '').toLowerCase()
+          if (
+            data?.ok &&
+            data.succeeded === false &&
+            s &&
+            !['processing', 'pending'].includes(s) &&
+            !s.startsWith('requires_')
+          ) {
+            showPaymentIncomplete(
+              'We could not confirm a completed payment for this order. You can retry prebooking anytime.'
+            )
+          }
+        }
+      } catch {
+        // Keep confirmation visible if lookup fails transiently.
+      }
+    }
+  }
+
+  initPrebookStatus()
+  document.addEventListener('astro:page-load', initPrebookStatus)
+</script>
+
+<style>
+  .license-gate-banner {
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--paper-2);
+    padding: clamp(20px, 3vw, 30px);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .license-gate-banner[hidden],
+  .download-grid[hidden],
+  .manual-key-form[hidden] {
+    display: none !important;
+  }
+
+  .prebook-confirm-list {
+    margin: 8px 0 0;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prebook-confirm-list li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    align-items: start;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .prebook-confirm-list li svg {
+    margin-top: 3px;
+    color: var(--ink);
+  }
+
+  .prebook-confirm-list strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .coming-soon-box {
+    max-width: 280px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .cs-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+  }
+
+  .coming-soon-box p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  @media (max-width: 639px) {
+    .license-gate-banner {
+      padding: 20px 18px;
+      gap: 16px;
+    }
+
+    .coming-soon-box {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .lgb-actions {
+      width: 100%;
+    }
+
+    .lgb-actions .btn,
+    .dl-cta-row .btn {
+      width: 100%;
+      min-height: 46px;
+      justify-content: center;
+    }
+
+    .dl-card {
+      padding: 22px 18px;
+    }
+  }
+
+  .manual-key-form {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .manual-key-input {
+    flex: 1 1 240px;
+    min-width: 200px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 12.5px;
+  }
+
+  .manual-key-status {
+    flex-basis: 100%;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .lgb-copy {
+    max-width: 60ch;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lgb-copy h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 34px);
+    line-height: 1.05;
+  }
+
+  .lgb-copy p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .lgb-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .dl-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .file-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-2);
+    color: var(--ink);
+  }
+
+  .dl-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-block: 14px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-block: 6px;
+  }
+
+  .dl-specs li {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 8px;
+    align-items: start;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .dl-specs li svg {
+    margin-top: 3px;
+    color: var(--ink);
+  }
+
+  .dl-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+</style>

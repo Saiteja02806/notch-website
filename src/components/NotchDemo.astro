@@ -1,13 +1,16 @@
 ---
 /**
- * Scroll-driven "watch the notch work" demo, in the spirit of a launch-film
- * tour: a sticky fake Windows desktop where the notch collapses, opens and
- * morphs through every feature as the visitor scrolls the track. The taskbar
- * tiles jump straight to a scene. No screenshots — the island is real DOM,
- * so it animates like the app does.
+ * Scroll-driven & click-driven "Watch it work" interactive showcase.
+ * Demonstrates how Hero Notch sits as a quiet 34px hardware-style sliver at the
+ * top center of a MacBook Pro or Windows 11 display, then unfolds across the top
+ * edge into a full-scale personal workspace (Dashboard, Obsidian Notes Vault,
+ * Multi-Agent Coding Sessions, Google Calendar & 12s Under-Notch Reminder,
+ * Native SMTC + Spotify Queue Media Deck, and On-Device Posture + Hydration + Phone QR).
  */
 interface Scene {
   id: string
+  num: string
+  pill: string
   label: string
   title: string
   note: string
@@ -16,45 +19,59 @@ interface Scene {
 const scenes: Scene[] = [
   {
     id: 'closed',
-    label: 'The notch',
-    title: 'Collapsed, it is thirty pixels of quiet.',
-    note: 'A sliver at the top edge of the screen. Hover opens it; Esc folds it away.'
+    num: '01',
+    pill: 'Collapsed',
+    label: '01 · Collapsed Notch',
+    title: 'Collapsed, it is thirty-four pixels of quiet.',
+    note: 'Flush with the top center edge of your MacBook Pro or Windows 11 monitor. Live timer, audio waveform and active agent count stay visible at a glance while your desktop stays 100% sharp.'
   },
   {
-    id: 'music',
-    label: 'Now Playing',
-    title: 'Your music, in the notch.',
-    note: 'Spotify is picked up automatically. Transport and seek without leaving your work.'
+    id: 'home',
+    num: '02',
+    pill: 'Dashboard',
+    label: '02 · Personal Dashboard',
+    title: 'Unfolds into a full-width top-edge command deck.',
+    note: 'Hover or press your shortcut and the notch expands smoothly across the top of your screen — bringing your Focus Timer, Now Playing deck, and Today’s Tasks together while gently blurring background windows.'
   },
   {
     id: 'notes',
-    label: 'Notes',
-    title: 'Plain Markdown, rendered inline.',
-    note: 'Point it at any folder. Formatting applies as you type; nothing is imported.'
-  },
-  {
-    id: 'plan',
-    label: 'Plan',
-    title: 'Reminders that reach you anywhere.',
-    note: 'A card unfolds under the notch at the set time — over whatever app has focus.'
-  },
-  {
-    id: 'posture',
-    label: 'Posture',
-    title: 'A posture coach, scored on-device.',
-    note: 'Frames are processed in memory and discarded. The ring reacts when you slip.'
+    num: '03',
+    pill: 'Notes Vault',
+    label: '03 · Notes · Obsidian & Markdown',
+    title: 'Your local Obsidian vault, live inside the notch.',
+    note: 'Point it at any local folder of .md files. Browse your sidebar, search with Ctrl+K, check off tasks, and write with 750ms debounced auto-save and one-click Open in Obsidian.'
   },
   {
     id: 'sessions',
-    label: 'Sessions',
-    title: 'Every AI agent, one board.',
-    note: 'Codex, OpenCode and Anti Gravity — live turns, tokens and the project folder.'
+    num: '04',
+    pill: 'AI Sessions',
+    label: '04 · Multi-Agent Coding Board',
+    title: 'Claude Code, Codex, OpenCode & Anti Gravity on one board.',
+    note: 'Watch live turns, active models, and token velocity across every coding agent running on your machine. Catch OpenCode bash approval prompts and send verified follow-up replies straight from the notch.'
   },
   {
-    id: 'styles',
-    label: 'Appearance',
-    title: 'Five accents. Any spot on the edge.',
-    note: 'Pick a colour and the whole panel follows. Drag places the notch anywhere up top.'
+    id: 'plan',
+    num: '05',
+    pill: 'Plan & Calendar',
+    label: '05 · Google Calendar & 12s Reminders',
+    title: 'Google Calendar agenda & 12-second under-notch alerts.',
+    note: 'See your month calendar, timed tasks, and live Google Calendar events side-by-side. When a meeting starts soon, a compact card unfolds beneath the notch for 12 seconds without stealing keyboard focus.'
+  },
+  {
+    id: 'music',
+    num: '06',
+    pill: 'Music Deck',
+    label: '06 · Native Media & Spotify Queue',
+    title: 'Zero-setup system media control, plus your Spotify queue.',
+    note: 'Native OS media sessions and album art appear automatically with zero configuration. Connect optional PKCE Spotify to browse Up Next, scrub tracks, and control playback.'
+  },
+  {
+    id: 'posture',
+    num: '07',
+    pill: 'Posture & Phone QR',
+    label: '07 · Posture, Hydration & LAN Phone QR',
+    title: 'On-device posture coach, water tracker & two-way Phone QR.',
+    note: 'Camera frames are scored 0–100 in RAM and discarded immediately. Alongside it: an 8-glass hydration tracker and instant local Wi-Fi QR transfer (up to 16 MB) between phone and PC.'
   }
 ]
 ---
@@ -63,16 +80,16 @@ const scenes: Scene[] = [
   <div class="wrap">
     <div class="section-head demo-head">
       <span class="eyebrow"><span class="dot"></span> Watch it work</span>
-      <h2 class="h2">The notch, doing its job.</h2>
+      <h2 class="h2">Seven states, one strip of screen.</h2>
       <p class="lede">
-        Scroll and the notch opens, moves between its six tabs and folds away again — exactly as
-        it behaves on a desktop. The tiles in the taskbar jump to a feature.
+        Scroll through the timeline or click any state below to watch Hero Notch unfold from a 34-pixel
+        hardware sliver into a full-scale top-edge workspace — on both <strong>Windows 11</strong> and <strong>macOS</strong>.
       </p>
     </div>
   </div>
 
   <div class="demo-track" data-demo-track style={`--steps:${scenes.length}`}>
-    {/* Scroll anchors: #demo-music etc. land the sticky device on that scene. */}
+    {/* Scroll anchors for every scene plus legacy #demo-styles alias */}
     {scenes.map((scene, i) => (
       <span
         id={`demo-${scene.id}`}
@@ -81,138 +98,2754 @@ const scenes: Scene[] = [
         style={`top: calc(((var(--steps) * var(--demo-step)) - 100vh) / (var(--steps) - 1) * ${i})`}
       ></span>
     ))}
+    <span
+      id="demo-styles"
+      aria-hidden="true"
+      class="demo-anchor"
+      style={`top: calc(((var(--steps) * var(--demo-step)) - 100vh))`}
+    ></span>
+
     <div class="demo-sticky">
-      <div class="demo-device">
+      {/* Top interactive control bar: Scene Pills + OS Switcher */}
+      <div class="demo-toolbar" role="toolbar" aria-label="Notch demo states and operating system switcher">
+        <div class="demo-scene-pills" role="tablist" aria-label="Notch states">
+          {scenes.map((scene, idx) => (
+            <button
+              type="button"
+              role="tab"
+              class={`demo-scene-pill ${idx === 0 ? 'is-on' : ''}`}
+              data-demo-pill={scene.id}
+              aria-selected={idx === 0 ? 'true' : 'false'}
+            >
+              <span class="pill-num">{scene.num}</span>
+              <span class="pill-text">{scene.pill}</span>
+            </button>
+          ))}
+        </div>
+
+        <div class="demo-os-switch" role="group" aria-label="Preview operating system">
+          <button type="button" class="demo-os-btn is-on" data-os-btn="mac">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.18 8.53c-.02-1.57 1.28-2.33 1.34-2.37-.73-1.07-1.87-1.22-2.27-1.23-.96-.1-1.89.57-2.38.57-.5 0-1.25-.56-2.06-.54-1.05.02-2.03.61-2.57 1.56-1.1 1.91-.28 4.73.79 6.28.52.76 1.15 1.61 1.97 1.58.79-.03 1.09-.51 2.05-.51.95 0 1.23.51 2.06.49.86-.01 1.39-.77 1.91-1.53.61-.89.86-1.75.87-1.8-.02-.01-1.69-.65-1.71-2.5zM9.62 3.89c.43-.53.73-1.26.65-2-.63.03-1.39.42-1.84.94-.4.46-.75 1.21-.66 1.92.7.05 1.42-.35 1.85-.86z"/></svg>
+            <span>MacBook Pro · macOS</span>
+          </button>
+          <button type="button" class="demo-os-btn" data-os-btn="win">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.5 2.5h5.8v5.8H1.5V2.5zm6.7 0h6.3v5.8H8.2V2.5zM1.5 9.2h5.8v5.8H1.5V9.2zm6.7 0h6.3v5.8H8.2V9.2z"/></svg>
+            <span>Windows 11 · Studio</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="demo-device" data-demo-device data-os="mac" data-active-scene="closed">
         <div class="demo-screen">
-          <div class="demo-wall" aria-hidden="true"></div>
-
-          <div class="demo-top" aria-hidden="true">
-            <span>File</span><span>Edit</span><span>View</span><span>Help</span>
-            <span class="demo-clock">12:47</span>
-          </div>
-
-          <div class="demo-notch" data-island data-scene="closed">
-            <div class="island" data-island-box>
-              {scenes.map((scene, index) => (
-                <div class={`is-scene is-${scene.id}`} data-scene-pane={scene.id} aria-hidden={index === 0 ? 'false' : 'true'}>
-                  {scene.id === 'music' && (
-                    <div class="is-music">
-                      <span class="is-art" aria-hidden="true"></span>
-                      <span class="is-meta">
-                        <span class="is-title">rockstar</span>
-                        <span class="is-sub">Post Malone</span>
-                      </span>
-                      <span class="is-transport" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5h3v14H8zm5 0h3v14h-3z"/></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg>
-                      </span>
-                    </div>
-                    <div class="is-progress" aria-hidden="true"><span></span></div>
-                  )}
-
-                  {scene.id === 'notes' && (
-                    <div class="is-notes">
-                      <span class="is-h">## Ship the release</span>
-                      <label class="is-task is-done"><span class="is-box" aria-hidden="true"></span>tag v1.0.22</label>
-                      <label class="is-task"><span class="is-box" aria-hidden="true"></span>publish the site</label>
-                      <label class="is-task"><span class="is-box" aria-hidden="true"></span>write the changelog</label>
-                    </div>
-                  )}
-
-                  {scene.id === 'plan' && (
-                    <div class="is-plan">
-                      <span class="is-remind">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>
-                        <span>
-                          <span class="is-title">Standup in 10 minutes</span>
-                          <span class="is-sub">Plan · 13:00 reminder</span>
-                        </span>
-                      </span>
-                    </div>
-                  )}
-
-                  {scene.id === 'posture' && (
-                    <div class="is-posture">
-                      <svg class="is-ring" viewBox="0 0 40 40" aria-hidden="true">
-                        <circle class="is-ring-bg" cx="20" cy="20" r="16"></circle>
-                        <circle class="is-ring-fg" cx="20" cy="20" r="16"></circle>
-                      </svg>
-                      <span class="is-meta">
-                        <span class="is-title">82 / 100</span>
-                        <span class="is-sub">Sitting well</span>
-                      </span>
-                    </div>
-                  )}
-
-                  {scene.id === 'sessions' && (
-                    <div class="is-sessions">
-                      <span class="is-row"><span class="is-dot is-on"></span><span class="is-name">Codex</span><span class="is-sub">running · 12.4k tok</span></span>
-                      <span class="is-row"><span class="is-dot is-on"></span><span class="is-name">OpenCode</span><span class="is-sub">running · 3.1k tok</span></span>
-                      <span class="is-row"><span class="is-dot"></span><span class="is-name">Anti Gravity</span><span class="is-sub">idle</span></span>
-                    </div>
-                  )}
-
-                  {scene.id === 'styles' && (
-                    <div class="is-styles">
-                      <span class="is-swatch is-a" aria-hidden="true"></span>
-                      <span class="is-swatch is-b" aria-hidden="true"></span>
-                      <span class="is-swatch is-c" aria-hidden="true"></span>
-                      <span class="is-swatch is-d" aria-hidden="true"></span>
-                      <span class="is-swatch is-e" aria-hidden="true"></span>
-                    </div>
-                  )}
+          {/* Desktop wallpaper & realistic multi-window workspace behind the notch */}
+          <div class="demo-wall" aria-hidden="true">
+            <div class="demo-desktop-windows">
+              {/* Left Desktop Window: Code Editor + Terminal */}
+              <div class="desk-win desk-win-code">
+                <div class="desk-win-bar">
+                  <div class="desk-win-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <span class="desk-win-title">NotchController.ts — notch-workspace</span>
+                  <span class="desk-win-tag">TypeScript · UTF-8</span>
                 </div>
-              ))}
+                <div class="desk-win-body">
+                  <div class="desk-code-lines">
+                    <span><i>01</i> <b>import</b> &#123; mountVault, watchAgents &#125; <b>from</b> <em>'@notch/core'</em></span>
+                    <span><i>02</i> <b>import</b> &#123; syncCalendarAgenda &#125; <b>from</b> <em>'@notch/calendar'</em></span>
+                    <span><i>03</i></span>
+                    <span><i>04</i> <b>export async function</b> bootTopEdgeIsland(display = <em>'primary'</em>) &#123;</span>
+                    <span><i>05</i> &nbsp;&nbsp;<b>const</b> vault = <b>await</b> mountVault(<em>'~/Documents/obsidian-vault'</em>, &#123; debounceMs: 750 &#125;)</span>
+                    <span><i>06</i> &nbsp;&nbsp;<b>const</b> sessions = watchAgents([<em>'claude-code'</em>, <em>'codex'</em>, <em>'opencode'</em>, <em>'antigravity'</em>])</span>
+                    <span><i>07</i> &nbsp;&nbsp;<b>return</b> &#123; vault, sessions, focusBlur: <b>true</b>, ramOnlyPosture: <b>true</b> &#125;</span>
+                    <span><i>08</i> &#125;</span>
+                  </div>
+                  <div class="desk-terminal">
+                    <div class="desk-term-head">
+                      <span>TERMINAL · zsh</span>
+                      <span>claude-code · active</span>
+                    </div>
+                    <div class="desk-term-lines">
+                      <span>$ npx astro check &amp;&amp; npm run build</span>
+                      <span class="term-ok">✓ 0 errors · Built in 1.42s · Watching local vault changes...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Desktop Window: Obsidian Markdown Note */}
+              <div class="desk-win desk-win-notes">
+                <div class="desk-win-bar">
+                  <div class="desk-win-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <span class="desk-win-title">vault / release-notes.md — Obsidian</span>
+                  <span class="desk-win-tag">Synced · Local</span>
+                </div>
+                <div class="desk-win-body">
+                  <div class="desk-md-title"># Hero Notch Architecture</div>
+                  <p class="desk-md-p">
+                    One top-edge strip replaces floating timers, scattered sticky notes, and buried agent terminals.
+                  </p>
+                  <div class="desk-md-checks">
+                    <span>✓ Plain <code>.md</code> files on disk (750ms debounce)</span>
+                    <span>✓ Multi-agent telemetry &amp; reply bridge</span>
+                    <span>✓ 12s non-intrusive Google Calendar cards</span>
+                    <span>✓ Zero-cloud LAN Phone QR &amp; RAM posture</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Focus Mode Blur Veil when Notch unfolds */}
+            <div class="demo-focus-veil">
+              <span class="demo-focus-badge">
+                <span class="focus-dot"></span>
+                Focus Mode · Desktop softly blurred while Notch is expanded
+              </span>
             </div>
           </div>
 
-          <div class="demo-taskbar" aria-hidden="false">
-            <span class="demo-start" aria-hidden="true"></span>
-            <span class="demo-tb-app" aria-hidden="true"></span>
-            {scenes.filter((s) => s.id !== 'closed').map((scene, i) => (
-              <button
-                class="demo-tile"
-                type="button"
-                data-demo-tile={scene.id}
-                aria-label={`Show ${scene.label} in the notch`}
-              >
-                {scene.id === 'music' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>}
-                {scene.id === 'notes' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>}
-                {scene.id === 'plan' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>}
-                {scene.id === 'posture' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>}
-                {scene.id === 'sessions' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17l6-5-6-5M12 19h8"/></svg>}
-                {scene.id === 'styles' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="13.5" r="2.5"/><circle cx="8.5" cy="9.5" r="2.5"/><circle cx="7" cy="16.5" r="2.5"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.6-1.4-.4-.4-.6-.9-.6-1.4 0-1.1.9-2 2-2h2.4A8 8 0 0 0 20 12c0-5.5-3.6-10-8-10z"/></svg>}
-              </button>
-            ))}
+          {/* Top System Menu Bar (Adapts between macOS and Windows 11) */}
+          <div class="demo-top" aria-hidden="true">
+            <div class="demo-top-left demo-mac-only">
+              <svg class="mac-apple" viewBox="0 0 16 16" fill="currentColor"><path d="M11.18 8.53c-.02-1.57 1.28-2.33 1.34-2.37-.73-1.07-1.87-1.22-2.27-1.23-.96-.1-1.89.57-2.38.57-.5 0-1.25-.56-2.06-.54-1.05.02-2.03.61-2.57 1.56-1.1 1.91-.28 4.73.79 6.28.52.76 1.15 1.61 1.97 1.58.79-.03 1.09-.51 2.05-.51.95 0 1.23.51 2.06.49.86-.01 1.39-.77 1.91-1.53.61-.89.86-1.75.87-1.8-.02-.01-1.69-.65-1.71-2.5zM9.62 3.89c.43-.53.73-1.26.65-2-.63.03-1.39.42-1.84.94-.4.46-.75 1.21-.66 1.92.7.05 1.42-.35 1.85-.86z"/></svg>
+              <strong>Code</strong>
+              <span>File</span>
+              <span>Edit</span>
+              <span>Selection</span>
+              <span>View</span>
+              <span>Go</span>
+            </div>
+            <div class="demo-top-left demo-win-only">
+              <span class="win-top-tag">Display 1 · Primary Studio Monitor</span>
+              <span class="win-top-muted">Top-Edge Anchor · Auto-Hide Enabled</span>
+            </div>
+
+            <div class="demo-top-right">
+              <span class="demo-top-pill">Ctrl+K · Instant Open</span>
+              <span class="demo-status-icons">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5a9 9 0 0 1 12 0M4.5 9a5.5 5.5 0 0 1 7 0M7 11.5a2 2 0 0 1 2 0"/><circle cx="8" cy="13.5" r="0.8" fill="currentColor"/></svg>
+                <span class="demo-bat"><i></i></span>
+              </span>
+              <span class="demo-clock">Tue 12:47</span>
+            </div>
+          </div>
+
+          {/* THE MORPHING HERO NOTCH ISLAND */}
+          <div class="demo-notch" data-island data-scene="closed">
+            <div class="island" data-island-box>
+
+              {/* SCENE 1: CLOSED (Sleek 34px Hardware Notch Sliver) */}
+              <div class="is-scene is-closed is-active" data-scene-pane="closed" aria-hidden="false">
+                <button
+                  type="button"
+                  class="is-closed-bar"
+                  data-open-notch="home"
+                  aria-label="Expand Hero Notch Dashboard"
+                  title="Click to unfold Hero Notch"
+                >
+                  <span class="closed-left">
+                    <span class="is-closed-dot"></span>
+                    <span class="closed-timer">25:00</span>
+                    <span class="closed-sep">·</span>
+                    <span class="closed-mode">Focus</span>
+                  </span>
+                  <span class="closed-camera" aria-hidden="true"></span>
+                  <span class="closed-right">
+                    <span class="is-closed-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    <span class="closed-agents">3 agents</span>
+                  </span>
+                </button>
+              </div>
+
+              {/* SCENE 2: HOME (Full Personal Dashboard) */}
+              <div class="is-scene is-home" data-scene-pane="home" aria-hidden="true">
+                <div class="notch-chrome">
+                  <div class="notch-brand">
+                    <span class="brand-dot"></span>
+                    <strong>Hero Notch</strong>
+                    <span class="brand-sub">v1.0.22</span>
+                  </div>
+                  <div class="notch-tabs">
+                    <button type="button" class="n-tab is-on" data-jump-scene="home">Dashboard</button>
+                    <button type="button" class="n-tab" data-jump-scene="notes">Notes</button>
+                    <button type="button" class="n-tab" data-jump-scene="sessions">Sessions <em>3</em></button>
+                    <button type="button" class="n-tab" data-jump-scene="plan">Calendar</button>
+                    <button type="button" class="n-tab" data-jump-scene="music">Music</button>
+                    <button type="button" class="n-tab" data-jump-scene="posture">Wellness</button>
+                  </div>
+                  <button type="button" class="notch-collapse-btn" data-jump-scene="closed">
+                    <span>Collapse</span>
+                    <kbd>Esc</kbd>
+                  </button>
+                </div>
+
+                <div class="home-grid">
+                  {/* Card 1: Focus Timer */}
+                  <div class="home-card">
+                    <div class="hc-head">
+                      <span class="hc-label">FOCUS TIMER</span>
+                      <span class="hc-pill">Block 3 / 4</span>
+                    </div>
+                    <div class="hc-timer-body">
+                      <div class="hc-ring-wrap">
+                        <svg viewBox="0 0 64 64" class="hc-ring">
+                          <circle cx="32" cy="32" r="26" class="hc-ring-bg" />
+                          <circle cx="32" cy="32" r="26" class="hc-ring-fg" />
+                        </svg>
+                        <div class="hc-ring-text">
+                          <strong>25:00</strong>
+                          <span>DEEP WORK</span>
+                        </div>
+                      </div>
+                      <div class="hc-timer-meta">
+                        <span class="hc-task-current">Ship Hero Notch v1.0.22</span>
+                        <span class="hc-task-sub">Notifications muted · Blur active</span>
+                        <div class="hc-btn-row">
+                          <span class="hc-mini-btn is-primary">Pause</span>
+                          <span class="hc-mini-btn">+5m</span>
+                          <span class="hc-mini-btn">Reset</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 2: Now Playing Mini Deck */}
+                  <div class="home-card">
+                    <div class="hc-head">
+                      <span class="hc-label">NOW PLAYING</span>
+                      <span class="hc-pill">SMTC · Spotify</span>
+                    </div>
+                    <div class="hc-music-body">
+                      <div class="hc-album-row">
+                        <div class="hc-album-art">
+                          <span class="hc-vinyl-core"></span>
+                        </div>
+                        <div class="hc-track-info">
+                          <strong>Everything In Its Right Place</strong>
+                          <span>Radiohead — Kid A</span>
+                        </div>
+                      </div>
+                      <div class="hc-seek-wrap">
+                        <div class="hc-seek-bar"><span style="width: 44%"></span></div>
+                        <div class="hc-seek-times">
+                          <span>01:48</span>
+                          <span>04:11</span>
+                        </div>
+                      </div>
+                      <div class="hc-transport-row">
+                        <span>⏮</span>
+                        <span class="hc-play-pill">⏸ Playing</span>
+                        <span>⏭</span>
+                        <span class="hc-queue-hint" data-jump-scene="music">Queue (3) →</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 3: Today's Tasks */}
+                  <div class="home-card">
+                    <div class="hc-head">
+                      <span class="hc-label">TODAY'S TASKS</span>
+                      <span class="hc-pill">4 left</span>
+                    </div>
+                    <div class="hc-tasks-list">
+                      <label class="is-task is-done">
+                        <input type="checkbox" checked class="is-check-input" />
+                        <span class="is-box"></span>
+                        <span>Mount local Obsidian <code>.md</code> vault</span>
+                      </label>
+                      <label class="is-task is-done">
+                        <input type="checkbox" checked class="is-check-input" />
+                        <span class="is-box"></span>
+                        <span>Verify Claude Code &amp; Codex reply bridge</span>
+                      </label>
+                      <label class="is-task">
+                        <input type="checkbox" class="is-check-input" />
+                        <span class="is-box"></span>
+                        <span>13:00 Architecture Review (Google Meet)</span>
+                      </label>
+                      <label class="is-task">
+                        <input type="checkbox" class="is-check-input" />
+                        <span class="is-box"></span>
+                        <span>Tag v1.0.22 Mac &amp; Windows release</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SCENE 3: NOTES (Obsidian & Markdown Vault) */}
+              <div class="is-scene is-notes" data-scene-pane="notes" aria-hidden="true">
+                <div class="notch-chrome">
+                  <div class="notch-brand">
+                    <span class="brand-dot"></span>
+                    <strong>Hero Notch</strong>
+                    <span class="brand-sub">Notes Vault</span>
+                  </div>
+                  <div class="notch-tabs">
+                    <button type="button" class="n-tab" data-jump-scene="home">Dashboard</button>
+                    <button type="button" class="n-tab is-on" data-jump-scene="notes">Notes</button>
+                    <button type="button" class="n-tab" data-jump-scene="sessions">Sessions <em>3</em></button>
+                    <button type="button" class="n-tab" data-jump-scene="plan">Calendar</button>
+                    <button type="button" class="n-tab" data-jump-scene="music">Music</button>
+                    <button type="button" class="n-tab" data-jump-scene="posture">Wellness</button>
+                  </div>
+                  <button type="button" class="notch-collapse-btn" data-jump-scene="closed">
+                    <span>Collapse</span>
+                    <kbd>Esc</kbd>
+                  </button>
+                </div>
+
+                <div class="notes-workspace">
+                  <aside class="notes-sidebar">
+                    <div class="ns-folder">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.4 1.5h4.8A1.5 1.5 0 0 1 14 6v6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12V4.5Z"/></svg>
+                      <span>obsidian-vault/</span>
+                    </div>
+                    <div class="ns-files">
+                      <span class="ns-file is-on">roadmap.md</span>
+                      <span class="ns-file">ai-sessions.md</span>
+                      <span class="ns-file">daily-2026-11-17.md</span>
+                      <span class="ns-file">architecture.md</span>
+                    </div>
+                    <div class="ns-footer">
+                      <span>42 files indexed</span>
+                      <kbd>Ctrl+K</kbd>
+                    </div>
+                  </aside>
+
+                  <div class="notes-editor">
+                    <div class="ne-toolbar">
+                      <span class="ne-path">obsidian-vault / <strong>roadmap.md</strong></span>
+                      <span class="ne-save-pill"><i class="save-dot"></i> 750ms auto-saved to disk</span>
+                      <span class="ne-obsidian-btn">Open in Obsidian ↗</span>
+                    </div>
+
+                    <div class="ne-content">
+                      <div class="ne-h1">## Ship Hero Notch 1.0 Release</div>
+                      <p class="ne-quote">
+                        Plain UTF-8 Markdown files on your local drive. Zero proprietary database, zero cloud lock-in.
+                      </p>
+                      <div class="ne-checklist">
+                        <label class="is-task is-done">
+                          <input type="checkbox" checked class="is-check-input" />
+                          <span class="is-box"></span>
+                          <span>Two-way sync with local <code>obsidian-vault/roadmap.md</code></span>
+                        </label>
+                        <label class="is-task is-done">
+                          <input type="checkbox" checked class="is-check-input" />
+                          <span class="is-box"></span>
+                          <span>Inline GFM checkboxes, code blocks &amp; <code>Ctrl+K</code> instant switcher</span>
+                        </label>
+                        <label class="is-task">
+                          <input type="checkbox" class="is-check-input" />
+                          <span class="is-box"></span>
+                          <span>Capture meeting action items from <code>13:00 Architecture Review</code></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SCENE 4: SESSIONS (Multi-Agent Coding Board) */}
+              <div class="is-scene is-sessions" data-scene-pane="sessions" aria-hidden="true">
+                <div class="notch-chrome">
+                  <div class="notch-brand">
+                    <span class="brand-dot"></span>
+                    <strong>Hero Notch</strong>
+                    <span class="brand-sub">AI Sessions</span>
+                  </div>
+                  <div class="notch-tabs">
+                    <button type="button" class="n-tab" data-jump-scene="home">Dashboard</button>
+                    <button type="button" class="n-tab" data-jump-scene="notes">Notes</button>
+                    <button type="button" class="n-tab is-on" data-jump-scene="sessions">Sessions <em>3</em></button>
+                    <button type="button" class="n-tab" data-jump-scene="plan">Calendar</button>
+                    <button type="button" class="n-tab" data-jump-scene="music">Music</button>
+                    <button type="button" class="n-tab" data-jump-scene="posture">Wellness</button>
+                  </div>
+                  <button type="button" class="notch-collapse-btn" data-jump-scene="closed">
+                    <span>Collapse</span>
+                    <kbd>Esc</kbd>
+                  </button>
+                </div>
+
+                <div class="sessions-workspace">
+                  <div class="sessions-grid">
+                    <div class="sess-card is-live">
+                      <div class="sess-top">
+                        <span class="is-dot is-on"></span>
+                        <strong>Claude Code</strong>
+                        <span class="sess-model">claude-opus-4-7</span>
+                        <span class="is-badge">Delivered</span>
+                        <span class="sess-tok">18.2k tok</span>
+                      </div>
+                      <p class="sess-summary">Refactored NotchDemo.astro morphing controller &amp; verified 0 build errors.</p>
+                    </div>
+
+                    <div class="sess-card is-live">
+                      <div class="sess-top">
+                        <span class="is-dot is-on"></span>
+                        <strong>Codex</strong>
+                        <span class="sess-model">o3-pro</span>
+                        <span class="is-badge">LIVE · Watching</span>
+                        <span class="sess-tok">12.4k tok</span>
+                      </div>
+                      <p class="sess-summary">Streaming SMTC media session metadata &amp; PKCE token refresh state.</p>
+                    </div>
+
+                    <div class="sess-card is-approval">
+                      <div class="sess-top">
+                        <span class="is-dot is-alert"></span>
+                        <strong>OpenCode</strong>
+                        <span class="sess-model">bash · tool call</span>
+                        <span class="is-badge is-badge-alert">Needs Approval</span>
+                        <span class="sess-tok">4.9k tok</span>
+                      </div>
+                      <div class="sess-approval-row">
+                        <code>$ npm run astro build -- --verbose</code>
+                        <div class="sess-actions">
+                          <span class="sess-btn-approve">Approve ↵</span>
+                          <span class="sess-btn-Ghost">Deny</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="sess-card">
+                      <div class="sess-top">
+                        <span class="is-dot"></span>
+                        <strong>Anti Gravity</strong>
+                        <span class="sess-model">gemini-2.5-pro</span>
+                        <span class="is-badge">Idle</span>
+                        <span class="sess-tok">notch-website</span>
+                      </div>
+                      <p class="sess-summary">Standing by in workspace. Ready for follow-up prompt or file handoff.</p>
+                    </div>
+                  </div>
+
+                  <div class="sessions-reply-bar">
+                    <span class="reply-target">@Claude Code</span>
+                    <span class="reply-placeholder">Send a verified follow-up reply directly to the active terminal session…</span>
+                    <span class="reply-send">Send ↵</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* SCENE 5: PLAN & GOOGLE CALENDAR */}
+              <div class="is-scene is-plan" data-scene-pane="plan" aria-hidden="true">
+                <div class="notch-chrome">
+                  <div class="notch-brand">
+                    <span class="brand-dot"></span>
+                    <strong>Hero Notch</strong>
+                    <span class="brand-sub">Plan &amp; Calendar</span>
+                  </div>
+                  <div class="notch-tabs">
+                    <button type="button" class="n-tab" data-jump-scene="home">Dashboard</button>
+                    <button type="button" class="n-tab" data-jump-scene="notes">Notes</button>
+                    <button type="button" class="n-tab" data-jump-scene="sessions">Sessions <em>3</em></button>
+                    <button type="button" class="n-tab is-on" data-jump-scene="plan">Calendar</button>
+                    <button type="button" class="n-tab" data-jump-scene="music">Music</button>
+                    <button type="button" class="n-tab" data-jump-scene="posture">Wellness</button>
+                  </div>
+                  <button type="button" class="notch-collapse-btn" data-jump-scene="closed">
+                    <span>Collapse</span>
+                    <kbd>Esc</kbd>
+                  </button>
+                </div>
+
+                <div class="plan-workspace">
+                  <div class="plan-cal-mini">
+                    <div class="pcm-head">
+                      <strong>NOV 2026</strong>
+                      <span>W47</span>
+                    </div>
+                    <div class="pcm-grid">
+                      <i>M</i><i>T</i><i>W</i><i>T</i><i>F</i><i>S</i><i>S</i>
+                      <span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+                      <span>16</span><span class="is-today">17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span>
+                      <span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span><span>29</span>
+                    </div>
+                  </div>
+
+                  <div class="plan-agenda">
+                    <div class="pa-head">
+                      <span>GOOGLE CALENDAR AGENDA</span>
+                      <span class="pa-sync">● Synced 12s ago</span>
+                    </div>
+                    <div class="pa-events">
+                      <div class="pa-event is-now">
+                        <span class="pa-time">13:00</span>
+                        <div class="pa-info">
+                          <strong>Architecture Review &amp; Release Sign-off</strong>
+                          <span>Google Meet · 4 attendees · Starts in 10m</span>
+                        </div>
+                      </div>
+                      <div class="pa-event">
+                        <span class="pa-time">15:30</span>
+                        <div class="pa-info">
+                          <strong>Desktop Stage &amp; Motion Polish</strong>
+                          <span>Figma Huddle · Design Systems</span>
+                        </div>
+                      </div>
+                      <div class="pa-event">
+                        <span class="pa-time">17:00</span>
+                        <div class="pa-info">
+                          <strong>Publish v0.1.0 Signed Windows Installer</strong>
+                          <span>Local Build · Task Reminder</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="plan-reminder-preview">
+                    <div class="prp-tag">12-SECOND UNDER-NOTCH ALERT</div>
+                    <div class="prp-card">
+                      <div class="prp-top">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>
+                        <div>
+                          <strong>Architecture Review in 10 min</strong>
+                          <span>13:00 – 13:45 · Auto-folds in 12s</span>
+                        </div>
+                      </div>
+                      <div class="prp-actions">
+                        <span class="prp-btn-join">Join Meet ↗</span>
+                        <span class="prp-btn-dismiss">Dismiss</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SCENE 6: MUSIC (Native Media + Spotify Queue) */}
+              <div class="is-scene is-music-scene" data-scene-pane="music" aria-hidden="true">
+                <div class="notch-chrome">
+                  <div class="notch-brand">
+                    <span class="brand-dot"></span>
+                    <strong>Hero Notch</strong>
+                    <span class="brand-sub">Now Playing</span>
+                  </div>
+                  <div class="notch-tabs">
+                    <button type="button" class="n-tab" data-jump-scene="home">Dashboard</button>
+                    <button type="button" class="n-tab" data-jump-scene="notes">Notes</button>
+                    <button type="button" class="n-tab" data-jump-scene="sessions">Sessions <em>3</em></button>
+                    <button type="button" class="n-tab" data-jump-scene="plan">Calendar</button>
+                    <button type="button" class="n-tab is-on" data-jump-scene="music">Music</button>
+                    <button type="button" class="n-tab" data-jump-scene="posture">Wellness</button>
+                  </div>
+                  <button type="button" class="notch-collapse-btn" data-jump-scene="closed">
+                    <span>Collapse</span>
+                    <kbd>Esc</kbd>
+                  </button>
+                </div>
+
+                <div class="music-workspace">
+                  <div class="music-player-main">
+                    <div class="mp-hero">
+                      <div class="mp-vinyl">
+                        <div class="mp-vinyl-grooves">
+                          <span class="mp-vinyl-center"></span>
+                        </div>
+                      </div>
+                      <div class="mp-details">
+                        <div class="mp-badges">
+                          <span class="mp-badge">SYSTEM SMTC</span>
+                          <span class="mp-badge">SPOTIFY PKCE</span>
+                        </div>
+                        <h4 class="mp-title">Everything In Its Right Place</h4>
+                        <p class="mp-artist">Radiohead — Kid A (Remastered)</p>
+                      </div>
+                    </div>
+
+                    <div class="mp-scrubber">
+                      <div class="mp-bar"><span style="width: 44%"></span></div>
+                      <div class="mp-times">
+                        <span>01:48</span>
+                        <span>Lossless · 44.1 kHz</span>
+                        <span>04:11</span>
+                      </div>
+                    </div>
+
+                    <div class="mp-controls">
+                      <span class="mp-ctrl-muted" title="Shuffle">⇄</span>
+                      <span class="mp-ctrl" title="Previous">⏮</span>
+                      <span class="mp-ctrl-play" title="Pause">⏸</span>
+                      <span class="mp-ctrl" title="Next">⏭</span>
+                      <span class="mp-ctrl-muted" title="Repeat">↻</span>
+                      <div class="mp-vol">
+                        <span>🔊</span>
+                        <div class="mp-vol-bar"><span style="width: 76%"></span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="music-queue-pane">
+                    <div class="mq-head">
+                      <span>UP NEXT · SPOTIFY QUEUE</span>
+                      <span>3 tracks</span>
+                    </div>
+                    <div class="mq-list">
+                      <div class="mq-item is-next">
+                        <span class="mq-idx">01</span>
+                        <div class="mq-meta">
+                          <strong>Pyramid Song</strong>
+                          <span>Radiohead · Amnesiac</span>
+                        </div>
+                        <span class="mq-dur">4:49</span>
+                      </div>
+                      <div class="mq-item">
+                        <span class="mq-idx">02</span>
+                        <div class="mq-meta">
+                          <strong>Idioteque</strong>
+                          <span>Radiohead · Kid A</span>
+                        </div>
+                        <span class="mq-dur">5:09</span>
+                      </div>
+                      <div class="mq-item">
+                        <span class="mq-idx">03</span>
+                        <div class="mq-meta">
+                          <strong>Weird Fishes / Arpeggi</strong>
+                          <span>Radiohead · In Rainbows</span>
+                        </div>
+                        <span class="mq-dur">5:18</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SCENE 7: POSTURE, HYDRATION & PHONE QR */}
+              <div class="is-scene is-posture-scene" data-scene-pane="posture" aria-hidden="true">
+                <div class="notch-chrome">
+                  <div class="notch-brand">
+                    <span class="brand-dot"></span>
+                    <strong>Hero Notch</strong>
+                    <span class="brand-sub">Wellness &amp; LAN QR</span>
+                  </div>
+                  <div class="notch-tabs">
+                    <button type="button" class="n-tab" data-jump-scene="home">Dashboard</button>
+                    <button type="button" class="n-tab" data-jump-scene="notes">Notes</button>
+                    <button type="button" class="n-tab" data-jump-scene="sessions">Sessions <em>3</em></button>
+                    <button type="button" class="n-tab" data-jump-scene="plan">Calendar</button>
+                    <button type="button" class="n-tab" data-jump-scene="music">Music</button>
+                    <button type="button" class="n-tab is-on" data-jump-scene="posture">Wellness</button>
+                  </div>
+                  <button type="button" class="notch-collapse-btn" data-jump-scene="closed">
+                    <span>Collapse</span>
+                    <kbd>Esc</kbd>
+                  </button>
+                </div>
+
+                <div class="wellness-grid">
+                  {/* Column 1: On-Device Posture Coach */}
+                  <div class="well-card">
+                    <div class="wc-head">
+                      <span>POSTURE COACH</span>
+                      <span class="wc-tag">RAM-ONLY</span>
+                    </div>
+                    <div class="wc-posture-body">
+                      <svg class="is-ring wc-ring" viewBox="0 0 40 40" aria-hidden="true">
+                        <circle class="is-ring-bg" cx="20" cy="20" r="16"></circle>
+                        <circle class="is-ring-fg" cx="20" cy="20" r="16"></circle>
+                      </svg>
+                      <div class="wc-posture-meta">
+                        <strong>88 / 100 · Aligned</strong>
+                        <span>Shoulder level +1.2° · In frame</span>
+                        <em>0 bytes written to disk or cloud</em>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Column 2: Hydration Glass Tracker */}
+                  <div class="well-card">
+                    <div class="wc-head">
+                      <span>HYDRATION</span>
+                      <span class="wc-tag">1,250 / 2,000 ml</span>
+                    </div>
+                    <div class="wc-water-body">
+                      <div class="wc-glass">
+                        <div class="wc-water-fill" style="height: 62.5%"></div>
+                        <span class="wc-glass-num">5/8</span>
+                      </div>
+                      <div class="wc-water-meta">
+                        <strong>5 of 8 glasses today</strong>
+                        <span>Next gentle reminder in 22 min</span>
+                        <span class="wc-water-btn">+ Log 250 ml Glass</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Column 3: Two-Way Phone QR Transfer */}
+                  <div class="well-card">
+                    <div class="wc-head">
+                      <span>PHONE QR BRIDGE</span>
+                      <span class="wc-tag">SAME WI-FI · 16 MB</span>
+                    </div>
+                    <div class="wc-qr-body">
+                      <div class="wc-qr-box" aria-hidden="true">
+                        <svg viewBox="0 0 36 36" fill="currentColor">
+                          <path d="M2 2h10v10H2V2zm2 2v6h6V4H4zm2 2h2v2H6V6zm18-4h10v10H24V2zm2 2v6h6V4h-6zm2 2h2v2h-2V6zM2 24h10v10H2V24zm2 2v6h6v-6H4zm2 2h2v2H6v-2zM15 2h3v3h-3V2zm3 3h3v3h-3V5zm-3 6h3v3h-3v-3zm6-6h2v4h-2V5zM2 15h4v3H2v-3zm6 0h4v4H8v-4zm6 0h5v5h-5v-5zm7 2h4v3h-4v-3zm6-2h7v3h-7v-3zm-11 7h4v4h-4v-4zm6 2h5v4h-5v-4zm7 0h5v5h-5v-5zm-13 6h3v4h-3v-4zm5 2h4v2h-4v-2zm6-1h6v3h-6v-3z"/>
+                        </svg>
+                      </div>
+                      <div class="wc-qr-meta">
+                        <strong>PC ↔ Phone Drop</strong>
+                        <span>Scan on local Wi-Fi to beam files or clipboard text instantly.</span>
+                        <code>http://192.168.1.42:8420</code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Bottom Dock / Taskbar (Morphs between macOS Glass Dock & Windows 11 Taskbar) */}
+          <div class="demo-taskbar" aria-label="Jump to a Notch state">
+            <div class="demo-win-left demo-win-only" aria-hidden="true">
+              <span class="win-start-icon">
+                <i></i><i></i><i></i><i></i>
+              </span>
+              <span class="win-search-pill">Search Windows…</span>
+            </div>
+
+            <div class="demo-dock-items">
+              {scenes.map((scene) => (
+                <button
+                  class={`demo-tile ${scene.id === 'closed' ? 'is-on' : ''}`}
+                  type="button"
+                  data-demo-tile={scene.id}
+                  aria-label={`Show ${scene.label}`}
+                  title={scene.label}
+                >
+                  {scene.id === 'closed' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 4v3a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V4"/></svg>
+                  )}
+                  {scene.id === 'home' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                  )}
+                  {scene.id === 'notes' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+                  )}
+                  {scene.id === 'sessions' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17l6-5-6-5M12 19h8"/></svg>
+                  )}
+                  {scene.id === 'plan' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  )}
+                  {scene.id === 'music' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+                  )}
+                  {scene.id === 'posture' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                  )}
+                  <span class="tile-tooltip">{scene.pill}</span>
+                </button>
+              ))}
+            </div>
+
+            <div class="demo-win-tray demo-win-only" aria-hidden="true">
+              <span>ENG</span>
+              <span>12:47</span>
+            </div>
           </div>
         </div>
+      </div>
 
+      {/* Story Caption Bar under the monitor */}
+      <div class="demo-caption">
+        <div class="demo-caption-row">
+          <span class="demo-label" data-demo-label>{scenes[0].label}</span>
+          <span class="demo-count" data-demo-count>1 / {scenes.length}</span>
         </div>
-
-<div class="demo-caption">
-          <div class="demo-caption-row">
-            <span class="demo-label" data-demo-label>The notch</span>
-            <span class="demo-count" data-demo-count>1 / {scenes.length}</span>
-          </div>
-          <p class="demo-title" data-demo-title>Collapsed, it is thirty pixels of quiet.</p>
-          <p class="demo-note" data-demo-note>A sliver at the top edge of the screen. Hover opens it; Esc folds it away.</p>
-          <div class="demo-progress" data-demo-progress aria-hidden="true">
-            {scenes.map((scene) => <span data-seg={scene.id}></span>)}
-          </div>
-
+        <p class="demo-title" data-demo-title>{scenes[0].title}</p>
+        <p class="demo-note" data-demo-note>{scenes[0].note}</p>
+        <div class="demo-progress" data-demo-progress aria-hidden="true">
+          {scenes.map((scene, idx) => (
+            <span data-seg={scene.id} class={idx === 0 ? 'is-active' : ''}></span>
+          ))}
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<style>
+  /* ==========================================================================
+     1. CRITICAL VISIBILITY FIX: Never let .is-closed bleed onto other scenes!
+     ========================================================================== */
+  .is-scene,
+  .is-scene.is-closed {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-6px) scale(0.985) !important;
+    transition:
+      opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 340ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 220ms !important;
+  }
+
+  .is-scene.is-active,
+  .is-scene.is-closed.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+    transition:
+      opacity 260ms cubic-bezier(0.22, 1, 0.36, 1) 60ms,
+      transform 380ms cubic-bezier(0.22, 1, 0.36, 1) 40ms,
+      visibility 0s linear 0s !important;
+  }
+
+  /* ==========================================================================
+     2. TOP INTERACTIVE TOOLBAR (Scene Pills + MacBook / Windows 11 Switcher)
+     ========================================================================== */
+  .demo-sticky {
+    top: clamp(62px, 7vh, 88px) !important;
+  }
+
+  .demo-toolbar {
+    width: min(1060px, 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .demo-scene-pills {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: rgba(12, 12, 15, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .demo-scene-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.56);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 80ms ease, border-color 120ms ease;
+  }
+
+  .demo-scene-pill:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .demo-scene-pill.is-on {
+    background: #ffffff;
+    color: #070709;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+  }
+
+  .demo-scene-pill .pill-num {
+    opacity: 0.55;
+    font-size: 9.5px;
+  }
+
+  .demo-scene-pill.is-on .pill-num {
+    opacity: 0.85;
+  }
+
+  .demo-os-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: rgba(12, 12, 15, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .demo-os-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.54);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    cursor: pointer;
+    transition: background-color 80ms ease, border-color 120ms ease;
+  }
+
+  .demo-os-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .demo-os-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .demo-os-btn.is-on {
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  }
+
+  /* ==========================================================================
+     3. DESKTOP ENVIRONMENT & FOCUS MODE BLUR
+     ========================================================================== */
+  .demo-wall {
+    background:
+      radial-gradient(85% 65% at 50% -10%, rgba(255, 255, 255, 0.11), transparent 64%),
+      linear-gradient(180deg, #101014 0%, #08080b 55%, #040406 100%) !important;
+  }
+
+  .demo-desktop-windows {
+    position: absolute;
+    inset: 44px 3.2% 58px;
+    display: grid;
+    grid-template-columns: 1.25fr 0.95fr;
+    gap: 16px;
+    pointer-events: none;
+    user-select: none;
+    transition:
+      filter 480ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 480ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* When Notch is expanded (any scene except 'closed'), blur & dim the desktop! */
+  .demo-device:not([data-active-scene="closed"]) .demo-desktop-windows {
+    filter: blur(8px) brightness(0.55);
+    transform: scale(0.992);
+  }
+
+  .demo-focus-veil {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 0 20px 58px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 420ms ease;
+  }
+
+  .demo-device:not([data-active-scene="closed"]) .demo-focus-veil {
+    opacity: 1;
+  }
+
+  .demo-focus-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(10, 10, 14, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .focus-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  }
+
+  .desk-win {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(11, 11, 14, 0.82);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .desk-win-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 13px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .desk-win-dots {
+    display: flex;
+    gap: 5px;
+  }
+
+  .desk-win-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .desk-win-title {
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 500;
+  }
+
+  .desk-win-tag {
+    margin-left: auto;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.32);
+  }
+
+  .desk-win-body {
+    flex: 1;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .desk-code-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .desk-code-lines span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .desk-code-lines i {
+    font-style: normal;
+    color: rgba(255, 255, 255, 0.18);
+    margin-right: 10px;
+  }
+
+  .desk-code-lines b {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .desk-code-lines em {
+    font-style: normal;
+    color: rgba(255, 255, 255, 0.58);
+  }
+
+  .desk-terminal {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 9.8px;
+  }
+
+  .desk-term-head {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+  }
+
+  .desk-term-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .term-ok {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .desk-md-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .desk-md-p {
+    font-family: var(--sans);
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .desk-md-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: auto;
+    font-size: 10.2px;
+    color: rgba(255, 255, 255, 0.58);
+  }
+
+  .desk-md-checks code {
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* ==========================================================================
+     4. OS CHROME SWITCHING (macOS Menu Bar + Dock vs Windows 11 Studio)
+     ========================================================================== */
+  .demo-device[data-os="mac"] .demo-win-only {
+    display: none !important;
+  }
+
+  .demo-device[data-os="win"] .demo-mac-only {
+    display: none !important;
+  }
+
+  .demo-top {
+    justify-content: space-between;
+    height: 32px !important;
+    padding-inline: 16px !important;
+    background: rgba(5, 5, 7, 0.68) !important;
+    backdrop-filter: blur(10px);
+  }
+
+  .demo-top-left,
+  .demo-top-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mac-apple {
+    width: 13px;
+    height: 13px;
+    color: #ffffff;
+  }
+
+  .demo-top-left strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .win-top-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .win-top-muted {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.36);
+  }
+
+  .demo-top-pill {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 2px 8px;
+  }
+
+  .demo-status-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .demo-status-icons svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .demo-bat {
+    width: 18px;
+    height: 9px;
+    border-radius: 2.5px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    padding: 1px;
+    display: inline-flex;
+  }
+
+  .demo-bat i {
+    display: block;
+    width: 85%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 1px;
+  }
+
+  /* macOS Floating Dock vs Windows 11 Full-Width Taskbar */
+  .demo-device[data-os="mac"] .demo-taskbar {
+    inset: auto 50% 10px auto !important;
+    transform: translateX(50%);
+    width: auto;
+    height: 46px;
+    padding-inline: 10px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(12, 12, 16, 0.78);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
+  }
+
+  .demo-device[data-os="win"] .demo-taskbar {
+    inset: auto 0 0 !important;
+    transform: none;
+    width: 100%;
+    height: 44px;
+    padding-inline: 16px;
+    border-radius: 0;
+    justify-content: space-between;
+    background: rgba(8, 8, 11, 0.88);
+  }
+
+  .demo-dock-items {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .demo-win-left,
+  .demo-win-tray {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.52);
+  }
+
+  .win-start-icon {
+    display: grid;
+    grid-template-columns: repeat(2, 6px);
+    gap: 1.5px;
+  }
+
+  .win-start-icon i {
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 1px;
+  }
+
+  .win-search-pill {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .demo-tile {
+    position: relative;
+  }
+
+  .tile-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #141418;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 140ms ease;
+  }
+
+  .demo-tile:hover .tile-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ==========================================================================
+     5. FULL-SCALE NOTCH EXPANSION DIMENSIONS & MORPHING
+     ========================================================================== */
+  .demo-notch {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .island {
+    pointer-events: auto;
+    width: 248px !important;
+    height: 34px !important;
+    background: rgba(6, 6, 8, 0.96) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-top: 0 !important;
+    border-radius: 0 0 15px 15px !important;
+    backdrop-filter: blur(24px) !important;
+    box-shadow:
+      0 26px 70px -18px rgba(0, 0, 0, 0.95),
+      0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+    transition:
+      width 480ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 480ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-radius 480ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  :global([data-scene="home"]) .island,
+  :global([data-scene="notes"]) .island,
+  :global([data-scene="sessions"]) .island {
+    width: min(820px, 94%) !important;
+    height: 308px !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+
+  :global([data-scene="plan"]) .island {
+    width: min(800px, 93%) !important;
+    height: 288px !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+
+  :global([data-scene="music"]) .island {
+    width: min(760px, 92%) !important;
+    height: 274px !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+
+  :global([data-scene="posture"]) .island {
+    width: min(800px, 93%) !important;
+    height: 274px !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+
+  /* ==========================================================================
+     6. SCENE 1: COLLAPSED HARDWARE NOTCH BAR
+     ========================================================================== */
+  .is-closed-bar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 12px;
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--mono);
+    font-size: 10px;
+    cursor: pointer;
+  }
+
+  .closed-left,
+  .closed-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .is-closed-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+  }
+
+  .closed-timer {
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .closed-sep,
+  .closed-mode {
+    color: rgba(255, 255, 255, 0.52);
+  }
+
+  .closed-camera {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #0d0d12;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .is-closed-wave {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 10px;
+  }
+
+  .is-closed-wave i {
+    width: 1.5px;
+    height: 55%;
+    background: #ffffff;
+    border-radius: 1px;
+  }
+
+  .is-closed-wave i:nth-child(2) { height: 100%; }
+  .is-closed-wave i:nth-child(3) { height: 75%; }
+  .is-closed-wave i:nth-child(4) { height: 40%; }
+
+  .closed-agents {
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  /* ==========================================================================
+     7. SHARED EXPANDED NOTCH HEADER BAR (.notch-chrome)
+     ========================================================================== */
+  .notch-chrome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    height: 40px;
+    padding-inline: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    flex-shrink: 0;
+  }
+
+  .notch-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: #ffffff;
+  }
+
+  .brand-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  }
+
+  .brand-sub {
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 9.5px;
+  }
+
+  .notch-tabs {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .n-tab {
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.56);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 140ms ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .n-tab:hover {
+    color: #ffffff;
+  }
+
+  .n-tab.is-on {
+    background: #ffffff;
+    color: #060608;
+    font-weight: 600;
+  }
+
+  .n-tab em {
+    font-style: normal;
+    font-size: 9px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .n-tab.is-on em {
+    background: rgba(0, 0, 0, 0.16);
+  }
+
+  .notch-collapse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    cursor: pointer;
+  }
+
+  .notch-collapse-btn:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .notch-collapse-btn kbd {
+    font-size: 8.5px;
+    opacity: 0.7;
+  }
+
+  /* ==========================================================================
+     8. SCENE 2: PERSONAL DASHBOARD (.home-grid)
+     ========================================================================== */
+  .home-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    padding: 14px 16px;
+    min-height: 0;
+  }
+
+  .home-card {
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.025);
+    padding: 12px 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .hc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .hc-pill {
+    padding: 1px 6px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 8.8px;
+  }
+
+  .hc-timer-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .hc-ring-wrap {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .hc-ring {
+    width: 68px;
+    height: 68px;
+    transform: rotate(-90deg);
+  }
+
+  .hc-ring circle {
+    fill: none;
+    stroke-width: 4;
+  }
+
+  .hc-ring-bg {
+    stroke: rgba(255, 255, 255, 0.12);
+  }
+
+  .hc-ring-fg {
+    stroke: #ffffff;
+    stroke-linecap: round;
+    stroke-dasharray: 163.36;
+    stroke-dashoffset: 38;
+  }
+
+  .hc-ring-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--mono);
+  }
+
+  .hc-ring-text strong {
+    font-size: 13px;
+    color: #ffffff;
+  }
+
+  .hc-ring-text span {
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .hc-timer-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .hc-task-current {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hc-task-sub {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.46);
+  }
+
+  .hc-btn-row {
+    display: flex;
+    gap: 5px;
+    margin-top: 4px;
+  }
+
+  .hc-mini-btn {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .hc-mini-btn.is-primary {
+    background: #ffffff;
+    color: #050507;
+    border-color: #ffffff;
+    font-weight: 600;
+  }
+
+  /* Music card inside Home Dashboard */
+  .hc-music-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .hc-album-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hc-album-art {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), transparent 50%),
+      linear-gradient(145deg, #2e2e34, #101014);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .hc-vinyl-core {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    background: #08080a;
+  }
+
+  .hc-track-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .hc-track-info strong {
+    font-size: 11.5px;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hc-track-info span {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.52);
+  }
+
+  .hc-seek-bar {
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+  }
+
+  .hc-seek-bar span {
+    display: block;
+    height: 100%;
+    background: #ffffff;
+  }
+
+  .hc-seek-times {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 8.8px;
+    color: rgba(255, 255, 255, 0.44);
+    margin-top: 3px;
+  }
+
+  .hc-transport-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .hc-play-pill {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 9px;
+  }
+
+  .hc-queue-hint {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .hc-tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .hc-tasks-list .is-task {
+    font-size: 11px;
+  }
+
+  /* ==========================================================================
+     9. SCENE 3: NOTES WORKSPACE (Obsidian & Markdown Vault)
+     ========================================================================== */
+  .notes-workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 185px 1fr;
+    min-height: 0;
+  }
+
+  .notes-sidebar {
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.015);
+    font-family: var(--mono);
+  }
+
+  .ns-folder {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.78);
+    font-weight: 600;
+  }
+
+  .ns-folder svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .ns-files {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ns-file {
+    font-size: 10px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ns-file.is-on {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .ns-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.38);
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .ns-footer kbd {
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .notes-editor {
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .ne-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .ne-path strong {
+    color: #ffffff;
+  }
+
+  .ne-save-pill {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 9px;
+  }
+
+  .save-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffffff;
+  }
+
+  .ne-obsidian-btn {
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    font-size: 9px;
+  }
+
+  .ne-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ne-h1 {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .ne-quote {
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.52);
+    border-left: 2px solid rgba(255, 255, 255, 0.28);
+    padding-left: 10px;
+  }
+
+  .ne-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 2px;
+  }
+
+  .is-task {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .is-check-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .is-task code {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.09);
+    color: #ffffff;
+  }
+
+  /* ==========================================================================
+     10. SCENE 4: SESSIONS WORKSPACE (Multi-Agent Coding Board)
+     ========================================================================== */
+  .sessions-workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 16px;
+    gap: 10px;
+    min-height: 0;
+  }
+
+  .sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .sess-card {
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .sess-card.is-approval {
+    border-color: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .sess-top {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11.5px;
+  }
+
+  .sess-top strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .sess-model {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .sess-tok {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .sess-summary {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.58);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sess-approval-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .sess-approval-row code {
+    font-family: var(--mono);
+    font-size: 9.8px;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .sess-actions {
+    display: flex;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 9px;
+  }
+
+  .sess-btn-approve {
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #060608;
+    font-weight: 600;
+  }
+
+  .sess-btn-Ghost {
+    padding: 2px 7px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .sessions-reply-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.45);
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
+  .reply-target {
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .reply-placeholder {
+    color: rgba(255, 255, 255, 0.42);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .reply-send {
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #050507;
+    font-weight: 600;
+  }
+
+  /* ==========================================================================
+     11. SCENE 5: PLAN & GOOGLE CALENDAR WORKSPACE
+     ========================================================================== */
+  .plan-workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 165px 1.25fr 1fr;
+    gap: 12px;
+    padding: 14px 16px;
+    min-height: 0;
+  }
+
+  .plan-cal-mini {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
+    font-family: var(--mono);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pcm-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #ffffff;
+  }
+
+  .pcm-head span {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .pcm-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.56);
+  }
+
+  .pcm-grid i {
+    font-style: normal;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 8.5px;
+  }
+
+  .pcm-grid span {
+    padding: 3px 0;
+    border-radius: 4px;
+  }
+
+  .pcm-grid span.is-today {
+    background: #ffffff;
+    color: #060608;
+    font-weight: 700;
+  }
+
+  .plan-agenda {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pa-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9.2px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.46);
+  }
+
+  .pa-sync {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .pa-events {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .pa-event {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 2px solid rgba(255, 255, 255, 0.22);
+  }
+
+  .pa-event.is-now {
+    background: rgba(255, 255, 255, 0.07);
+    border-left-color: #ffffff;
+  }
+
+  .pa-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .pa-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .pa-info strong {
+    font-size: 11px;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pa-info span {
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .plan-reminder-preview {
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .prp-tag {
+    font-family: var(--mono);
+    font-size: 8.8px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.52);
+  }
+
+  .prp-card {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: #0c0c10;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7);
+  }
+
+  .prp-top {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .prp-top svg {
+    width: 18px;
+    height: 18px;
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  .prp-top strong {
+    display: block;
+    font-size: 11px;
+    color: #ffffff;
+  }
+
+  .prp-top span {
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.54);
+  }
+
+  .prp-actions {
+    display: flex;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9.2px;
+  }
+
+  .prp-btn-join {
+    flex: 1;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #060608;
+    font-weight: 600;
+  }
+
+  .prp-btn-dismiss {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* ==========================================================================
+     12. SCENE 6: MUSIC WORKSPACE (Native SMTC + Spotify Queue)
+     ========================================================================== */
+  .music-workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.25fr 0.95fr;
+    gap: 14px;
+    padding: 14px 18px;
+    min-height: 0;
+  }
+
+  .music-player-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .mp-hero {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mp-vinyl {
+    width: 68px;
+    height: 68px;
+    border-radius: 14px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), transparent 50%),
+      linear-gradient(145deg, #2b2b32, #0b0b0e);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65);
+  }
+
+  .mp-vinyl-grooves {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    display: grid;
+    place-items: center;
+  }
+
+  .mp-vinyl-center {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    background: #070709;
+  }
+
+  .mp-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .mp-badges {
+    display: flex;
+    gap: 5px;
+  }
+
+  .mp-badge {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.06em;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .mp-title {
+    font-size: 16px;
+    font-weight: 650;
+    color: #ffffff;
+    letter-spacing: -0.015em;
+    margin: 2px 0 0;
+  }
+
+  .mp-artist {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.58);
+    margin: 0;
+  }
+
+  .mp-bar {
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+  }
+
+  .mp-bar span {
+    display: block;
+    height: 100%;
+    background: #ffffff;
+  }
+
+  .mp-times {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 4px;
+  }
+
+  .mp-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: #ffffff;
+  }
+
+  .mp-ctrl-muted {
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 12px;
+  }
+
+  .mp-ctrl-play {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #060608;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .mp-vol {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .mp-vol-bar {
+    width: 58px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+  }
+
+  .mp-vol-bar span {
+    display: block;
+    height: 100%;
+    background: #ffffff;
+  }
+
+  .music-queue-pane {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.025);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mq-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .mq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mq-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .mq-item.is-next {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mq-idx {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .mq-meta {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mq-meta strong {
+    font-size: 11px;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mq-meta span {
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .mq-dur {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  /* ==========================================================================
+     13. SCENE 7: WELLNESS & PHONE QR WORKSPACE
+     ========================================================================== */
+  .wellness-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    padding: 14px 16px;
+    min-height: 0;
+  }
+
+  .well-card {
+    border-radius: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.025);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .wc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 9.2px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .wc-tag {
+    padding: 1px 6px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 8.5px;
+  }
+
+  .wc-posture-body,
+  .wc-water-body,
+  .wc-qr-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .wc-ring {
+    width: 58px !important;
+    height: 58px !important;
+  }
+
+  .wc-posture-meta,
+  .wc-water-meta,
+  .wc-qr-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .wc-posture-meta strong,
+  .wc-water-meta strong,
+  .wc-qr-meta strong {
+    font-size: 12.5px;
+    color: #ffffff;
+  }
+
+  .wc-posture-meta span,
+  .wc-water-meta span,
+  .wc-qr-meta span {
+    font-size: 10.5px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.56);
+  }
+
+  .wc-posture-meta em {
+    font-style: normal;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .wc-glass {
+    width: 44px;
+    height: 64px;
+    border-radius: 6px 6px 10px 10px;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .wc-water-fill {
+    position: absolute;
+    inset: auto 0 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.18));
+    border-top: 1px solid rgba(255, 255, 255, 0.75);
+  }
+
+  .wc-glass-num {
+    position: relative;
+    z-index: 1;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .wc-water-btn {
+    margin-top: 3px;
+    display: inline-block;
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 9px !important;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #060608 !important;
+    font-weight: 600;
+  }
+
+  .wc-qr-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #050507;
+    padding: 5px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .wc-qr-box svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .wc-qr-meta code {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 5px;
+    border-radius: 4px;
+    align-self: flex-start;
+  }
+
+  /* ==========================================================================
+     14. RESPONSIVE SCALING FOR MOBILE / TABLET
+     ========================================================================== */
+  @media (max-width: 860px) {
+    .demo-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .demo-os-switch {
+      align-self: center;
+    }
+
+    .demo-screen {
+      aspect-ratio: 4 / 3 !important;
+    }
+
+    .demo-desktop-windows {
+      grid-template-columns: 1fr;
+    }
+
+    .desk-win-notes {
+      display: none;
+    }
+
+    .home-grid,
+    .plan-workspace,
+    .music-workspace,
+    .wellness-grid {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+
+    .notes-workspace {
+      grid-template-columns: 1fr;
+    }
+
+    .notes-sidebar {
+      display: none;
+    }
+
+    .notch-tabs {
+      display: none;
+    }
+  }
+</style>
+
 <script>
   const root = document.querySelector<HTMLElement>('[data-demo]')
   const track = document.querySelector<HTMLElement>('[data-demo-track]')
   const island = document.querySelector<HTMLElement>('[data-island]')
+  const device = document.querySelector<HTMLElement>('[data-demo-device]')
 
-  if (root && track && island) {
-    // Demo deep links must land instantly — kill smooth scrolling for this load.
+  if (root && track && island && device) {
     if (window.location.hash.startsWith('#demo-')) {
       document.documentElement.style.scrollBehavior = 'auto'
     }
@@ -226,70 +2859,105 @@ const scenes: Scene[] = [
     const captionCount = root.querySelector<HTMLElement>('[data-demo-count]')
     const segments = Array.from(root.querySelectorAll<HTMLElement>('[data-demo-progress] > span'))
     const tiles = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-demo-tile]'))
+    const pills = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-demo-pill]'))
+    const osBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-os-btn]'))
+
+    // Interactive checkboxes inside the demo
+    for (const input of root.querySelectorAll<HTMLInputElement>('.is-check-input')) {
+      input.addEventListener('change', () => {
+        input.closest('.is-task')?.classList.toggle('is-done', input.checked)
+      })
+    }
+
+    // OS Switcher (MacBook Pro vs Windows 11 Studio)
+    osBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const os = btn.dataset.osBtn ?? 'mac'
+        device.dataset.os = os
+        osBtns.forEach((b) => b.classList.toggle('is-on', b === btn))
+      })
+    })
 
     const captions: Record<string, { label: string; title: string; note: string }> = {
       closed: {
-        label: 'The notch',
-        title: 'Collapsed, it is thirty pixels of quiet.',
-        note: 'A sliver at the top edge of the screen. Hover opens it; Esc folds it away.'
+        label: '01 · Collapsed Notch',
+        title: 'Collapsed, it is thirty-four pixels of quiet.',
+        note: 'Flush with the top center edge of your MacBook Pro or Windows 11 monitor. Live timer, audio waveform and active agent count stay visible at a glance while your desktop stays 100% sharp.'
       },
-      music: {
-        label: 'Now Playing',
-        title: 'Your music, in the notch.',
-        note: 'Spotify is picked up automatically. Transport and seek without leaving your work.'
+      home: {
+        label: '02 · Personal Dashboard',
+        title: 'Unfolds into a full-width top-edge command deck.',
+        note: 'Hover or press your shortcut and the notch expands smoothly across the top of your screen — bringing your Focus Timer, Now Playing deck, and Today’s Tasks together while gently blurring background windows.'
       },
       notes: {
-        label: 'Notes',
-        title: 'Plain Markdown, rendered inline.',
-        note: 'Point it at any folder. Formatting applies as you type; nothing is imported.'
-      },
-      plan: {
-        label: 'Plan',
-        title: 'Reminders that reach you anywhere.',
-        note: 'A card unfolds under the notch at the set time — over whatever app has focus.'
-      },
-      posture: {
-        label: 'Posture',
-        title: 'A posture coach, scored on-device.',
-        note: 'Frames are processed in memory and discarded. The ring reacts when you slip.'
+        label: '03 · Notes · Obsidian & Markdown',
+        title: 'Your local Obsidian vault, live inside the notch.',
+        note: 'Point it at any local folder of .md files. Browse your sidebar, search with Ctrl+K, check off tasks, and write with 750ms debounced auto-save and one-click Open in Obsidian.'
       },
       sessions: {
-        label: 'Sessions',
-        title: 'Every AI agent, one board.',
-        note: 'Codex, OpenCode and Anti Gravity — live turns, tokens and the project folder.'
+        label: '04 · Multi-Agent Coding Board',
+        title: 'Claude Code, Codex, OpenCode & Anti Gravity on one board.',
+        note: 'Watch live turns, active models, and token velocity across every coding agent running on your machine. Catch OpenCode bash approval prompts and send verified follow-up replies straight from the notch.'
       },
-      styles: {
-        label: 'Appearance',
-        title: 'Five accents. Any spot on the edge.',
-        note: 'Pick a colour and the whole panel follows. Drag places the notch anywhere up top.'
+      plan: {
+        label: '05 · Google Calendar & 12s Reminders',
+        title: 'Google Calendar agenda & 12-second under-notch alerts.',
+        note: 'See your month calendar, timed tasks, and live Google Calendar events side-by-side. When a meeting starts soon, a compact card unfolds beneath the notch for 12 seconds without stealing keyboard focus.'
+      },
+      music: {
+        label: '06 · Native Media & Spotify Queue',
+        title: 'Zero-setup system media control, plus your Spotify queue.',
+        note: 'Native OS media sessions and album art appear automatically with zero configuration. Connect optional PKCE Spotify to browse Up Next, scrub tracks, and control playback.'
+      },
+      posture: {
+        label: '07 · Posture, Hydration & LAN Phone QR',
+        title: 'On-device posture coach, water tracker & two-way Phone QR.',
+        note: 'Camera frames are scored 0–100 in RAM and discarded immediately. Alongside it: an 8-glass hydration tracker and instant local Wi-Fi QR transfer (up to 16 MB) between phone and PC.'
       }
     }
 
     let current = ''
 
     const setScene = (id: string): void => {
-      if (id === current) return
-      current = id
-      island.dataset.scene = id
+      const normalized = id === 'styles' ? 'posture' : id
+      if (normalized === current) return
+      current = normalized
+      island.dataset.scene = normalized
+      device.dataset.activeScene = normalized
 
       for (const pane of track.querySelectorAll<HTMLElement>('[data-scene-pane]')) {
-        const active = pane.dataset.scenePane === id
+        const active = pane.dataset.scenePane === normalized
         pane.classList.toggle('is-active', active)
         pane.setAttribute('aria-hidden', String(!active))
       }
 
-      const caption = captions[id] ?? captions.closed
+      const caption = captions[normalized] ?? captions.closed
       if (captionLabel) captionLabel.textContent = caption.label
       if (captionTitle) captionTitle.textContent = caption.title
       if (captionNote) captionNote.textContent = caption.note
 
-      const stepIndex = labels.indexOf(id)
+      const stepIndex = labels.indexOf(normalized)
       if (captionCount && stepIndex >= 0) {
         captionCount.textContent = `${stepIndex + 1} / ${labels.length}`
       }
       segments.forEach((seg, i) => seg.classList.toggle('is-active', i <= stepIndex))
+      tiles.forEach((tile) => tile.classList.toggle('is-on', tile.dataset.demoTile === normalized))
+      pills.forEach((pill) => {
+        const on = pill.dataset.demoPill === normalized
+        pill.classList.toggle('is-on', on)
+        pill.setAttribute('aria-selected', String(on))
+      })
+    }
 
-      tiles.forEach((tile) => tile.classList.toggle('is-on', tile.dataset.demoTile === id))
+    const scrollToScene = (id: string, behavior: ScrollBehavior = 'smooth'): void => {
+      const normalized = id === 'styles' ? 'posture' : id
+      const index = labels.indexOf(normalized)
+      if (index < 0) return
+      const rect = track.getBoundingClientRect()
+      const span = rect.height - window.innerHeight
+      const target = window.scrollY + rect.top + (index / Math.max(labels.length - 1, 1)) * span
+      window.scrollTo({ top: target, behavior })
+      setScene(normalized)
     }
 
     // Scroll drives the story: the tall track maps to the scene sequence.
@@ -314,40 +2982,39 @@ const scenes: Scene[] = [
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
 
-    // A deep link like #demo-music should land on that scene instantly, not
-    // smooth-scroll 5000px from the top. The browser's fragment jump starts
-    // the move; this correction cancels it and settles on the exact step.
+    // Deep link handling (#demo-notes, #demo-styles, etc.)
     const hash = window.location.hash
     if (hash.startsWith('#demo-')) {
-      const wanted = hash.slice(6)
+      const rawWanted = hash.slice(6)
+      const wanted = rawWanted === 'styles' ? 'posture' : rawWanted
       const index = labels.indexOf(wanted)
       if (index >= 0) {
-        const settle = (): void => {
-          const rect = track.getBoundingClientRect()
-          const span = rect.height - window.innerHeight
-          const target = window.scrollY + rect.top + (index / Math.max(labels.length - 1, 1)) * span
-          window.scrollTo({ top: target, behavior: 'auto' })
-          setScene(wanted)
-        }
+        const settle = (): void => scrollToScene(wanted, 'auto')
         settle()
         window.setTimeout(settle, 60)
         window.setTimeout(settle, 300)
         window.setTimeout(settle, 900)
-        window.setTimeout(settle, 1600)
       }
     }
 
-    // Taskbar tiles jump to a scene.
+    // Click handlers for dock tiles, top scene pills, and internal notch nav tabs
     tiles.forEach((tile) => {
       tile.addEventListener('click', () => {
-        const id = tile.dataset.demoTile ?? ''
-        const index = labels.indexOf(id)
-        if (index < 0) return
-        const rect = track.getBoundingClientRect()
-        const span = rect.height - window.innerHeight
-        const target = window.scrollY + rect.top + (index / Math.max(labels.length - 1, 1)) * span
-        window.scrollTo({ top: target, behavior: 'smooth' })
+        scrollToScene(tile.dataset.demoTile ?? 'closed')
       })
     })
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        scrollToScene(pill.dataset.demoPill ?? 'closed')
+      })
+    })
+
+    for (const trigger of root.querySelectorAll<HTMLElement>('[data-jump-scene], [data-open-notch]')) {
+      trigger.addEventListener('click', () => {
+        const target = trigger.dataset.jumpScene ?? trigger.dataset.openNotch ?? 'home'
+        scrollToScene(target)
+      })
+    }
   }
 </script>

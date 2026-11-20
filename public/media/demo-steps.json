@@ -1,0 +1,84 @@
+{
+  "product": "Hero Notch",
+  "version": "1.0.22",
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "durationSec": 50.57,
+  "platforms": [
+    "MacBook (macOS)",
+    "Windows 10/11"
+  ],
+  "pricing": {
+    "earlyBird": "$3.99",
+    "standard": "$9.99"
+  },
+  "chapters": [
+    {
+      "id": "wake",
+      "act": 1,
+      "title": "First Launch & Top-Edge Wake",
+      "description": "Docked cleanly on MacBook (macOS) & Windows 10/11",
+      "shortcut": "Ctrl+Shift+Space",
+      "startMs": 0,
+      "endMs": 3066,
+      "startSec": 0,
+      "endSec": 3.07
+    },
+    {
+      "id": "notes",
+      "act": 2,
+      "title": "Live Markdown & Obsidian Workflow",
+      "description": "Checkboxes, mirror [[wiki-links]], 750ms auto-save & quick search",
+      "shortcut": "Ctrl+K",
+      "startMs": 3066,
+      "endMs": 10012,
+      "startSec": 3.07,
+      "endSec": 10.01
+    },
+    {
+      "id": "media-planner",
+      "act": 3,
+      "title": "Media, Google Calendar & Reminders",
+      "description": "Zero-setup native media · synced agenda & timed reminders",
+      "shortcut": "Esc",
+      "startMs": 10012,
+      "endMs": 15874,
+      "startSec": 10.01,
+      "endSec": 15.87
+    },
+    {
+      "id": "alerts-sessions",
+      "act": 4,
+      "title": "Notch Options, Agents, Phone & Posture",
+      "description": "Reminders, choices & approvals directly in notch · Agents, Wi-Fi Phone & Posture",
+      "shortcut": "",
+      "startMs": 15874,
+      "endMs": 36016,
+      "startSec": 15.87,
+      "endSec": 36.02
+    },
+    {
+      "id": "setup",
+      "act": 5,
+      "title": "Display Placement, Sections & Vault Setup",
+      "description": "Cross-platform display sync, toggleable sections & local Obsidian vault",
+      "shortcut": "",
+      "startMs": 36016,
+      "endMs": 45869,
+      "startSec": 36.02,
+      "endSec": 45.87
+    },
+    {
+      "id": "end-card",
+      "act": 6,
+      "title": "Quiet Top-Edge Obsidian Strip",
+      "description": "Hero Notch · MacBook (macOS) & Windows 10/11 · Early Bird $3.99",
+      "shortcut": "",
+      "startMs": 45869,
+      "endMs": 49481,
+      "startSec": 45.87,
+      "endSec": 49.48
+    }
+  ]
+}

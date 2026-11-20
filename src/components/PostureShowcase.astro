@@ -1,0 +1,401 @@
+---
+import { Check, ShieldCheck } from '@lucide/astro'
+
+const points = [
+  'Live 0–100 score tracking shoulder level, neck stack and screen distance.',
+  'Quiet under-notch slouch nudge — clears the moment you sit tall.',
+  '100% in-RAM pose model: 0 bytes written to disk, never recorded or uploaded.'
+] as const
+---
+
+<div class="posture-card" id="posture-coach" data-posture-showcase>
+  <div class="posture-grid">
+    <div class="posture-copy">
+      <span class="eyebrow">
+        <span class="dot"></span> Featured · On-Device Posture Coach
+      </span>
+
+      <h3 class="posture-title">
+        Sit tall without leaving your flow.
+      </h3>
+
+      <p class="posture-lede">
+        Opt-in posture coaching built right into the top edge. When your shoulders dip or your head
+        drifts forward, Hero Notch scores your alignment live and drops a subtle card beneath the
+        notch — no wearables, no focus-stealing popups.
+      </p>
+
+      <ul class="posture-points">
+        {
+          points.map((text) => (
+            <li>
+              <span class="posture-check" aria-hidden="true">
+                <Check size={11} stroke-width={2.5} />
+              </span>
+              <span>{text}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <span class="posture-badge">
+        <ShieldCheck size={13} aria-hidden="true" />
+        <span>Off until enabled · Camera releases instantly</span>
+      </span>
+    </div>
+
+    <figure class="posture-stage">
+      <div class="posture-frame">
+        <video
+          class="posture-video"
+          data-posture-video
+          src="/media/posture-demo.mp4"
+          poster="/media/posture-demo-poster.webp"
+          autoplay
+          muted
+          playsinline
+          preload="auto"
+          aria-label="Real webcam demo of Hero Notch Posture Coach scoring alignment from 96 aligned down to 56 slouching with an under-notch nudge, then recovering back to upright"
+        ></video>
+
+        <button
+          type="button"
+          class="posture-center-play"
+          data-posture-center-play
+          aria-label="Play posture demo video"
+          hidden
+        >
+          <span class="posture-center-play__icon" aria-hidden="true">▶</span>
+        </button>
+
+        <button
+          type="button"
+          class="posture-toggle"
+          data-posture-toggle
+          aria-label="Pause posture demo video"
+          aria-pressed="false"
+        >
+          <span data-posture-toggle-label>❚❚ Pause</span>
+        </button>
+      </div>
+
+      <figcaption class="posture-caption">
+        <span>Real webcam demo · Live 0–100 score &amp; slouch nudge</span>
+        <span>In-RAM · 0B stored</span>
+      </figcaption>
+    </figure>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-posture-showcase]')
+  const video = root?.querySelector<HTMLVideoElement>('[data-posture-video]')
+  const toggleBtn = root?.querySelector<HTMLButtonElement>('[data-posture-toggle]')
+  const toggleLabel = root?.querySelector<HTMLElement>('[data-posture-toggle-label]')
+  const centerPlayBtn = root?.querySelector<HTMLButtonElement>('[data-posture-center-play]')
+
+  if (video) {
+    let userPaused = false
+    let hasEnded = false
+
+    const syncToggleUi = (): void => {
+      const isStopped = video.paused || video.ended
+      if (centerPlayBtn) {
+        centerPlayBtn.hidden = !isStopped
+      }
+      if (!toggleBtn || !toggleLabel) return
+      if (video.ended) {
+        toggleLabel.textContent = '▶ Replay'
+        toggleBtn.setAttribute('aria-label', 'Replay posture demo video')
+        toggleBtn.setAttribute('aria-pressed', 'true')
+      } else {
+        toggleLabel.textContent = video.paused ? '▶ Play' : '❚❚ Pause'
+        toggleBtn.setAttribute('aria-label', video.paused ? 'Play posture demo video' : 'Pause posture demo video')
+        toggleBtn.setAttribute('aria-pressed', String(video.paused))
+      }
+    }
+
+    const attemptPlay = (fromStart = false): void => {
+      if (userPaused || (hasEnded && !fromStart)) {
+        syncToggleUi()
+        return
+      }
+      if (fromStart) {
+        hasEnded = false
+        video.currentTime = 0
+      }
+      video.muted = true
+      video.defaultMuted = true
+      video.playsInline = true
+      video.loop = false
+      const p = video.play()
+      if (p && typeof p.then === 'function') {
+        p.then(syncToggleUi).catch(syncToggleUi)
+      }
+    }
+
+    video.addEventListener('play', syncToggleUi)
+    video.addEventListener('pause', syncToggleUi)
+    video.addEventListener('ended', () => {
+      hasEnded = true
+      syncToggleUi()
+    })
+    video.addEventListener('canplay', () => {
+      if (!userPaused && !hasEnded && video.paused) attemptPlay()
+    })
+
+    const handlePlayOrReplay = (): void => {
+      userPaused = false
+      const shouldRestart = video.ended || video.currentTime >= (video.duration || 0) - 0.1
+      attemptPlay(shouldRestart)
+    }
+
+    centerPlayBtn?.addEventListener('click', handlePlayOrReplay)
+
+    toggleBtn?.addEventListener('click', () => {
+      if (video.paused || video.ended) {
+        handlePlayOrReplay()
+      } else {
+        userPaused = true
+        video.pause()
+        syncToggleUi()
+      }
+    })
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              attemptPlay()
+            } else if (!video.paused) {
+              video.pause()
+            }
+          }
+        },
+        { threshold: 0.15 }
+      )
+      observer.observe(video)
+    } else {
+      attemptPlay()
+    }
+  }
+</script>
+
+<style>
+  .posture-card {
+    scroll-margin-top: 76px;
+    border: 1px solid var(--line-strong);
+    border-bottom: 0;
+    background: #09090b;
+    padding: clamp(22px, 3vw, 34px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .posture-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
+    align-items: center;
+    gap: clamp(24px, 3.6vw, 48px);
+  }
+
+  .posture-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .posture-title {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.04;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    max-width: 15ch;
+  }
+
+  .posture-lede {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+
+  .posture-points {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 4px;
+  }
+
+  .posture-points li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 9px;
+    align-items: start;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .posture-check {
+    width: 17px;
+    height: 17px;
+    margin-top: 2px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+  }
+
+  .posture-badge {
+    margin-top: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: rgba(255, 255, 255, 0.025);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+  }
+
+  .posture-stage {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .posture-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1280 / 800;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: #050507;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 26px 68px -22px rgba(0, 0, 0, 0.92);
+  }
+
+  .posture-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .posture-center-play {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: rgba(5, 5, 8, 0.34);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    cursor: pointer;
+    transition: background 150ms ease;
+  }
+
+  .posture-center-play[hidden] {
+    display: none;
+  }
+
+  .posture-center-play:hover {
+    background: rgba(5, 5, 8, 0.46);
+  }
+
+  .posture-center-play__icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(7, 7, 10, 0.84);
+    color: #ffffff;
+    font-size: 17px;
+    display: grid;
+    place-items: center;
+    padding-left: 3px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.78);
+    transition: transform 150ms ease, border-color 150ms ease;
+  }
+
+  .posture-center-play:hover .posture-center-play__icon {
+    transform: scale(1.06);
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .posture-toggle {
+    position: absolute;
+    right: 11px;
+    bottom: 11px;
+    z-index: 3;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(6, 6, 9, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fafafa;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: border-color 140ms ease, background 140ms ease;
+  }
+
+  .posture-toggle:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(14, 14, 20, 0.92);
+  }
+
+  .posture-caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+    padding-inline: 2px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  @media (max-width: 959px) {
+    .posture-grid {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .posture-title {
+      max-width: 22ch;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .posture-card {
+      padding: 20px 18px;
+      border-bottom: 1px solid var(--line-strong);
+      border-radius: 14px;
+      margin-bottom: 14px;
+    }
+
+    .posture-points li {
+      font-size: 13px;
+    }
+  }
+</style>

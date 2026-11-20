@@ -1,88 +1,45 @@
 ---
 import Base from '@/layouts/Base.astro'
-import DesktopStage from '@/components/DesktopStage.astro'
-import NotchDemo from '@/components/NotchDemo.astro'
+import HeroCanvas from '@/components/HeroCanvas.astro'
+import SetupVideo from '@/components/SetupVideo.astro'
 import TrustStrip from '@/components/TrustStrip.astro'
-import Tour from '@/components/Tour.astro'
-import NoticeBand from '@/components/NoticeBand.astro'
-import FeatureSplits from '@/components/FeatureSplits.astro'
 import Bento from '@/components/Bento.astro'
 import InstallSteps from '@/components/InstallSteps.astro'
-import Limits from '@/components/Limits.astro'
 import Faq from '@/components/Faq.astro'
 import FinalCta from '@/components/FinalCta.astro'
-import { Play, Download } from '@lucide/astro'
 import { site } from '@/data/site'
 import { release } from '@/data/release'
-import { pricing, formatPrice } from '@/data/pricing'
+import { pricing } from '@/data/pricing'
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Notch',
+  name: 'Hero Notch',
   applicationCategory: 'UtilitiesApplication',
-  operatingSystem: 'Windows 10, Windows 11',
+  operatingSystem: 'macOS, Windows 10, Windows 11',
   softwareVersion: release.version,
-  downloadUrl: `${site.url}/download`,
-  offers: [
-    {
-      '@type': 'Offer',
-      name: 'Early bird — first 50 licenses',
-      price: pricing.earlyBird.price,
-      priceCurrency: pricing.currency
-    },
-    {
-      '@type': 'Offer',
-      name: 'Standard',
-      price: pricing.standard.price,
-      priceCurrency: pricing.currency
-    }
-  ],
+  offers: {
+    '@type': 'Offer',
+    name: 'Early bird license (macOS & Windows)',
+    price: pricing.earlyBird.price,
+    priceCurrency: pricing.currency,
+    url: `${site.url}/pricing`
+  },
   author: { '@type': 'Person', name: site.author },
-  license: site.repoUrl,
-  screenshot: `${site.url}/screenshots/hero.png`
+  screenshot: `${site.url}/media/hero-notch-poster.png`
 }
 ---
 
 <Base
-  title="Notch — a Windows notch for music, notes and focus"
+  title="Hero Notch — a macOS & Windows notch for notes, AI sessions and music"
   description={site.description}
   jsonLd={jsonLd}
 >
-  <section class="hero">
-    <div class="wrap">
-      <span class="eyebrow"><span class="dot"></span> Early bird {formatPrice(pricing.earlyBird.price)} · Windows 10/11 · Local-first</span>
-
-      <h1>The top of your screen, <em>finally useful.</em></h1>
-
-      <p class="lede">
-        Music, notes, plans, posture and your AI sessions — folded into one quiet strip that appears
-        when you hover, then gets out of the way.
-      </p>
-
-      <div class="hero-ctas">
-        <a class="btn btn--coral" href="/download"><Download size={15} /> Download for Windows</a>
-        <a class="btn btn--ghost" href="#tour"><Play size={14} /> See the tour</a>
-      </div>
-
-      <p class="hero-meta">
-        v{release.version} · {release.setup.sizeMb} MB installer · unsigned build · SHA-256 included
-      </p>
-
-      <DesktopStage />
-      <p class="stage-hint">Hover the notch to unfold it · click the tab to pin it open</p>
-    </div>
-  </section>
-
+  <HeroCanvas />
+  <SetupVideo />
   <TrustStrip />
-
-  <NotchDemo />
-  <Tour />
-  <NoticeBand />
-  <FeatureSplits />
   <Bento />
   <InstallSteps />
-  <Limits />
   <Faq />
   <FinalCta />
 </Base>

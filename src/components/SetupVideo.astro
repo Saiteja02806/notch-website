@@ -1,0 +1,211 @@
+---
+---
+
+<section
+  class="section setup-video-section"
+  id="setup-video"
+  aria-labelledby="setup-video-title"
+  data-setup-video
+>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span class="dot"></span> Live On Your Screen
+      </span>
+      <h2 class="h2" id="setup-video-title">Your top edge, alive in real time.</h2>
+      <p class="lede">
+        From waking Hero Notch on hover to editing Obsidian Markdown, syncing your calendar, and
+        tuning display placement across MacBook and Windows.
+      </p>
+    </div>
+
+    <div class="sv-device-bezel">
+      <div class="sv-device-inner">
+        <video
+          class="sv-video"
+          data-sv-player
+          src="/media/hero-notch-setup.mp4"
+          poster="/media/hero-notch-poster.webp"
+          muted
+          playsinline
+          loop
+          preload="metadata"
+          aria-label="Hero Notch live desktop setup and workflow screen"
+        >
+          Your browser does not support embedded MP4 playback.
+        </video>
+        <button
+          type="button"
+          class="sv-play-fallback"
+          data-sv-play-btn
+          aria-label="Play 51-second setup video"
+          hidden
+        >
+          <span class="sv-play-icon" aria-hidden="true">▶</span>
+          <span>Watch 51s Setup Video</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const container = document.querySelector<HTMLElement>('[data-setup-video]')
+  const video = container?.querySelector<HTMLVideoElement>('[data-sv-player]')
+  const playFallback = container?.querySelector<HTMLButtonElement>('[data-sv-play-btn]')
+
+  if (video) {
+    const attemptPlay = (): void => {
+      const p = video.play()
+      if (p && typeof p.then === 'function') {
+        p.then(() => {
+          if (playFallback) playFallback.hidden = true
+        }).catch(() => {
+          // Only show tap-to-play button if browser/low-power mode blocked autoplay
+          if (playFallback) playFallback.hidden = false
+        })
+      }
+    }
+
+    video.addEventListener('playing', () => {
+      if (playFallback) playFallback.hidden = true
+    })
+
+    playFallback?.addEventListener('click', () => {
+      void video.play().then(() => {
+        playFallback.hidden = true
+      }).catch(() => undefined)
+    })
+
+    // Keep the ambient screen playing seamlessly whenever visible in viewport
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              attemptPlay()
+            } else if (!video.paused) {
+              video.pause()
+            }
+          }
+        },
+        { threshold: 0.15 }
+      )
+      observer.observe(video)
+    } else {
+      attemptPlay()
+    }
+  }
+</script>
+
+<style>
+  .setup-video-section {
+    padding-top: clamp(32px, 4.5vw, 58px);
+    padding-bottom: clamp(24px, 3.5vw, 48px);
+  }
+
+  .setup-video-section .section-head {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+    margin-bottom: 30px;
+  }
+
+  .setup-video-section .section-head .h2 {
+    max-width: 24ch;
+  }
+
+  .setup-video-section .section-head .lede {
+    margin-inline: auto;
+  }
+
+  /* Hardware Display Frame (no video player chrome or controls) */
+  .sv-device-bezel {
+    padding: clamp(6px, 0.85vw, 10px);
+    border-radius: clamp(18px, 2vw, 24px);
+    background: linear-gradient(145deg, #e4e4e7 0%, #a1a1aa 48%, #52525b 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.55) inset,
+      0 36px 100px -26px rgba(0, 0, 0, 0.95);
+  }
+
+  .sv-device-inner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1920 / 1080;
+    border-radius: clamp(12px, 1.4vw, 16px);
+    background: #020204;
+    border: 2px solid #060608;
+    overflow: hidden;
+  }
+
+  .sv-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .sv-play-fallback {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.36);
+    background: rgba(5, 5, 8, 0.84);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ffffff;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.75);
+  }
+
+  .sv-play-fallback[hidden] {
+    display: none;
+  }
+
+  .sv-play-icon {
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  @media (max-width: 767px) {
+    .setup-video-section {
+      padding-top: 26px;
+      padding-bottom: 24px;
+    }
+
+    .setup-video-section .section-head {
+      margin-bottom: 18px;
+      gap: 10px;
+    }
+
+    .setup-video-section .section-head .h2 {
+      font-size: clamp(27px, 7.6vw, 36px);
+    }
+
+    .setup-video-section .section-head .lede {
+      font-size: 14.5px;
+      line-height: 1.5;
+    }
+
+    .sv-device-bezel {
+      padding: 4px;
+      border-radius: 14px;
+    }
+
+    .sv-device-inner {
+      border-radius: 10px;
+      border-width: 1px;
+    }
+  }
+</style>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 200" width="1100" height="200">
+  <defs>
+    <radialGradient id="dotGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="32%" stop-color="#ffffff" stop-opacity="0.45" />
+      <stop offset="68%" stop-color="#ffffff" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="notchAmbient" cx="50%" cy="65%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Exact Hero Notch glyph (26x15 scaled 8x -> 208x120) -->
+  <g transform="translate(28, 40)">
+    <ellipse cx="104" cy="76" rx="136" ry="88" fill="url(#notchAmbient)" />
+    <path d="M 0 0 H 208 V 64 A 56 56 0 0 1 152 120 H 56 A 56 56 0 0 1 0 64 Z" fill="#050507" />
+    <path d="M 0 0 V 64 A 56 56 0 0 0 56 120 H 152 A 56 56 0 0 0 208 64 V 0" fill="none" stroke="rgba(255,255,255,0.38)" stroke-width="7" />
+    <line x1="-3.5" y1="0" x2="211.5" y2="0" stroke="rgba(255,255,255,0.82)" stroke-width="7" />
+    <circle cx="104" cy="76" r="46" fill="url(#dotGlow)" />
+    <circle cx="104" cy="76" r="16" fill="#ffffff" />
+  </g>
+
+  <!-- Hero Notch Wordmark -->
+  <text x="304" y="144" fill="#fafafa" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="132" letter-spacing="-2">Hero Notch</text>
+</svg>

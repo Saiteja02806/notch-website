@@ -1,11 +1,12 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
+import { SITE_URL } from './src/data/origin.mjs'
 
-// Change `site` when the domain is confirmed. It drives canonical URLs, the
-// sitemap and the RSS feed, so it must be the real production origin.
+// `site` drives canonical URLs and the sitemap. It comes from src/data/origin.mjs,
+// the single source of truth for the production origin.
 export default defineConfig({
-  site: 'https://heronotch.app',
+  site: SITE_URL,
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
   build: { inlineStylesheets: 'auto' }

@@ -1,78 +1,41 @@
 ---
 import Base from '@/layouts/Base.astro'
-import { pricing, seatsLeft, formatPrice } from '@/data/pricing'
+import { Check, Laptop, ArrowRight } from '@lucide/astro'
+import { pricing, seatsLeft, formatPrice, resolveCheckoutUrl } from '@/data/pricing'
+import { release } from '@/data/release'
 import { site } from '@/data/site'
 
-const earlyBirdHref =
-  `mailto:${site.email}?subject=` + encodeURIComponent(`Early bird license — ${formatPrice(pricing.earlyBird.price)}`)
-const standardHref =
-  `mailto:${site.email}?subject=` + encodeURIComponent(`Notch license — ${formatPrice(pricing.standard.price)}`)
+const earlyPrice = formatPrice(pricing.earlyBird.price)
+const standardPrice = formatPrice(pricing.standard.price)
+const savePct = Math.round((1 - pricing.earlyBird.price / pricing.standard.price) * 100)
+
+const earlyBirdHref = resolveCheckoutUrl()
+const macCheckoutHref = resolveCheckoutUrl('mac')
+const winCheckoutHref = resolveCheckoutUrl('win')
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Product',
-  name: 'Notch',
-  description: 'A Windows notch app for music, notes, plans, posture and AI sessions. One-time license.',
+  name: 'Hero Notch',
+  description:
+    'A macOS and Windows notch workspace for local Markdown & Obsidian notes, Spotify & system media, Google Calendar plans, on-device posture coaching, local Wi-Fi phone transfer, and AI coding sessions. One-time license.',
   brand: { '@type': 'Brand', name: site.name },
-  offers: [
-    {
-      '@type': 'Offer',
-      name: 'Early bird — first 50 licenses',
-      price: pricing.earlyBird.price,
-      priceCurrency: pricing.currency,
-      availability:
-        seatsLeft > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut'
-    },
-    {
-      '@type': 'Offer',
-      name: 'Standard',
-      price: pricing.standard.price,
-      priceCurrency: pricing.currency
-    }
-  ]
+  offers: {
+    '@type': 'Offer',
+    name: 'Early bird license (macOS & Windows)',
+    price: pricing.earlyBird.price,
+    priceCurrency: pricing.currency,
+    availability:
+      seatsLeft > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut'
+  }
 }
 
-const included = [
-  {
-    title: 'Every feature, unlocked',
-    body: 'Music, Notes, Plan, Posture and Sessions. No tiers, no upsells inside the app.'
-  },
-  {
-    title: 'One-time payment',
-    body: 'A license, not a subscription. Pay once and Notch stays yours.'
-  },
-  {
-    title: 'Your price is locked in',
-    body: `Early buyers keep ${formatPrice(pricing.earlyBird.price)} — the later price never applies to you.`
-  },
-  {
-    title: 'Free updates',
-    body: 'Every future version of Notch v1 is included. No update fee.'
-  }
-]
-
-const faq = [
-  {
-    q: `Why only the first 50?`,
-    a: `${pricing.earlyBird.seats} licenses is the launch window. It rewards the people who took a chance on Notch while it is young — and once those ${pricing.earlyBird.seats} are gone, the price moves to ${formatPrice(pricing.standard.price)}. No exceptions, no extensions.`
-  },
-  {
-    q: 'Is it a subscription?',
-    a: `No. Both ${formatPrice(pricing.earlyBird.price)} and ${formatPrice(pricing.standard.price)} are one-time payments. You get a license that does not expire.`
-  },
-  {
-    q: 'What if I already downloaded the free build?',
-    a: `Then you are exactly who the early-bird price is for. Anyone who installs during the first ${pricing.earlyBird.seats} licenses keeps the launch price — and everything you already have carries over.`
-  },
-  {
-    q: `What happens when the ${pricing.earlyBird.seats} are gone?`,
-    a: `The price on this page changes to ${formatPrice(pricing.standard.price)} and the early-bird card is removed. That is the only difference — the app itself never changes.`
-  },
-  {
-    q: 'Do you offer refunds?',
-    a: 'Yes, within 14 days, no questions asked. Email the address on this page and we sort it out.'
-  }
-]
+const simplePerks = [
+  'MacBook (macOS 13+) & Windows 10/11 — coming soon (prebook open)',
+  'All workspaces included — zero locked features',
+  'License key sent straight to your email',
+  'Lifetime v1 license · no subscription'
+] as const
 
 const meterWidth =
   pricing.seatsClaimed > 0
@@ -80,57 +43,67 @@ const meterWidth =
     : 0
 ---
 
-<Base title={`Notch pricing — ${formatPrice(pricing.earlyBird.price)} for the first ${pricing.earlyBird.seats}, then ${formatPrice(pricing.standard.price)}`} description={`Early bird: the first ${pricing.earlyBird.seats} people pay ${formatPrice(pricing.earlyBird.price)} for a lifetime license. After that it is ${formatPrice(pricing.standard.price)}. One-time payment, every feature, free updates.`} jsonLd={jsonLd}>
-  <section class="wrap">
-    <div class="page-head">
-      <span class="eyebrow eyebrow--coral"><span class="dot"></span> Pricing</span>
+<Base
+  title={`Hero Notch Pricing — ${earlyPrice} One-Time License`}
+  description={`Unlock Hero Notch for ${earlyPrice} once. Covers MacBook (macOS) and Windows 10/11 with local Markdown notes, AI coding sessions, calendar, media, phone QR, and posture.`}
+  jsonLd={jsonLd}
+>
+  <section class="wrap pricing-wrap">
+    <div class="pricing-hero">
+      <div class="pricing-badge-row">
+        <span class="eyebrow"><span class="dot"></span> Prebook Early Bird · Coming Soon</span>
+        <span class="chip">macOS &amp; Windows · Coming Soon</span>
+      </div>
+
       <h1>
-        <em class="price-flip">{formatPrice(pricing.earlyBird.price)}</em> for the first
-        {pricing.earlyBird.seats}. Then {formatPrice(pricing.standard.price)}.
+        Prebook once. <em class="price-flip">{earlyPrice}</em>
       </h1>
-      <p class="lede">
-        Simple, on purpose: whoever arrives first pays less. One license, every feature, one
-        payment — and the early-bird price is locked in forever once you have it.
+
+      <p class="pricing-lede">
+        Both MacBook (macOS) and Windows builds are coming soon. Prebook at {earlyPrice} now (then{' '}
+        {standardPrice} at launch) to lock in your lifetime license across both platforms.
       </p>
     </div>
-  </section>
 
-  <section class="wrap" style="padding-bottom: clamp(20px, 3vw, 36px)">
-    <ol class="price-steps">
-      <li>
-        <span class="num">Step 01</span>
-        <p>
-          The first <strong>{pricing.earlyBird.seats} licenses</strong> cost
-          <strong>{formatPrice(pricing.earlyBird.price)}</strong>.
-        </p>
-      </li>
-      <li>
-        <span class="num">Step 02</span>
-        <p>
-          When they are gone, the price becomes <strong>{formatPrice(pricing.standard.price)}</strong>
-          — for everyone after.
-        </p>
-      </li>
-      <li>
-        <span class="num">Step 03</span>
-        <p>
-          Early buyers keep their price forever. The change never touches them.
-        </p>
-      </li>
-    </ol>
-  </section>
-
-  <section class="wrap" style="padding-bottom: clamp(56px, 7vw, 96px)">
-    <div class="price-grid">
-      <article class="price-card is-early">
-        <span class="tag">Early bird · first {pricing.earlyBird.seats} licenses</span>
-        <div class="price-row">
-          <span class="price">{formatPrice(pricing.earlyBird.price)}</span>
-          <span class="was">{formatPrice(pricing.standard.price)}</span>
+    <div class="pricing-center-col">
+      <div
+        id="os-context-banner"
+        class="os-banner"
+        role="status"
+        aria-live="polite"
+        data-email={site.email}
+        data-price={earlyPrice}
+        data-standard-price={standardPrice}
+        data-mac-href={macCheckoutHref}
+        data-win-href={winCheckoutHref}
+        hidden
+      >
+        <div class="os-banner-main">
+          <span class="os-banner-badge">
+            <Laptop size={13} aria-hidden="true" />
+            <span data-os-badge>Platform</span>
+          </span>
+          <p class="os-banner-text" data-os-message></p>
         </div>
+        <a class="os-banner-switch" data-os-switch href="/pricing">Switch platform</a>
+      </div>
+
+      <article class="price-card is-early pricing-single-card">
+        <div class="card-top-row">
+          <span class="tag">Early bird · First {pricing.earlyBird.seats} licenses</span>
+          <span class="save-pill">Save {savePct}% · Early Bird</span>
+        </div>
+
+        <div class="price-row">
+          <span class="price">{earlyPrice}</span>
+          <span class="was" aria-label={`Standard price ${standardPrice}`}>{standardPrice}</span>
+          <span class="cadence">USD · one-time</span>
+        </div>
+
         <p class="note">
-          One-time payment · {seatsLeft} of {pricing.earlyBird.seats} left
+          {seatsLeft} of {pricing.earlyBird.seats} Early Bird spots open · then {standardPrice} at launch
         </p>
+
         {pricing.seatsClaimed > 0 && (
           <div
             class="meter"
@@ -143,72 +116,516 @@ const meterWidth =
             <span style={`width: ${meterWidth}%`}></span>
           </div>
         )}
-        <p class="desc">
-          Everything in Notch, for less than lunch. You are buying early because you found it
-          early — the price says thanks.
-        </p>
-        <a class="btn btn--coral" href={earlyBirdHref}>Get the early-bird license</a>
+
+        <ul class="card-checks" aria-label="Included in Hero Notch license">
+          {simplePerks.map((point) => (
+            <li>
+              <span class="check-icon" aria-hidden="true"><Check size={13} /></span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="os-picker" role="group" aria-label="Select your primary platform">
+          <span class="os-picker-label">Primary OS</span>
+          <div class="os-picker-pills">
+            <button type="button" class="os-pick-btn" data-os-pick="mac" aria-pressed="false">
+              MacBook (macOS)
+            </button>
+            <button type="button" class="os-pick-btn" data-os-pick="win" aria-pressed="false">
+              Windows 10/11
+            </button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn btn--ink card-cta-primary" href={earlyBirdHref} data-early-bird-cta>
+            <span data-early-bird-label>Prebook Early Bird — {earlyPrice}</span>
+            <ArrowRight size={14} />
+          </a>
+          <a class="btn btn--ghost btn--sm" href="/#setup-video">
+            Watch 51s Setup Video
+          </a>
+        </div>
       </article>
 
-      <article class="price-card">
-        <span class="tag">After the first {pricing.earlyBird.seats}</span>
-        <div class="price-row">
-          <span class="price">{formatPrice(pricing.standard.price)}</span>
-        </div>
-        <p class="note">One-time payment · the standard price</p>
-        <p class="desc">
-          Same app, same features, same license. If the early-bird window has closed, this is the
-          price — and it will not quietly rise later.
-        </p>
-        <a class="btn btn--ghost" href={standardHref}>Get a license</a>
-      </article>
-    </div>
-
-    <p class="price-fineprint">
-      Prices in USD. Checkout goes to {site.email} for now — the store link appears here the day
-      it is live. Read the <a href="/terms">terms</a> and <a href="/privacy">privacy</a>.
-    </p>
-  </section>
-
-  <section class="wrap" style="padding-bottom: clamp(64px, 8vw, 110px)">
-    <div class="section-head" style="margin-bottom: 32px">
-      <span class="eyebrow"><span class="dot"></span> What is included</span>
-      <h2 class="h2">Every license is the same license.</h2>
-    </div>
-    <div class="included-grid">
-      {included.map((item) => (
-        <article>
-          <h3>{item.title}</h3>
-          <p>{item.body}</p>
-        </article>
-      ))}
-    </div>
-
-    <div class="section-head" style="margin: clamp(48px, 6vw, 72px) 0 32px">
-      <span class="eyebrow"><span class="dot"></span> Questions</span>
-      <h2 class="h2">Pricing, answered.</h2>
-    </div>
-    <div class="faq-list">
-      {faq.map((item) => (
-        <details>
-          <summary>{item.q}<span class="sign"></span></summary>
-          <div class="answer">{item.a}</div>
-        </details>
-      ))}
+      <p class="pricing-fine">
+        Both MacBook (macOS) and Windows builds are coming soon — downloads are not live yet. Your
+        license key is sent to your email, and we'll email you when the desktop app is ready to
+        install. All sales are final. Questions?{' '}
+        <a href={`mailto:${site.email}`}>{site.email}</a> · <a href="/terms">Terms</a> ·{' '}
+        <a href="/privacy">Privacy</a>
+      </p>
     </div>
   </section>
 
-  <section class="cta-band">
-    <div class="wrap">
-      <div class="cta-inner">
-        <span class="eyebrow" style="color: rgba(242,240,233,.5)">Early bird · first {pricing.earlyBird.seats} licenses</span>
-        <h2>Lock in {formatPrice(pricing.earlyBird.price)} while it lasts.</h2>
-        <p>One payment. Every feature. The early-bird price is yours for good.</p>
-        <div class="btns">
-          <a class="btn btn--coral" href={earlyBirdHref}>Get the early-bird license</a>
-          <a class="btn btn--night" href="/download">Download first, decide after</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script>
+    const OS_CONFIG = {
+      mac: {
+        badge: 'macOS · Coming Soon',
+        selected: 'MacBook (macOS · Coming Soon)',
+        other: 'Windows 10/11',
+        otherKey: 'win',
+        ctaPrefix: 'Prebook for MacBook',
+        subjectLabel: 'MacBook / macOS'
+      },
+      win: {
+        badge: 'Windows · Coming Soon',
+        selected: 'Windows 10/11 (Coming Soon)',
+        other: 'MacBook (macOS)',
+        otherKey: 'mac',
+        ctaPrefix: 'Prebook for Windows',
+        subjectLabel: 'Windows 10/11'
+      }
+    } as const
+
+    type PlatformKey = keyof typeof OS_CONFIG
+
+    function resolvePlatform(raw: string | null): PlatformKey | null {
+      const normalized = raw?.trim().toLowerCase()
+      if (normalized === 'mac' || normalized === 'macos') return 'mac'
+      if (normalized === 'win' || normalized === 'windows') return 'win'
+      return null
+    }
+
+    function detectBrowserOs(): PlatformKey | null {
+      const ua = (navigator.userAgent || '').toLowerCase()
+      if (/\b(macintosh|mac os x)\b/.test(ua) && !/\b(iphone|ipad)\b/.test(ua)) return 'mac'
+      if (/\bwindows\b/.test(ua)) return 'win'
+      return null
+    }
+
+    function applyPricingOsContext(explicitOs?: PlatformKey | null) {
+      const banner = document.getElementById('os-context-banner')
+      if (!banner) return
+
+      const price = banner.dataset.price ?? '$3.99'
+      const standardPrice = banner.dataset.standardPrice ?? '$9.99'
+      const params = new URLSearchParams(window.location.search)
+      const urlOs = resolvePlatform(params.get('os'))
+      const osKey = explicitOs !== undefined ? explicitOs : (urlOs ?? detectBrowserOs())
+      const ctas = document.querySelectorAll<HTMLAnchorElement>('[data-early-bird-cta]')
+      const pickBtns = document.querySelectorAll<HTMLButtonElement>('[data-os-pick]')
+
+      pickBtns.forEach((btn) => {
+        const active = btn.dataset.osPick === osKey
+        btn.classList.toggle('is-active', active)
+        btn.setAttribute('aria-pressed', String(active))
+      })
+
+      if (!osKey) {
+        banner.hidden = true
+        ctas.forEach((cta) => {
+          if (cta.dataset.defaultHref) cta.href = cta.dataset.defaultHref
+          const label = cta.querySelector<HTMLElement>('[data-early-bird-label]')
+          if (label && cta.dataset.defaultLabel) {
+            label.textContent = cta.dataset.defaultLabel
+          }
+        })
+        return
+      }
+
+      const cfg = OS_CONFIG[osKey]
+      const badgeEl = banner.querySelector<HTMLElement>('[data-os-badge]')
+      const messageEl = banner.querySelector<HTMLElement>('[data-os-message]')
+      const switchEl = banner.querySelector<HTMLAnchorElement>('[data-os-switch]')
+
+      if (badgeEl) badgeEl.textContent = cfg.badge
+
+      if (messageEl) {
+        messageEl.textContent = ''
+        messageEl.append('Selected: ')
+        const strong = document.createElement('strong')
+        strong.textContent = cfg.selected
+        messageEl.append(
+          strong,
+          ` · prebook locks in ${price} (then ${standardPrice}) and covers ${cfg.other} too`
+        )
+      }
+
+      if (switchEl) {
+        switchEl.href = `/pricing?os=${cfg.otherKey}`
+        switchEl.textContent = `Switch to ${cfg.other}`
+      }
+
+      banner.hidden = false
+
+      const osHref =
+        osKey === 'mac'
+          ? banner.dataset.macHref || '/api/checkout?os=mac'
+          : banner.dataset.winHref || '/api/checkout?os=win'
+
+      ctas.forEach((cta) => {
+        if (!cta.dataset.defaultHref) {
+          cta.dataset.defaultHref = cta.getAttribute('href') ?? ''
+        }
+        const label = cta.querySelector<HTMLElement>('[data-early-bird-label]')
+        if (label && !cta.dataset.defaultLabel) {
+          cta.dataset.defaultLabel = label.textContent ?? ''
+        }
+        cta.href = osHref
+        if (label) {
+          label.textContent = `${cfg.ctaPrefix} — ${price}`
+        }
+      })
+    }
+
+    function bindOsPicker() {
+      document.querySelectorAll<HTMLButtonElement>('[data-os-pick]').forEach((btn) => {
+        if (btn.dataset.bound === '1') return
+        btn.dataset.bound = '1'
+        btn.addEventListener('click', () => {
+          const picked = resolvePlatform(btn.dataset.osPick ?? null)
+          if (!picked) return
+          if (window.history?.replaceState) {
+            window.history.replaceState({}, '', `/pricing?os=${picked}`)
+          }
+          applyPricingOsContext(picked)
+        })
+      })
+    }
+
+    bindOsPicker()
+    applyPricingOsContext()
+    document.addEventListener('astro:page-load', () => {
+      bindOsPicker()
+      applyPricingOsContext()
+    })
+  </script>
 </Base>
+
+<style>
+  .pricing-wrap {
+    padding-top: clamp(44px, 6vw, 76px);
+    padding-bottom: clamp(64px, 8vw, 110px);
+  }
+
+  .pricing-hero {
+    max-width: 600px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: clamp(28px, 4vw, 40px);
+  }
+
+  .pricing-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 14px;
+  }
+
+  .pricing-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 6.2vw, 70px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  .pricing-hero .price-flip {
+    font-style: italic;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 8px;
+    text-decoration-color: var(--line-strong);
+  }
+
+  .pricing-lede {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 44ch;
+  }
+
+  .pricing-center-col {
+    max-width: 520px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .os-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    padding: 11px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-card);
+    background: var(--paper-2);
+  }
+
+  .os-banner[hidden] {
+    display: none;
+  }
+
+  .os-banner-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+  }
+
+  .os-banner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .os-banner-text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .os-banner-text :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .os-banner-switch {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+
+  .os-banner-switch:hover {
+    color: var(--ink);
+  }
+
+  .pricing-single-card {
+    width: 100%;
+  }
+
+  .card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .save-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .cadence {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  .card-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-block: 14px 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .card-checks li {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 10px;
+    align-items: center;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    place-items: center;
+  }
+
+  .os-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .os-picker-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .os-picker-pills {
+    display: inline-flex;
+    gap: 6px;
+  }
+
+  .os-pick-btn {
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    cursor: pointer;
+    transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+  }
+
+  .os-pick-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .os-pick-btn.is-active {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  .card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding-top: 6px;
+  }
+
+  .card-cta-primary {
+    flex: 1 1 auto;
+  }
+
+  .pricing-fine {
+    margin: 4px 0 0;
+    text-align: center;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .pricing-fine a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 639px) {
+    .pricing-wrap {
+      padding-top: 28px;
+      padding-bottom: 56px;
+    }
+
+    .pricing-hero {
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .pricing-hero h1 {
+      font-size: clamp(38px, 11vw, 50px);
+    }
+
+    .pricing-lede {
+      font-size: 14.5px;
+      line-height: 1.5;
+    }
+
+    .pricing-single-card {
+      padding: 22px 18px;
+    }
+
+    .card-top-row {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .price-row {
+      flex-wrap: wrap;
+      gap: 6px 12px;
+    }
+
+    .cadence {
+      margin-left: 0;
+      flex-basis: 100%;
+    }
+
+    .os-picker {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .os-picker-pills {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+    }
+
+    .os-pick-btn {
+      min-height: 40px;
+      padding: 6px 10px;
+      text-align: center;
+      touch-action: manipulation;
+    }
+
+    .card-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .card-actions .btn {
+      width: 100%;
+      min-height: 46px;
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,147 +1,196 @@
 ---
 import Base from '@/layouts/Base.astro'
 import { site } from '@/data/site'
+import { pricing, formatPrice } from '@/data/pricing'
+import { ArrowRight } from '@lucide/astro'
 
 const groups = [
   {
-    id: 'install',
-    title: 'Install',
-    items: [
-      {
-        id: 'publisher',
-        q: 'Windows says “unknown publisher”. Is that normal?',
-        a: 'Yes. The build is not code-signed, so Windows shows the standard prompt. Choose More info, then Run anyway — or verify the SHA-256 first.'
-      },
-      {
-        id: 'smart-app-control',
-        q: 'Smart App Control blocked the installer.',
-        a: 'Smart App Control on Windows 11 refuses unsigned apps. Try the portable build. If that is blocked too, the only fix is changing that setting, which weakens protection system-wide, so decide deliberately.'
-      },
-      {
-        id: 'update',
-        q: 'How do I update?',
-        a: 'Download the next release and run it over the current install. There is no auto-update yet.'
-      },
-      {
-        id: 'settings-file',
-        q: 'Where are my settings stored?',
-        a: 'In %APPDATA%\\notch\\notch-state.json. The file is readable JSON, so you can inspect or back it up.'
-      }
-    ]
-  },
-  {
-    id: 'app',
-    title: 'Notch behaviour',
-    items: [
-      {
-        id: 'hover',
-        q: 'It will not open on hover.',
-        a: 'Check the hover delay in Settings, or click the tab instead. A full-screen exclusive game or another always-on-top window can also cover the top edge.'
-      },
-      {
-        id: 'close',
-        q: 'How do I close the panel?',
-        a: 'Press Esc, or use the collapse arrow at the top right. Clicking outside the panel also folds it.'
-      },
-      {
-        id: 'taskbar',
-        q: 'Why is there no taskbar icon?',
-        a: 'By design. The window is created as a tool window, so it never appears on the taskbar, in Alt-Tab, or in Task View. Use the tray icon to quit.'
-      }
-    ]
-  },
-  {
-    id: 'spotify',
-    title: 'Spotify',
-    items: [
-      {
-        id: 'spotify-client-id',
-        q: 'Do I need a Spotify developer app?',
-        a: 'Not for basic control. If Spotify Desktop is running, Notch reads the Windows media session. A free developer app adds the queue, volume, shuffle and repeat.'
-      },
-      {
-        id: 'spotify-idle',
-        q: 'Spotify is open but nothing plays.',
-        a: 'Press play once on any device so there is an active session, then reopen the Music page. If credentials are already saved, the page says so instead of asking for setup.'
-      },
-      {
-        id: 'spotify-queue',
-        q: 'The queue is empty.',
-        a: 'Spotify returns an empty queue when no device is actively playing. Start playback and refresh.'
-      }
-    ]
-  },
-  {
     id: 'notes',
-    title: 'Notes',
+    title: 'Notes & Obsidian Vaults',
     items: [
       {
         id: 'vault',
-        q: 'Can I use my existing notes folder?',
-        a: 'Yes. Point Notch at the folder. It edits plain Markdown files in place; nothing is imported or converted.'
+        q: 'Can I point Notch at my existing Obsidian vault or Markdown folder?',
+        a: 'Yes. Choose any local folder or Obsidian vault. Notch reads and writes plain .md and .txt files in place with 750ms debounced auto-save, and automatically ignores .obsidian, .trash and .git directories so your vault configuration is never polluted.'
+      },
+      {
+        id: 'markdown-syntax',
+        q: 'Which Markdown syntax is supported in the inline editor?',
+        a: 'Headings (# and ##), clickable task checkboxes (- [ ] and - [x]), **bold**, _italic_, inline `code`, > blockquotes, and [links](url). You can toggle between Inline Edit and clean rendered Preview at any time, or click Open in Obsidian / Reveal in Explorer.'
+      },
+      {
+        id: 'notes-search',
+        q: 'How do I search across my notes or organize folders?',
+        a: 'Press Ctrl+K inside the Notes tab to search both filenames and full Markdown content across your vault. You can also create nested folders inline, use Expand All to inspect note counts, and drag-and-drop notes between folders.'
       },
       {
         id: 'canvas',
-        q: 'Why can’t I edit a canvas file?',
-        a: 'Canvas files can be listed and renamed, but the editor only handles Markdown and .txt.'
+        q: 'Why can’t I edit an Obsidian .canvas file inline?',
+        a: 'Canvas files are listed in the file tree and can be renamed or opened in Obsidian with one click, while Notch’s built-in inline editor focuses on plain .md and .txt files.'
       },
       {
         id: 'sync',
-        q: 'Does it sync?',
-        a: 'Notch does not sync anything. If the folder lives in OneDrive, iCloud or a git repository, that tool syncs Notch’s edits like any other file change.'
+        q: 'Does Notch use a cloud sync server for notes?',
+        a: 'No. Your notes never leave your disk. If your vault folder is inside Obsidian Sync, OneDrive, iCloud Drive, Dropbox or a Git repository, that tool syncs Notch’s plain .md edits automatically.'
+      }
+    ]
+  },
+  {
+    id: 'sessions',
+    title: 'AI Coding Sessions',
+    items: [
+      {
+        id: 'supported-agents',
+        q: 'Which AI coding agents are supported?',
+        a: 'Claude Code, Codex, OpenCode and Anti Gravity. Notch inspects their local session stores on your PC to show live turns, active models, token usage and project directories in one unified board.'
+      },
+      {
+        id: 'session-replies',
+        q: 'How do follow-up replies and approval alerts work?',
+        a: 'You can send a follow-up prompt directly from a session card in the notch. Notch verifies delivery against the local session store (showing a Delivered badge), auto-watches locked Codex threads until they finish, and surfaces real-time OpenCode approval alerts.'
       }
     ]
   },
   {
     id: 'planner',
-    title: 'Planner and reminders',
+    title: 'Planner & Google Calendar',
     items: [
+      {
+        id: 'google-calendar',
+        q: 'How does the Google Calendar agenda integration work?',
+        a: 'Connect your Google Calendar from the Plan tab to display a live upcoming agenda strip right alongside your local daily priorities, time blocks and month calendar.'
+      },
       {
         id: 'reminder-missing',
         q: 'My reminder did not appear.',
-        a: 'Notch must be running. Check that the task has a reminder time, is not completed, and that notifications are enabled in Settings.'
+        a: 'Make sure Notch is running, the task has a reminder time (at the exact time or 5/10/30/60 minutes before), is not marked completed, and notifications are enabled in Settings.'
       },
       {
         id: 'reminder-dismiss',
-        q: 'The notice disappeared quickly.',
-        a: 'Reminder notices fold away after 12 seconds. The system notification stays in the Windows notification centre where Windows allows it.'
+        q: 'Why did the reminder card fold away after 12 seconds?',
+        a: 'By design: reminder notices unfold directly beneath the collapsed notch for 12 seconds so you see them mid-flow without losing keyboard focus, then fold away automatically.'
+      }
+    ]
+  },
+  {
+    id: 'phone-transfer',
+    title: 'Phone QR & Workspace Utilities',
+    items: [
+      {
+        id: 'phone-qr',
+        q: 'How does two-way Phone QR transfer work without the cloud?',
+        a: 'When you open the Phone tab, Notch starts a temporary local HTTP server on your PC’s Wi-Fi IP and renders a QR code. Scan it with your phone on the same Wi-Fi network to send or receive files (up to 16 MB) and clipboard snippets directly over LAN.'
+      },
+      {
+        id: 'multi-monitor',
+        q: 'Can I move the notch to another monitor or along the top edge?',
+        a: 'Yes. In Settings → Appearance, select any connected monitor, use the live placement map to position the notch anywhere along the top edge, or enable the Focus Blur backdrop and browser-aware auto-hide.'
+      }
+    ]
+  },
+  {
+    id: 'spotify',
+    title: 'Music & Spotify',
+    items: [
+      {
+        id: 'spotify-client-id',
+        q: 'Do I need a Spotify developer app?',
+        a: 'Not for everyday playback control. Notch reads any active Windows media session (SMTC) out of the box with a native album art helper and iTunes cover fallback. Adding a free PKCE Spotify developer Client ID unlocks the Up Next queue, volume slider, shuffle and repeat.'
+      },
+      {
+        id: 'spotify-idle',
+        q: 'Spotify is open but nothing appears.',
+        a: 'Press play once in Spotify Desktop or any Windows media player so Windows registers an active SMTC session. If your PKCE credentials are already saved, Notch remembers them automatically.'
+      },
+      {
+        id: 'spotify-queue',
+        q: 'The Up Next queue is empty.',
+        a: 'Spotify’s Web API only returns a queue when a device is actively playing. Start playback on your PC and refresh the Music tab.'
+      }
+    ]
+  },
+  {
+    id: 'install',
+    title: 'Install & Updates',
+    items: [
+      {
+        id: 'publisher',
+        q: 'Windows says “unknown publisher” or macOS asks to confirm. Is that normal?',
+        a: 'Yes. Independent builds may prompt standard OS verification on first launch. Compare the SHA-256 checksum included on your license receipt before running.'
+      },
+      {
+        id: 'smart-app-control',
+        q: 'How does prebooking work for macOS and Windows?',
+        a: 'Both MacBook (macOS) and Windows builds are coming soon. A single $3.99 one-time Early Bird prebook gives you your license key immediately and covers both MacBook and Windows as soon as launch builds release.'
+      },
+      {
+        id: 'update',
+        q: 'How do I update Hero Notch?',
+        a: `Download the newest installer from the Download page (it always points at the latest release) and run it over your existing install, or email ${site.email} if you get stuck. Your local notes folder and settings are preserved, and you will not need to enter your license key again.`
+      },
+      {
+        id: 'settings-file',
+        q: 'Where are my settings stored?',
+        a: 'In %APPDATA%\\notch\\notch-state.json. It is plain, human-readable JSON so you can inspect or back it up at any time.'
+      }
+    ]
+  },
+  {
+    id: 'app',
+    title: 'Notch Behaviour',
+    items: [
+      {
+        id: 'hover',
+        q: 'It will not open on hover.',
+        a: 'Check your hover delay in Settings, or click the collapsed tab to pin it open. Exclusive full-screen games or another always-on-top overlay covering the top pixel can also intercept hover events.'
+      },
+      {
+        id: 'close',
+        q: 'How do I close or collapse the panel?',
+        a: 'Press Esc, click the collapse arrow at the top right, or click outside the expanded notch.'
+      },
+      {
+        id: 'taskbar',
+        q: 'Why is there no taskbar icon or Alt-Tab tile?',
+        a: 'By design. Notch runs as a lightweight Windows tool window so it never clutters your taskbar, Alt-Tab switcher or Task View. Use the system tray icon whenever you want to quit.'
       }
     ]
   },
   {
     id: 'posture',
-    title: 'Posture and the camera',
+    title: 'Posture & Camera Privacy',
     items: [
       {
         id: 'posture-score',
-        q: 'The score is stuck or empty.',
-        a: 'Enable posture, allow camera access, and run Test posture setup once so the signals match your camera and chair. The score clears after a short watchdog if frames stop arriving.'
+        q: 'The posture score is stuck or empty.',
+        a: 'Enable posture, grant camera permission, and run the calibration setup once so Notch learns your camera angle and chair height. The score pauses automatically if no pose is detected.'
       },
       {
         id: 'posture-empty-chair',
-        q: 'It rings at an empty chair.',
-        a: 'It should not: threshold alerts require a detected pose. Update to v1.0.21 or later, and report it if it still happens.'
+        q: 'Will it chime at an empty chair?',
+        a: 'No. Threshold chimes require an active pose in frame, so stepping away from your desk will never trigger false alerts.'
       },
       {
         id: 'posture-privacy',
-        q: 'Does it record me?',
-        a: 'No. Frames are scored in memory and discarded. Nothing is written or uploaded, and the Windows camera light stays on while it is in use.'
+        q: 'Does it record or upload camera frames?',
+        a: 'Never. Posture is off by default. When enabled, webcam frames are scored in RAM and discarded immediately — zero images or video are written to disk or sent over the network.'
       }
     ]
   },
   {
     id: 'privacy',
-    title: 'Privacy and uninstall',
+    title: 'Storage & Uninstall',
     items: [
       {
         id: 'stored',
-        q: 'What is stored, and where?',
-        a: 'Settings, tasks and posture totals in %APPDATA%\\notch\\notch-state.json; Spotify tokens in spotify-auth.json and spotify-credentials.json; logs in notch.log. Your notes stay in your own folder.'
+        q: 'What is stored on disk, and where?',
+        a: 'Your Markdown notes stay in the folder or Obsidian vault you choose. Settings, tasks, hydration counts and posture totals live in %APPDATA%\\notch\\notch-state.json; optional Spotify/Google tokens live in local JSON files in %APPDATA%\\notch; logs are written to notch.log.'
       },
       {
         id: 'uninstall',
-        q: 'How do I remove everything?',
-        a: 'Uninstall from Settings → Apps, then delete %APPDATA%\\notch. Your notes remain until you delete them yourself.'
+        q: 'How do I remove everything cleanly?',
+        a: 'Uninstall Notch from Settings → Apps, then delete %APPDATA%\\notch if you want to remove local preferences and tokens. Your Markdown notes folder is never touched.'
       }
     ]
   }
@@ -149,17 +198,26 @@ const groups = [
 ---
 
 <Base
-  title="Notch help — install, Spotify, camera, shortcuts"
-  description="Answers for installing Notch, the SmartScreen prompt, Smart App Control, Spotify setup, notes, reminders and the posture camera."
+  title="Hero Notch help — Obsidian notes, AI sessions, Google Calendar, Phone QR & install"
+  description="Answers for using Hero Notch on MacBook and Windows with local Markdown and Obsidian vaults, Claude Code & Codex sessions, Google Calendar reminders, local Wi-Fi Phone QR transfer, and Spotify."
 >
   <section class="wrap">
     <div class="page-head">
-      <span class="eyebrow"><span class="dot"></span> Help</span>
+      <span class="eyebrow"><span class="dot"></span> Help &amp; Documentation</span>
       <h1>Answers, without a support queue.</h1>
       <p class="lede">
-        Install problems, Spotify setup, notes, reminders and the camera. If something is missing,
-        the repository issues are the fastest route.
+        Everything you need for local Markdown &amp; Obsidian vaults, Claude Code and Codex sessions,
+        Google Calendar reminders, two-way Phone QR transfer, Spotify setup and macOS &amp; Windows installation.
       </p>
+      <div class="help-head-links">
+        <a class="btn btn--ink btn--sm" href="/pricing">
+          Get License · {formatPrice(pricing.earlyBird.price)} <ArrowRight size={13} />
+        </a>
+        <a class="link" href="#notes">Notes &amp; Obsidian</a>
+        <a class="link" href="#sessions">AI Sessions</a>
+        <a class="link" href="#planner">Google Calendar</a>
+        <a class="link" href="#phone-transfer">Phone QR</a>
+      </div>
     </div>
 
     <div class="help-grid">
@@ -187,13 +245,21 @@ const groups = [
       <p>Still stuck?</p>
       <div class="btns">
         <a class="btn btn--ink btn--sm" href={`mailto:${site.email}`}>Email {site.email}</a>
-        <a class="btn btn--ghost btn--sm" href={site.issuesUrl} rel="noopener">Open an issue</a>
+        <a class="btn btn--ghost btn--sm" href="/pricing">View License &amp; Pricing</a>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
+  .help-head-links {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
   .help-grid {
     display: flex;
     flex-direction: column;

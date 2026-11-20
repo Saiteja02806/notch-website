@@ -1,18 +1,23 @@
 ---
-import { Download, GitBranch } from '@lucide/astro'
-import { site } from '@/data/site'
+import { ArrowRight, Play } from '@lucide/astro'
 import { pricing, formatPrice } from '@/data/pricing'
+
+const earlyPrice = formatPrice(pricing.earlyBird.price)
+const standardPrice = formatPrice(pricing.standard.price)
 ---
 
 <section class="cta-band">
   <div class="wrap">
     <div class="cta-inner">
-      <span class="eyebrow" style="color: rgba(242,240,233,.5)">Windows 10 and 11 · early bird {formatPrice(pricing.earlyBird.price)}</span>
-      <h2>Put it at the top of your screen.</h2>
-      <p>Local, one-time license, about a minute to install.</p>
+      <span class="eyebrow eyebrow--pill"><span class="dot"></span> Early Bird {earlyPrice} · Then {standardPrice} at launch</span>
+      <h2>Put Hero Notch at the top of your screen.</h2>
+      <p>
+        Prebook your one-time Early Bird license ({earlyPrice} now, then {standardPrice} at launch)
+        covering both MacBook and Windows — zero subscription, zero telemetry.
+      </p>
       <div class="btns">
-        <a class="btn btn--coral" href="/download"><Download size={15} /> Download for Windows</a>
-        <a class="btn btn--night" href={site.repoUrl} rel="noopener"><GitBranch size={15} /> View on GitHub</a>
+        <a class="btn btn--coral" href="/pricing">Prebook Early Bird — {earlyPrice} <ArrowRight size={15} /></a>
+        <a class="btn btn--night" href="/#setup-video"><Play size={15} /> Watch Setup Video (51s)</a>
       </div>
     </div>
   </div>

@@ -1,0 +1,1901 @@
+---
+import { pricing, formatPrice } from '@/data/pricing'
+
+const earlyPrice = formatPrice(pricing.earlyBird.price)
+const standardPrice = formatPrice(pricing.standard.price)
+const savePct = Math.round((1 - pricing.earlyBird.price / pricing.standard.price) * 100)
+---
+
+<section
+  class="hc-hero"
+  id="hero-canvas"
+  aria-label="Hero Notch interactive OS desktop canvas"
+  data-hero-canvas
+>
+  <div class="hc-grid" aria-hidden="true"></div>
+  <div class="hc-vignette" aria-hidden="true"></div>
+
+  <div class="hc-stage" data-hc-stage>
+    <!-- ================================================================
+         CENTERED HERO ANCHOR (z-index: 20 · Always readable & unobstructed)
+         ================================================================ -->
+    <div class="hc-center">
+      <div class="hc-center__inner">
+        <span class="hc-eyebrow">
+          <span class="hc-eyebrow__dot" aria-hidden="true"></span>
+          MACOS &amp; WINDOWS · EARLY BIRD PREBOOK
+        </span>
+
+        <h1 class="hc-title">Hero Notch</h1>
+
+        <p class="hc-subtitle">
+          a quiet command workspace that lives at the top edge of your screen.
+        </p>
+
+        <div class="hc-os-actions" role="group" aria-label="Unlock Hero Notch by platform">
+          <div class="hc-os-choice">
+            <a class="hc-pill hc-pill--mac" href="/pricing?os=mac">
+              <svg class="hc-os-glyph" viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true">
+                <path d="M11.182 8.51c-.015-1.57 1.283-2.327 1.341-2.363-.73-1.068-1.867-1.214-2.271-1.231-.967-.098-1.887.569-2.378.569-.49 0-1.248-.555-2.05-.54-1.055.015-2.027.613-2.57 1.556-1.096 1.9-.28 4.715.788 6.257.522.755 1.144 1.604 1.96 1.574.787-.031 1.084-.509 2.035-.509.951 0 1.218.509 2.05.493.847-.015 1.383-.77 1.903-1.525.6-.876.847-1.724.862-1.769-.019-.008-1.655-.635-1.67-2.512zm-1.564-4.62c.433-.525.725-1.254.645-1.98-.624.025-1.379.416-1.827.94-.401.464-.752 1.207-.658 1.92.697.054 1.407-.355 1.84-.88z" />
+              </svg>
+              <span>Prebook for MacBook · {earlyPrice}</span>
+            </a>
+            <span class="hc-os-caption">macOS 13+ · Coming soon</span>
+          </div>
+
+          <div class="hc-os-choice">
+            <a class="hc-pill hc-pill--win" href="/pricing?os=win">
+              <svg class="hc-os-glyph" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+                <path d="M1.5 1.5h5.8v5.8H1.5V1.5zm7.2 0h5.8v5.8H8.7V1.5zM1.5 8.7h5.8v5.8H1.5V8.7zm7.2 0h5.8v5.8H8.7V8.7z" />
+              </svg>
+              <span>Prebook for Windows · {earlyPrice}</span>
+            </a>
+            <span class="hc-os-caption">Windows 10 &amp; 11 · Coming soon</span>
+          </div>
+        </div>
+
+        <div class="hc-urgency" aria-label={`Early Bird ${earlyPrice} now, then ${standardPrice} at launch, save ${savePct} percent`}>
+          <span class="hc-urgency__was" aria-hidden="true">{standardPrice}</span>
+          <span class="hc-urgency__copy">
+            Now <strong>{earlyPrice}</strong> · <strong>then {standardPrice}</strong> at launch
+          </span>
+          <span class="hc-urgency__badge">-{savePct}%</span>
+        </div>
+
+        <nav class="hc-jumps" aria-label="Page sections and canvas controls">
+          <a class="hc-jump-link" href="#details">See All Capabilities ↓</a>
+          <span class="hc-jump-sep hc-jump-sep--desktop" data-reset-sep aria-hidden="true" hidden>·</span>
+          <button type="button" class="hc-reset-btn" data-reset-canvas hidden>
+            Reset Canvas Layout
+          </button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- ================================================================
+         QUIET FLOATING CAPABILITY TAGS & RIGHT-SIDE EDITORIAL TEXT NOTES
+         ================================================================ -->
+    <div class="hc-artifacts" aria-label="Additional Hero Notch capabilities">
+      <span class="hc-kaomoji hc-kaomoji--tl">[spotify + system media]</span>
+      <span class="hc-kaomoji hc-kaomoji--tr">[focus blur · auto-hide]</span>
+      <span class="hc-kaomoji hc-kaomoji--bl">[hydration + focus timer]</span>
+      <span class="hc-kaomoji hc-kaomoji--br">[7 modular surfaces]</span>
+
+      <div class="hc-side-notes">
+        <div class="hc-side-note">
+          <span class="hc-side-note__title">Connect Google Calendar</span>
+          <span class="hc-side-note__sub">12s under-notch alerts · never steals focus</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================
+         DRAGGABLE & INTERACTIVE OS WINDOWS (z-index: 12..19)
+         ================================================================ -->
+    <div class="hc-windows-layer">
+      <!-- 1. Floating Window 1: notes-vault.md (Top-Left) -->
+      <article
+        class="hc-win hc-win--notes"
+        data-drag-win="notes"
+        data-hc-win-module="notes"
+        style="z-index: 14"
+        aria-label="Interactive Obsidian Markdown checklist window"
+      >
+        <header class="hc-win__bar" title="Drag window">
+          <div class="hc-win__dots" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+          <span class="hc-win__title">notes-vault.md</span>
+          <span class="hc-win__badge" data-hc-save-badge aria-live="polite">750ms saved</span>
+        </header>
+
+        <div class="hc-win__body hc-notes-body">
+          <div class="hc-notes-meta">
+            <span class="hc-notes-path">~/daily/launch.md</span>
+            <span class="hc-notes-progress" data-hc-todo-count>1/3 done</span>
+          </div>
+
+          <ul class="hc-todo-list">
+            <li>
+              <label class="hc-todo is-done">
+                <input type="checkbox" checked data-hc-todo />
+                <span class="hc-todo__box" aria-hidden="true"></span>
+                <span class="hc-todo__syntax" data-hc-md-prefix>- [x]</span>
+                <span class="hc-todo__text">Mount Obsidian vault</span>
+              </label>
+            </li>
+            <li>
+              <label class="hc-todo">
+                <input type="checkbox" data-hc-todo />
+                <span class="hc-todo__box" aria-hidden="true"></span>
+                <span class="hc-todo__syntax" data-hc-md-prefix>- [ ]</span>
+                <span class="hc-todo__text">750ms auto-save</span>
+              </label>
+            </li>
+            <li>
+              <label class="hc-todo">
+                <input type="checkbox" data-hc-todo />
+                <span class="hc-todo__box" aria-hidden="true"></span>
+                <span class="hc-todo__syntax" data-hc-md-prefix>- [ ]</span>
+                <span class="hc-todo__text">Ctrl+K search</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2. Floating Window 2: setup-notes.mp4 (Upper-Left-Inner) -->
+      <article
+        class="hc-win hc-win--clip-notes"
+        data-drag-win="notes-video"
+        style="z-index: 13"
+        aria-label="Live Obsidian notes preview clip"
+      >
+        <header class="hc-win__bar" title="Drag window">
+          <div class="hc-win__dots" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+          <span class="hc-win__title">setup-notes.mp4</span>
+          <a class="hc-win__jump" href="#setup-video" title="Jump to full 51s video">51s ↗</a>
+        </header>
+
+        <div class="hc-win__video-wrap">
+          <video
+            class="hc-win__video"
+            src="/media/hero-notch-setup.mp4#t=4,11"
+            poster="/media/hero-notch-poster.webp"
+            muted
+            autoplay
+            loop
+            playsinline
+            preload="metadata"
+            data-clip-start="4"
+            data-clip-end="11"
+            aria-label="Silent preview of live Obsidian Markdown editing inside Hero Notch"
+          ></video>
+        </div>
+
+        <footer class="hc-win__foot">
+          <span class="hc-win__filename">obsidian-live-edit.mp4</span>
+          <a class="hc-win__foot-btn" href="#setup-video">Watch ↓</a>
+        </footer>
+      </article>
+
+      <!-- 3. Floating Window 3: display-setup.mp4 (Top-Right) -->
+      <article
+        class="hc-win hc-win--clip-display"
+        data-drag-win="display-video"
+        style="z-index: 15"
+        aria-label="Live display placement preview clip"
+      >
+        <header class="hc-win__bar" title="Drag window">
+          <div class="hc-win__dots" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+          <span class="hc-win__title">display-setup.mp4</span>
+          <a class="hc-win__jump" href="#setup-video" title="Jump to Display Setup chapter">Act 05 ↗</a>
+        </header>
+
+        <div class="hc-win__video-wrap">
+          <video
+            class="hc-win__video"
+            src="/media/hero-notch-setup.mp4#t=37,46"
+            poster="/media/hero-notch-poster.webp"
+            muted
+            autoplay
+            loop
+            playsinline
+            preload="metadata"
+            data-clip-start="37"
+            data-clip-end="46"
+            aria-label="Silent preview of Hero Notch display placement and cross-platform settings"
+          ></video>
+        </div>
+
+        <footer class="hc-win__foot">
+          <span class="hc-win__filename">mac-win-placement.mp4</span>
+          <a class="hc-win__foot-btn" href="#setup-video">Open ↓</a>
+        </footer>
+      </article>
+
+      <!-- 4. Floating Window 4: ai-sessions.sys (Bottom-Left) -->
+      <article
+        class="hc-win hc-win--agents"
+        data-drag-win="agents"
+        data-hc-win-module="sessions"
+        style="z-index: 16"
+        aria-label="Interactive multi-agent coding sessions switcher"
+      >
+        <header class="hc-win__bar" title="Drag window">
+          <div class="hc-win__dots" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+          <span class="hc-win__title">ai-sessions.sys</span>
+          <span class="hc-win__badge hc-win__badge--live">
+            <i aria-hidden="true"></i> 4 LOCAL
+          </span>
+        </header>
+
+        <div class="hc-win__body hc-agents-body">
+          <div class="hc-agent-pills" role="tablist" aria-label="Select AI coding agent session">
+            <button
+              type="button"
+              role="tab"
+              aria-selected="true"
+              class="hc-agent-pill is-active"
+              data-hc-agent="claude"
+            >
+              Claude Code
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              class="hc-agent-pill"
+              data-hc-agent="codex"
+            >
+              Codex
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              class="hc-agent-pill"
+              data-hc-agent="opencode"
+            >
+              OpenCode
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              class="hc-agent-pill"
+              data-hc-agent="antigravity"
+            >
+              Anti Gravity
+            </button>
+          </div>
+
+          <div class="hc-agent-readout" data-hc-agent-readout>
+            <div class="hc-agent-readout__top">
+              <span class="hc-agent-model" data-hc-agent-model>claude-sonnet-4 · jsonl</span>
+              <span class="hc-agent-tokens" data-hc-agent-tokens>14.2k tok</span>
+            </div>
+            <p class="hc-agent-turn" data-hc-agent-turn>
+              &gt; Patching top-edge overlay &amp; auto-save hooks…
+            </p>
+            <span class="hc-agent-state" data-hc-agent-state>
+              ● STREAMING · reply ready in notch
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. Floating Frameless Video: Posture Correction (Bottom-Right) -->
+      <div
+        class="hc-posture-video-card"
+        aria-label="Posture correction live webcam demo"
+      >
+        <div class="hc-posture-video-box">
+          <video
+            class="hc-win__video"
+            src="/media/posture-demo.mp4"
+            poster="/media/posture-demo-poster.webp"
+            muted
+            autoplay
+            playsinline
+            preload="auto"
+            data-hc-posture-video
+            aria-label="Live webcam demo of Hero Notch posture correction"
+          ></video>
+
+          <button
+            type="button"
+            class="hc-posture-play-overlay"
+            data-hc-posture-play
+            aria-label="Play posture correction video"
+            hidden
+          >
+            <span class="hc-posture-play-icon" aria-hidden="true">▶</span>
+          </button>
+        </div>
+        <a class="hc-posture-video-label" href="#posture-coach">Posture correction</a>
+      </div>
+    </div>
+
+    <!-- ================================================================
+         BOTTOM-PEEK TRANSITION -> #setup-video
+         ================================================================ -->
+    <div class="hc-peek-wrap">
+      <a class="hc-bottom-peek" href="#setup-video">
+        <span class="hc-bottom-peek__notch" aria-hidden="true">
+          <i></i>
+        </span>
+        <span class="hc-bottom-peek__label">Watch 51s Full Setup Video</span>
+        <span class="hc-bottom-peek__hint">Scroll or click ↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const canvas = document.querySelector<HTMLElement>('[data-hero-canvas]')
+  if (canvas) {
+    const stage = canvas.querySelector<HTMLElement>('[data-hc-stage]')
+    const windows = Array.from(canvas.querySelectorAll<HTMLElement>('[data-drag-win]'))
+    const resetBtn = canvas.querySelector<HTMLButtonElement>('[data-reset-canvas]')
+    const resetSep = canvas.querySelector<HTMLElement>('[data-reset-sep]')
+    let resetFeedbackActive = false
+
+    // ------------------------------------------------------------------
+    // 1. PointerEvent Window Dragging & z-index Elevation (z-index 12..19)
+    // ------------------------------------------------------------------
+    const offsets = new WeakMap<HTMLElement, { x: number; y: number }>()
+
+    const isCanvasChanged = (): boolean => {
+      return windows.some((win) => {
+        const pos = offsets.get(win)
+        return Boolean(pos && (Math.abs(pos.x) > 1 || Math.abs(pos.y) > 1))
+      })
+    }
+
+    const syncResetVisibility = (): void => {
+      if (!resetBtn) return
+      const show = resetFeedbackActive || isCanvasChanged()
+      resetBtn.hidden = !show
+      if (resetSep) resetSep.hidden = !show
+    }
+    const baseOrder = [
+      'notes-video',
+      'notes',
+      'display-video',
+      'agents'
+    ]
+    let zOrder = [...windows].sort((a, b) => {
+      return baseOrder.indexOf(a.dataset.dragWin ?? '') - baseOrder.indexOf(b.dataset.dragWin ?? '')
+    })
+
+    const applyZStack = (): void => {
+      const startZ = 19 - Math.max(0, zOrder.length - 1)
+      zOrder.forEach((win, idx) => {
+        const clamped = Math.min(19, Math.max(12, startZ + idx))
+        win.style.zIndex = String(clamped)
+      })
+    }
+
+    const bringToFront = (win: HTMLElement): void => {
+      zOrder = [...zOrder.filter((item) => item !== win), win]
+      applyZStack()
+    }
+
+    for (const win of windows) {
+      offsets.set(win, { x: 0, y: 0 })
+
+      win.addEventListener('pointerdown', () => {
+        bringToFront(win)
+      })
+
+      const bar = win.querySelector<HTMLElement>('.hc-win__bar')
+      if (!bar) continue
+
+      let activePointerId: number | null = null
+      let startClientX = 0
+      let startClientY = 0
+      let originX = 0
+      let originY = 0
+      let minDx = -Infinity
+      let maxDx = Infinity
+      let minDy = -Infinity
+      let maxDy = Infinity
+
+      bar.addEventListener('pointerdown', (e: PointerEvent) => {
+        if (e.button !== 0 && e.pointerType === 'mouse') return
+        if ((e.target as HTMLElement).closest('button, a, input, label')) return
+        if (window.getComputedStyle(win).position !== 'absolute') return
+
+        e.preventDefault()
+        bringToFront(win)
+
+        const current = offsets.get(win) ?? { x: 0, y: 0 }
+        originX = current.x
+        originY = current.y
+        startClientX = e.clientX
+        startClientY = e.clientY
+        activePointerId = e.pointerId
+
+        if (stage) {
+          const stageRect = stage.getBoundingClientRect()
+          const winRect = win.getBoundingClientRect()
+          const pad = 48
+          minDx = stageRect.left - winRect.left - winRect.width + pad
+          maxDx = stageRect.right - winRect.right + winRect.width - pad
+          minDy = stageRect.top - winRect.top
+          maxDy = stageRect.bottom - winRect.bottom - 18
+        }
+
+        win.classList.remove('is-resetting')
+        win.classList.add('is-dragging')
+        try {
+          bar.setPointerCapture(e.pointerId)
+        } catch {
+          // Pointer capture may fail in synthetic test events; dragging still works.
+        }
+      })
+
+      bar.addEventListener('pointermove', (e: PointerEvent) => {
+        if (activePointerId !== e.pointerId) return
+        const rawDx = e.clientX - startClientX
+        const rawDy = e.clientY - startClientY
+        const dx = Math.min(maxDx, Math.max(minDx, rawDx))
+        const dy = Math.min(maxDy, Math.max(minDy, rawDy))
+        const nextX = originX + dx
+        const nextY = originY + dy
+        offsets.set(win, { x: nextX, y: nextY })
+        win.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`
+        syncResetVisibility()
+      })
+
+      const stopDrag = (e: PointerEvent): void => {
+        if (activePointerId !== e.pointerId) return
+        activePointerId = null
+        win.classList.remove('is-dragging')
+        try {
+          if (bar.hasPointerCapture(e.pointerId)) {
+            bar.releasePointerCapture(e.pointerId)
+          }
+        } catch {
+          // Ignore already-released pointer captures.
+        }
+      }
+
+      bar.addEventListener('pointerup', stopDrag)
+      bar.addEventListener('pointercancel', stopDrag)
+    }
+
+    if (resetBtn) {
+      let resetTimer: number | undefined
+      const defaultLabel = resetBtn.textContent?.trim() || 'Reset Canvas Layout'
+
+      resetBtn.addEventListener('click', () => {
+        zOrder = [...windows].sort((a, b) => {
+          return baseOrder.indexOf(a.dataset.dragWin ?? '') - baseOrder.indexOf(b.dataset.dragWin ?? '')
+        })
+        applyZStack()
+
+        for (const win of windows) {
+          offsets.set(win, { x: 0, y: 0 })
+          win.classList.add('is-resetting')
+          win.style.transform = 'translate3d(0px, 0px, 0px)'
+          window.setTimeout(() => win.classList.remove('is-resetting'), 340)
+        }
+
+        resetFeedbackActive = true
+        resetBtn.textContent = 'Layout reset ✓'
+        syncResetVisibility()
+        window.clearTimeout(resetTimer)
+        resetTimer = window.setTimeout(() => {
+          resetFeedbackActive = false
+          resetBtn.textContent = defaultLabel
+          syncResetVisibility()
+        }, 900)
+      })
+    }
+
+    // ------------------------------------------------------------------
+    // 2. Window 1: Obsidian Markdown Checklist & 750ms Save Flash
+    // ------------------------------------------------------------------
+    const todoInputs = Array.from(canvas.querySelectorAll<HTMLInputElement>('[data-hc-todo]'))
+    const todoCountEl = canvas.querySelector<HTMLElement>('[data-hc-todo-count]')
+    const saveBadgeEl = canvas.querySelector<HTMLElement>('[data-hc-save-badge]')
+    let saveFlashTimer: number | undefined
+
+    const syncTodos = (triggerSave: boolean): void => {
+      const done = todoInputs.filter((input) => input.checked).length
+      if (todoCountEl) {
+        todoCountEl.textContent = `${done}/${todoInputs.length} done`
+      }
+      for (const input of todoInputs) {
+        const label = input.closest('.hc-todo')
+        const prefix = label?.querySelector<HTMLElement>('[data-hc-md-prefix]')
+        label?.classList.toggle('is-done', input.checked)
+        if (prefix) {
+          prefix.textContent = input.checked ? '- [x]' : '- [ ]'
+        }
+      }
+      if (triggerSave && saveBadgeEl) {
+        saveBadgeEl.textContent = 'Saving…'
+        saveBadgeEl.classList.add('is-flashing')
+        window.clearTimeout(saveFlashTimer)
+        saveFlashTimer = window.setTimeout(() => {
+          saveBadgeEl.textContent = '750ms saved ✓'
+          window.setTimeout(() => {
+            saveBadgeEl.classList.remove('is-flashing')
+            saveBadgeEl.textContent = '750ms saved'
+          }, 900)
+        }, 260)
+      }
+    }
+
+    for (const input of todoInputs) {
+      input.addEventListener('change', () => syncTodos(true))
+    }
+    syncTodos(false)
+
+    // ------------------------------------------------------------------
+    // 3. Windows 2, 3 & 5: Silent Video Clip & Loop Playback Guard
+    // ------------------------------------------------------------------
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const mobileMq = window.matchMedia('(max-width: 767px)')
+    const clipVideos = Array.from(
+      canvas.querySelectorAll<HTMLVideoElement>('video[data-clip-start][data-clip-end]')
+    )
+    const postureVideo = canvas.querySelector<HTMLVideoElement>('[data-hc-posture-video]')
+    const posturePlayBtn = canvas.querySelector<HTMLButtonElement>('[data-hc-posture-play]')
+    let postureHasEnded = false
+
+    const forceAutoplay = (vid: HTMLVideoElement, loop: boolean): void => {
+      vid.muted = true
+      vid.defaultMuted = true
+      vid.playsInline = true
+      vid.loop = loop
+      void vid.play().catch(() => undefined)
+    }
+
+    const syncPostureOverlay = (): void => {
+      if (!postureVideo || !posturePlayBtn) return
+      posturePlayBtn.hidden = !postureVideo.paused && !postureVideo.ended
+    }
+
+    const syncClipPlayback = (): void => {
+      const pauseClips = reducedMotion || mobileMq.matches
+      for (const vid of clipVideos) {
+        if (pauseClips) {
+          vid.pause()
+        } else {
+          forceAutoplay(vid, true)
+        }
+      }
+      if (postureVideo) {
+        if (mobileMq.matches) {
+          postureVideo.pause()
+        } else if (!postureHasEnded) {
+          forceAutoplay(postureVideo, false)
+        }
+        syncPostureOverlay()
+      }
+    }
+
+    if (postureVideo) {
+      postureVideo.addEventListener('canplay', () => {
+        if (!mobileMq.matches && !postureHasEnded && postureVideo.paused) {
+          forceAutoplay(postureVideo, false)
+        }
+      })
+      postureVideo.addEventListener('play', syncPostureOverlay)
+      postureVideo.addEventListener('pause', syncPostureOverlay)
+      postureVideo.addEventListener('ended', () => {
+        postureHasEnded = true
+        syncPostureOverlay()
+      })
+      posturePlayBtn?.addEventListener('click', () => {
+        postureHasEnded = false
+        if (postureVideo.ended || postureVideo.currentTime >= (postureVideo.duration || 0) - 0.1) {
+          postureVideo.currentTime = 0
+        }
+        forceAutoplay(postureVideo, false)
+      })
+    }
+    for (const vid of clipVideos) {
+      const start = Number(vid.dataset.clipStart)
+      const end = Number(vid.dataset.clipEnd)
+      if (!Number.isFinite(start) || !Number.isFinite(end)) continue
+
+      vid.addEventListener('loadedmetadata', () => {
+        if (vid.currentTime < start || vid.currentTime >= end) {
+          vid.currentTime = start
+        }
+        if (!reducedMotion && !mobileMq.matches) {
+          void vid.play().catch(() => undefined)
+        } else {
+          vid.pause()
+        }
+      })
+
+      vid.addEventListener('timeupdate', () => {
+        if (vid.currentTime >= end - 0.12 || vid.currentTime < start - 0.5) {
+          vid.currentTime = start
+        }
+      })
+    }
+    syncClipPlayback()
+    mobileMq.addEventListener?.('change', syncClipPlayback)
+
+    // ------------------------------------------------------------------
+    // 4. Window 4: AI Sessions Interactive Agent Switcher
+    // ------------------------------------------------------------------
+    const agentData: Record<
+      string,
+      { model: string; tokens: string; turn: string; state: string }
+    > = {
+      claude: {
+        model: 'claude-sonnet-4 · jsonl',
+        tokens: '14.2k tok',
+        turn: '> Patching top-edge overlay & auto-save hooks…',
+        state: '● STREAMING · reply ready in notch'
+      },
+      codex: {
+        model: 'gpt-5-codex · sqlite',
+        tokens: '9.8k tok',
+        turn: '> Checking MacBook notch + Win11 DPI bounds',
+        state: '● WATCHING · 0 warnings across 4 files'
+      },
+      opencode: {
+        model: 'opencode-local · ipc',
+        tokens: '6.4k tok',
+        turn: '> Approve tool call: npm run build',
+        state: '● APPROVAL · press Enter or reply in notch'
+      },
+      antigravity: {
+        model: 'gemini-2.5-pro · local',
+        tokens: '11.7k tok',
+        turn: '> Syncing ~/HeroNotchVault [[wiki-links]]',
+        state: '● SYNCED · read-only local session board'
+      }
+    }
+
+    const agentPills = Array.from(canvas.querySelectorAll<HTMLButtonElement>('[data-hc-agent]'))
+    const agentModelEl = canvas.querySelector<HTMLElement>('[data-hc-agent-model]')
+    const agentTokensEl = canvas.querySelector<HTMLElement>('[data-hc-agent-tokens]')
+    const agentTurnEl = canvas.querySelector<HTMLElement>('[data-hc-agent-turn]')
+    const agentStateEl = canvas.querySelector<HTMLElement>('[data-hc-agent-state]')
+
+    for (const pill of agentPills) {
+      pill.addEventListener('click', () => {
+        const key = pill.dataset.hcAgent ?? 'claude'
+        const info = agentData[key]
+        if (!info) return
+
+        for (const p of agentPills) {
+          const active = p === pill
+          p.classList.toggle('is-active', active)
+          p.setAttribute('aria-selected', String(active))
+        }
+
+        if (agentModelEl) agentModelEl.textContent = info.model
+        if (agentTokensEl) agentTokensEl.textContent = info.tokens
+        if (agentTurnEl) agentTurnEl.textContent = info.turn
+        if (agentStateEl) agentStateEl.textContent = info.state
+      })
+    }
+  }
+</script>
+
+<style>
+  .hc-hero {
+    position: relative;
+    background: #070709;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Precision monochrome dot grid across the full-bleed OS desktop */
+  .hc-grid {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.13) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: radial-gradient(90% 84% at 50% 48%, #000 45%, rgba(0, 0, 0, 0.25) 100%);
+  }
+
+  /* Studio spotlight + calm readability halo behind the center hero text */
+  .hc-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(46% 42% at 50% 48%, rgba(7, 7, 9, 0.88) 0%, rgba(7, 7, 9, 0) 100%),
+      radial-gradient(75% 45% at 50% -6%, rgba(255, 255, 255, 0.06), transparent 70%),
+      linear-gradient(180deg, rgba(7, 7, 9, 0.1) 0%, transparent 20%, transparent 82%, #060606 100%);
+  }
+
+  .hc-stage {
+    position: relative;
+    z-index: 2;
+    max-width: 1460px;
+    margin-inline: auto;
+    min-height: clamp(640px, calc(100svh - 50px), 780px);
+    padding: 16px 24px 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ----------------------------------------------------------------
+     CENTERED HERO ANCHOR (z-index: 20 · Always readable above windows)
+     ---------------------------------------------------------------- */
+  .hc-center {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px 16px 34px;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .hc-center__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: auto;
+  }
+
+  .hc-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(14, 14, 18, 0.86);
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #e4e4e7;
+    margin-bottom: 20px;
+  }
+
+  .hc-eyebrow__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    animation: hc-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes hc-pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.86);
+    }
+  }
+
+  .hc-title {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(54px, 6.4vw, 88px);
+    line-height: 0.94;
+    letter-spacing: -0.028em;
+    color: #ffffff;
+    text-shadow: 0 10px 34px rgba(0, 0, 0, 0.75);
+  }
+
+  .hc-subtitle {
+    margin: 16px auto 0;
+    max-width: 44ch;
+    font-family: var(--sans);
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: #d4d4d8;
+    text-wrap: balance;
+  }
+
+  /* Tactile Hardware-Style OS Pill Buttons */
+  .hc-os-actions {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .hc-os-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .hc-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 0 21px;
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 160ms ease,
+      background 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .hc-pill:hover {
+    transform: translateY(-2px);
+  }
+
+  .hc-pill:active {
+    transform: translateY(1px);
+  }
+
+  .hc-pill--mac {
+    background: linear-gradient(180deg, #ffffff 0%, #e4e4e9 100%);
+    color: #070709;
+    border: 1px solid #ffffff;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.95) inset,
+      0 -2px 0 rgba(0, 0, 0, 0.14) inset,
+      0 10px 26px -8px rgba(255, 255, 255, 0.35),
+      0 14px 28px -12px rgba(0, 0, 0, 0.85);
+  }
+
+  .hc-pill--mac:hover {
+    background: linear-gradient(180deg, #ffffff 0%, #f1f1f4 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 1) inset,
+      0 -2px 0 rgba(0, 0, 0, 0.12) inset,
+      0 14px 32px -6px rgba(255, 255, 255, 0.45),
+      0 18px 34px -12px rgba(0, 0, 0, 0.9);
+  }
+
+  .hc-pill--win {
+    background: linear-gradient(180deg, #232329 0%, #121216 100%);
+    color: #fafafa;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.18) inset,
+      0 -2px 0 rgba(0, 0, 0, 0.55) inset,
+      0 14px 28px -10px rgba(0, 0, 0, 0.9);
+  }
+
+  .hc-pill--win:hover {
+    background: linear-gradient(180deg, #2b2b33 0%, #17171c 100%);
+    border-color: rgba(255, 255, 255, 0.42);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.26) inset,
+      0 -2px 0 rgba(0, 0, 0, 0.5) inset,
+      0 16px 32px -10px rgba(0, 0, 0, 0.95);
+  }
+
+  .hc-os-caption {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: #8e8e93;
+  }
+
+  /* Early Bird -> Standard price urgency strip */
+  .hc-urgency {
+    margin-top: 15px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 9px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(14, 14, 18, 0.82);
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+    color: #a1a1aa;
+  }
+
+  .hc-urgency__was {
+    color: #71717a;
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .hc-urgency__copy strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .hc-urgency__badge {
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #070709;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Jump links + layout reset */
+  .hc-jumps {
+    margin-top: 16px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: #a1a1aa;
+  }
+
+  .hc-jump-link {
+    padding: 3px 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 140ms ease, border-color 140ms ease;
+  }
+
+  .hc-jump-link:hover {
+    color: #ffffff;
+    border-bottom-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .hc-jump-sep {
+    color: #52525b;
+  }
+
+  .hc-reset-btn {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: #d4d4d8;
+    cursor: pointer;
+    transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+  }
+
+  .hc-reset-btn[hidden],
+  .hc-jump-sep[hidden] {
+    display: none !important;
+  }
+
+  .hc-reset-btn:hover {
+    border-color: rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  /* ----------------------------------------------------------------
+     DRAGGABLE OS WINDOWS (z-index: 12..19)
+     ---------------------------------------------------------------- */
+  .hc-windows-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hc-win {
+    position: absolute;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(11, 11, 15, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 22px 52px -18px rgba(0, 0, 0, 0.92);
+    overflow: hidden;
+    will-change: transform, opacity;
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease,
+      opacity 220ms ease,
+      scale 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 220ms ease,
+      visibility 220ms ease;
+  }
+
+  .hc-win:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .hc-win.is-dragging {
+    border-color: rgba(255, 255, 255, 0.42);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.16) inset,
+      0 30px 70px -16px rgba(0, 0, 0, 0.96);
+    transition: none;
+  }
+
+  .hc-win.is-resetting {
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border-color 150ms ease;
+  }
+
+  .hc-win__bar {
+    height: 28px;
+    padding-inline: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .hc-win.is-dragging .hc-win__bar {
+    cursor: grabbing;
+  }
+
+  .hc-win__dots {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 0 0 auto;
+  }
+
+  .hc-win__dots i {
+    width: 7.5px;
+    height: 7.5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.24);
+    transition: background 150ms ease;
+  }
+
+  .hc-win__dots i:nth-child(2) {
+    background: rgba(255, 255, 255, 0.17);
+  }
+
+  .hc-win__dots i:nth-child(3) {
+    background: rgba(255, 255, 255, 0.11);
+  }
+
+  .hc-win:hover .hc-win__dots i {
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .hc-win:hover .hc-win__dots i:nth-child(2) {
+    background: rgba(255, 255, 255, 0.42);
+  }
+
+  .hc-win:hover .hc-win__dots i:nth-child(3) {
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  .hc-win__title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: #d4d4d8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hc-win__badge,
+  .hc-win__jump {
+    margin-left: auto;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: #a1a1aa;
+    white-space: nowrap;
+    transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+  }
+
+  .hc-win__jump:hover {
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .hc-win__badge.is-flashing {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #070709;
+  }
+
+  .hc-win__badge--live i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  }
+
+  .hc-win__body {
+    padding: 10px;
+  }
+
+  /* Window 1: notes-vault.md (Top-Left) */
+  .hc-win--notes {
+    top: 16px;
+    left: clamp(14px, 1.8vw, 32px);
+    width: clamp(232px, 18.8vw, 268px);
+  }
+
+  .hc-notes-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: #8e8e93;
+  }
+
+  .hc-notes-progress {
+    color: #fafafa;
+    font-weight: 600;
+  }
+
+  .hc-todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .hc-todo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 7px;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.025);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #e4e4e7;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 140ms ease, background 140ms ease;
+  }
+
+  .hc-todo__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hc-todo:hover {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.055);
+  }
+
+  .hc-todo input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .hc-todo__box {
+    width: 13px;
+    height: 13px;
+    border-radius: 3.5px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    background: rgba(0, 0, 0, 0.35);
+    flex: 0 0 auto;
+    position: relative;
+    transition: background 140ms ease, border-color 140ms ease;
+  }
+
+  .hc-todo input:checked + .hc-todo__box {
+    background: #ffffff;
+    border-color: #ffffff;
+  }
+
+  .hc-todo input:checked + .hc-todo__box::after {
+    content: "";
+    position: absolute;
+    left: 3.5px;
+    top: 1px;
+    width: 4px;
+    height: 7px;
+    border: solid #070709;
+    border-width: 0 1.6px 1.6px 0;
+    transform: rotate(45deg);
+  }
+
+  .hc-todo input:focus-visible + .hc-todo__box {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  .hc-todo__syntax {
+    color: #71717a;
+    font-size: 9.5px;
+    flex: 0 0 auto;
+  }
+
+  .hc-todo.is-done .hc-todo__text {
+    color: #8e8e93;
+    text-decoration: line-through;
+    text-decoration-color: rgba(255, 255, 255, 0.32);
+  }
+
+  /* Window 2 (Middle-Left stack) & Window 3 (Top-Right): Silent Video Previews */
+  .hc-win--clip-notes {
+    top: 192px;
+    left: clamp(14px, 1.8vw, 32px);
+    width: clamp(232px, 18.8vw, 268px);
+  }
+
+  .hc-win--clip-display {
+    top: 16px;
+    right: clamp(14px, 1.8vw, 32px);
+    width: clamp(244px, 20.4vw, 290px);
+  }
+
+  .hc-win__video-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #040406;
+    overflow: hidden;
+  }
+
+  .hc-win__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hc-win__foot {
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(8, 8, 11, 0.94);
+    font-family: var(--mono);
+    font-size: 9.5px;
+  }
+
+  .hc-win__filename {
+    color: #a1a1aa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hc-win__foot-btn {
+    color: #fafafa;
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.05);
+    flex: 0 0 auto;
+    transition: border-color 140ms ease, background 140ms ease;
+  }
+
+  .hc-win__foot-btn:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  /* Window 4: ai-sessions.sys (Bottom-Left) */
+  .hc-win--agents {
+    bottom: 18px;
+    left: clamp(14px, 1.8vw, 32px);
+    width: clamp(232px, 18.8vw, 268px);
+  }
+
+  .hc-agent-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .hc-agent-pill {
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    background: rgba(255, 255, 255, 0.03);
+    color: #a1a1aa;
+    border-radius: 999px;
+    padding: 2.5px 7px;
+    font-family: var(--mono);
+    font-size: 9px;
+    cursor: pointer;
+    transition: border-color 130ms ease, background 130ms ease, color 130ms ease;
+  }
+
+  .hc-agent-pill:hover {
+    border-color: rgba(255, 255, 255, 0.34);
+    color: #fafafa;
+  }
+
+  .hc-agent-pill.is-active {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #070709;
+    font-weight: 600;
+  }
+
+  .hc-agent-readout {
+    padding: 8px 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(4, 4, 6, 0.78);
+    font-family: var(--mono);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hc-agent-readout__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    font-size: 9px;
+  }
+
+  .hc-agent-model {
+    color: #8e8e93;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hc-agent-tokens {
+    color: #ffffff;
+    font-weight: 600;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .hc-agent-turn {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #fafafa;
+  }
+
+  .hc-agent-state {
+    font-size: 8.5px;
+    letter-spacing: 0.03em;
+    color: #a1a1aa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Frameless Rounded Posture Video (Bottom-Right) */
+  .hc-posture-video-card {
+    position: absolute;
+    bottom: 26px;
+    right: clamp(14px, 1.8vw, 32px);
+    width: clamp(316px, 26vw, 396px);
+    z-index: 15;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    text-decoration: none;
+  }
+
+  .hc-posture-video-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1280 / 800;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #050507;
+    box-shadow: 0 22px 52px -18px rgba(0, 0, 0, 0.92);
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+
+  .hc-posture-play-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: rgba(5, 5, 8, 0.34);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    cursor: pointer;
+    transition: background 150ms ease;
+  }
+
+  .hc-posture-play-overlay[hidden] {
+    display: none;
+  }
+
+  .hc-posture-play-overlay:hover {
+    background: rgba(5, 5, 8, 0.48);
+  }
+
+  .hc-posture-play-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.36);
+    background: rgba(7, 7, 10, 0.82);
+    color: #ffffff;
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+    padding-left: 2px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.72);
+    transition: transform 150ms ease, border-color 150ms ease;
+  }
+
+  .hc-posture-play-overlay:hover .hc-posture-play-icon {
+    transform: scale(1.06);
+    border-color: rgba(255, 255, 255, 0.75);
+  }
+
+  .hc-posture-video-card:hover .hc-posture-video-box {
+    border-color: rgba(255, 255, 255, 0.34);
+  }
+
+  .hc-posture-video-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: rgba(250, 250, 250, 0.56);
+    padding-right: 4px;
+    text-decoration: none;
+    transition: color 140ms ease;
+  }
+
+  .hc-posture-video-label:hover {
+    color: #ffffff;
+  }
+
+  /* ----------------------------------------------------------------
+     QUIET FLOATING CAPABILITY TAGS (Inner quadrants around center hero)
+     ---------------------------------------------------------------- */
+  .hc-artifacts {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .hc-kaomoji {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.035em;
+    color: rgba(250, 250, 250, 0.42);
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .hc-kaomoji--tl {
+    top: 40px;
+    left: clamp(276px, 23vw, 344px);
+    transform: rotate(-2deg);
+  }
+
+  .hc-kaomoji--tr {
+    top: 40px;
+    right: clamp(288px, 24.4vw, 366px);
+    transform: rotate(2deg);
+  }
+
+  .hc-kaomoji--bl {
+    bottom: 50px;
+    left: clamp(276px, 23vw, 344px);
+    transform: rotate(2deg);
+  }
+
+  .hc-kaomoji--br {
+    bottom: 50px;
+    right: clamp(368px, 30.2vw, 456px);
+    transform: rotate(-2deg);
+  }
+
+  /* Pure-text right-side capability notes filling the middle-right gap */
+  .hc-side-notes {
+    position: absolute;
+    top: 48%;
+    right: clamp(18px, 2.1vw, 36px);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+    max-width: 260px;
+    text-align: right;
+    user-select: none;
+  }
+
+  .hc-side-note {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+  }
+
+  .hc-side-note__title {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: rgba(250, 250, 250, 0.78);
+    line-height: 1.25;
+  }
+
+  .hc-side-note__sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    color: rgba(161, 161, 170, 0.68);
+    line-height: 1.4;
+  }
+
+  /* ----------------------------------------------------------------
+     BOTTOM-PEEK EDGE HINT -> #stage-simulator
+     ---------------------------------------------------------------- */
+  .hc-peek-wrap {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 18;
+    width: min(440px, calc(100% - 48px));
+    display: flex;
+    justify-content: center;
+  }
+
+  .hc-bottom-peek {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 18px 8px;
+    border-radius: 14px 14px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-bottom: 0;
+    background: rgba(12, 12, 15, 0.92);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.75);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #d4d4d8;
+    transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+  }
+
+  .hc-bottom-peek:hover {
+    border-color: rgba(255, 255, 255, 0.36);
+    background: rgba(20, 20, 26, 0.96);
+    transform: translateY(-2px);
+    color: #ffffff;
+  }
+
+  .hc-bottom-peek__notch {
+    width: 24px;
+    height: 10px;
+    border-radius: 999px;
+    background: #040405;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hc-bottom-peek__notch i {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ffffff;
+  }
+
+  .hc-bottom-peek__hint {
+    color: #8e8e93;
+  }
+
+  /* ----------------------------------------------------------------
+     MEDIUM DESKTOP (1060px..1239px): Clean Non-Overlapping Safe Zone
+     ---------------------------------------------------------------- */
+  @media (min-width: 1060px) and (max-width: 1239px) {
+    .hc-win--notes,
+    .hc-win--clip-notes,
+    .hc-win--agents {
+      left: 14px;
+      width: 214px;
+    }
+
+    .hc-win--clip-notes {
+      top: 192px;
+    }
+
+    .hc-win--clip-display {
+      right: 14px;
+      width: 224px;
+    }
+
+    .hc-posture-video-card {
+      right: 14px;
+      bottom: 24px;
+      width: 288px;
+    }
+
+    .hc-kaomoji {
+      font-size: 9.5px;
+    }
+
+    .hc-kaomoji--tl {
+      top: 32px;
+      left: 244px;
+    }
+
+    .hc-kaomoji--tr {
+      top: 32px;
+      right: 254px;
+    }
+
+    .hc-kaomoji--bl {
+      bottom: 48px;
+      left: 244px;
+    }
+
+    .hc-kaomoji--br {
+      bottom: 48px;
+      right: 316px;
+    }
+
+    .hc-side-notes {
+      right: 16px;
+      max-width: 215px;
+      gap: 12px;
+    }
+
+    .hc-side-note__title {
+      font-size: 12px;
+    }
+
+    .hc-side-note__sub {
+      font-size: 9.5px;
+    }
+  }
+
+  /* ----------------------------------------------------------------
+     TABLET & MOBILE (< 1060px): Interactive 2-Col / 1-Col Bento Flow
+     ---------------------------------------------------------------- */
+  @media (max-width: 1059px) {
+    .hc-stage {
+      min-height: auto;
+      padding: 20px 20px 0;
+      justify-content: flex-start;
+      gap: 24px;
+    }
+
+    .hc-center {
+      padding: 28px 8px 6px;
+    }
+
+    .hc-jump-sep--desktop,
+    .hc-reset-btn {
+      display: none;
+    }
+
+    .hc-artifacts {
+      position: static;
+      pointer-events: auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px 18px;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .hc-kaomoji {
+      position: static;
+      transform: none;
+    }
+
+    .hc-side-notes {
+      position: static;
+      transform: none;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 100%;
+      text-align: center;
+      gap: 12px 24px;
+      margin-top: 4px;
+    }
+
+    .hc-side-note {
+      align-items: center;
+    }
+
+    .hc-windows-layer {
+      position: static;
+      pointer-events: auto;
+      width: 100%;
+      max-width: 920px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .hc-win,
+    .hc-posture-video-card {
+      position: static;
+      width: 100%;
+      transform: none !important;
+      scale: 1 !important;
+      filter: none !important;
+    }
+
+    .hc-posture-video-card {
+      align-items: flex-start;
+    }
+
+    .hc-win__bar {
+      cursor: default;
+    }
+
+    .hc-peek-wrap {
+      position: static;
+      transform: none;
+      margin-top: 8px;
+    }
+  }
+
+  /* ----------------------------------------------------------------
+     MOBILE EXPERIENCE (<= 767px): Clean Hero -> Direct to 51s Video
+     Hide desktop floating windows/tabs & decorative artifacts on phones
+     ---------------------------------------------------------------- */
+  @media (max-width: 767px) {
+    .hc-windows-layer,
+    .hc-artifacts,
+    .hc-jumps {
+      display: none !important;
+    }
+
+    .hc-stage {
+      min-height: auto;
+      padding: 18px 18px 0;
+      gap: 18px;
+    }
+
+    .hc-center {
+      padding: 18px 0 4px;
+      max-width: 440px;
+    }
+
+    .hc-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      padding: 5px 11px;
+      margin-bottom: 14px;
+      max-width: 100%;
+      line-height: 1.3;
+    }
+
+    .hc-title {
+      font-size: clamp(44px, 13vw, 58px);
+      line-height: 0.96;
+    }
+
+    .hc-subtitle {
+      margin-top: 12px;
+      font-size: 15.5px;
+      line-height: 1.48;
+      max-width: 30ch;
+    }
+
+    .hc-os-actions {
+      margin-top: 22px;
+      width: 100%;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hc-os-choice {
+      width: 100%;
+      gap: 5px;
+    }
+
+    .hc-pill {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 18px;
+      font-size: 14.5px;
+      touch-action: manipulation;
+    }
+
+    .hc-urgency {
+      margin-top: 14px;
+      width: auto;
+      max-width: 100%;
+      border-radius: 999px;
+      padding: 7px 12px;
+      gap: 6px 8px;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .hc-peek-wrap {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .hc-bottom-peek {
+      padding: 9px 16px 8px;
+      font-size: 10px;
+    }
+
+    .hc-bottom-peek__hint {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hc-eyebrow__dot {
+      animation: none;
+    }
+
+    .hc-pill,
+    .hc-win,
+    .hc-win.is-resetting,
+    .hc-bottom-peek {
+      transition: none;
+    }
+  }
+</style>

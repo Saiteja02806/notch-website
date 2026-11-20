@@ -5,21 +5,21 @@ import { Bell } from '@lucide/astro'
 <section class="notice-band on-night" aria-labelledby="notice-title">
   <div class="wrap notice-band-grid">
     <div class="notice-band-copy">
-      <span class="eyebrow eyebrow--night"><span class="dot"></span> Reminders</span>
+      <span class="eyebrow eyebrow--night"><span class="dot"></span> Under-Notch Alerts &amp; Agenda</span>
       <h2 id="notice-title">The one alert that reaches you <em>mid-flow.</em></h2>
       <p>
-        Notifications usually land in a corner you are not looking at. Notch puts the card directly
-        under the collapsed tab, at the top of the screen, for twelve seconds — over whatever has
-        focus.
+        Corner toasts get ignored or steal keyboard focus. Whether it is a local task reminder, a
+        Google Calendar event or an OpenCode approval alert, Hero Notch unfolds a quiet card directly
+        beneath the collapsed bar for twelve seconds — over whatever app has focus.
       </p>
 
       <ul class="notice-points">
-        <li><Bell size={13} /> Title and time, no window to close.</li>
-        <li>It never steals focus from your editor.</li>
-        <li>The system notification still lands where Windows allows it.</li>
+        <li><Bell size={13} /> Task title, time and Google Calendar agenda context — no popup to close.</li>
+        <li>Never steals focus from your Markdown note, IDE or terminal.</li>
+        <li>Auto-folds after 12 seconds while keeping macOS &amp; Windows notifications in sync.</li>
       </ul>
 
-      <a class="link link--night" href="/help#reminder-missing">How reminders work</a>
+      <a class="link link--night" href="/help#reminder-missing">How reminders &amp; calendar alerts work</a>
     </div>
 
     <figure class="notice-figure">
@@ -27,11 +27,12 @@ import { Bell } from '@lucide/astro'
         src="/screenshots/notice.png"
         width="1588"
         height="404"
-        alt="The collapsed notch bar with a reminder card below it: “Reminder · Stand up and stretch, Today at 3:30 PM”."
+        alt="The collapsed Hero Notch bar with a reminder card below it: “Reminder · Stand up and stretch, Today at 3:30 PM”."
         loading="lazy"
         decoding="async"
+        style="filter: grayscale(1) contrast(1.08);"
       />
-      <figcaption>Real screenshot · collapsed bar and reminder card</figcaption>
+      <figcaption>Real app capture · collapsed bar and 12-second under-notch card</figcaption>
     </figure>
   </div>
 </section>

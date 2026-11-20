@@ -4,83 +4,155 @@ import { site } from '@/data/site'
 ---
 
 <Base
-  title="Notch privacy — local by default"
-  description="What Notch stores on your PC, how the camera and Spotify tokens are handled, and what this website collects."
+  title="Hero Notch privacy — local by default, zero telemetry"
+  description="Complete breakdown of what Hero Notch stores on your Mac or Windows PC, how local Markdown notes, webcam posture, Spotify PKCE, Google Calendar, AI sessions, and Wi-Fi phone transfer work."
 >
   <section class="wrap">
     <div class="page-head">
-      <span class="eyebrow"><span class="dot"></span> Privacy</span>
+      <span class="eyebrow"><span class="dot"></span> Privacy Architecture</span>
       <h1>Local by default.</h1>
       <p class="lede">
-        Notch has no backend. There is no account, no telemetry endpoint, and no server that could
-        receive your data.
+        Notch has no telemetry server, no user analytics SDK, and no cloud account requirement. Your
+        Markdown notes, posture camera frames, AI session history, and local Wi-Fi transfers stay on
+        your hardware.
       </p>
     </div>
 
     <div class="prose">
-      <h2>What stays on your PC</h2>
+      <h2>Every file Notch stores on your PC</h2>
+      <p>
+        All application state lives inside your Windows user profile under
+        <code>%APPDATA%\notch</code> and inside the local notes folder you choose:
+      </p>
       <table>
         <thead>
-          <tr><th>File</th><th>Contents</th></tr>
+          <tr>
+            <th>Local Path</th>
+            <th>What It Stores</th>
+          </tr>
         </thead>
         <tbody>
           <tr>
             <td><code>%APPDATA%\notch\notch-state.json</code></td>
-            <td>Settings, tasks, timer state and posture totals.</td>
+            <td>
+              Workspace preferences, planner tasks, focus timer intervals, daily hydration pours,
+              posture calibration baseline &amp; daily score totals, and your selected notes vault
+              path.
+            </td>
           </tr>
           <tr>
             <td><code>%APPDATA%\notch\spotify-auth.json</code></td>
-            <td>Spotify access and refresh tokens. PKCE, so no client secret exists.</td>
+            <td>
+              Optional Spotify Web API OAuth PKCE access and refresh tokens (loopback redirect on
+              <code>127.0.0.1:43821</code>). No client secret is stored.
+            </td>
+          </tr>
+          <tr>
+            <td><code>%APPDATA%\notch\calendar-session.enc</code></td>
+            <td>
+              Optional Google Calendar session token encrypted on disk using Windows DPAPI
+              (Electron <code>safeStorage</code>) after loopback sign-in on
+              <code>127.0.0.1:43822</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>%APPDATA%\notch\agent-token.json</code></td>
+            <td>
+              Random 32-byte local bearer token authenticating localhost agent status hooks on
+              <code>127.0.0.1:7432</code>.
+            </td>
           </tr>
           <tr>
             <td><code>%APPDATA%\notch\notch.log</code></td>
-            <td>Startup and diagnostic lines.</td>
+            <td>Local startup, renderer recovery, and diagnostic log lines. Never uploaded.</td>
           </tr>
           <tr>
-            <td>Your notes folder</td>
-            <td>Plain Markdown files, edited in place.</td>
+            <td>Your Markdown / Obsidian folder</td>
+            <td>
+              Plain <code>.md</code> and <code>.txt</code> files read and edited directly in place.
+              Paths are validated to stay inside your selected folder, and deletions move files to
+              the Windows Recycle Bin.
+            </td>
           </tr>
         </tbody>
       </table>
 
-      <h2>The camera</h2>
+      <h2>Local Markdown &amp; Obsidian notes vault</h2>
       <p>
-        Frames are captured in the app process, scored, and discarded. Nothing is written to disk,
-        buffered for later, or sent anywhere. The Windows camera indicator stays lit while the camera
-        is in use, and posture is off until you enable it.
+        Notch reads and writes your Markdown files directly through the local filesystem. It
+        automatically ignores <code>.obsidian</code>, <code>.git</code>, and <code>.trash</code>
+        directories and never uploads, indexes, or mirrors your notes to any external server.
       </p>
 
-      <h2>Spotify</h2>
+      <h2>On-device webcam posture coach</h2>
       <p>
-        Desktop control uses the Windows system media session and needs no account. The optional full
-        connection uses OAuth PKCE, so no client secret exists. Tokens are stored locally and can be
-        removed with <strong>Disconnect</strong>.
+        The posture coach is <strong>off by default</strong>. When you turn it on, webcam frames are
+        evaluated in memory inside the local renderer process using MediaPipe pose landmarks,
+        converted into a 0–100 alignment score, and discarded immediately. No images or video
+        streams are ever written to disk or transmitted over the network. On first activation, the
+        pose model weights and WASM runtime are downloaded once from
+        <code>cdn.jsdelivr.net</code> and <code>storage.googleapis.com</code> and cached locally by
+        Chromium. The hardware camera LED stays lit whenever the camera is active.
       </p>
 
-      <h2>AI sessions</h2>
+      <h2>Spotify &amp; Windows system media</h2>
       <p>
-        Notch reads the local session files those tools already write. Sending a message starts the
-        tool’s own CLI process; content goes to that provider under their terms, not through Notch.
+        Basic playback control reads the native Windows Global System Media Transport Controls
+        (GSMTC) session and requires no account or network request. The optional full Spotify Web
+        API connection uses OAuth 2.0 PKCE over a temporary localhost callback and talks directly to
+        Spotify’s API. Clicking <strong>Disconnect</strong> deletes your local token file.
       </p>
 
-      <h2>This website</h2>
+      <h2>Google Calendar &amp; Day Planner</h2>
       <p>
-        Cookieless analytics: page views and download events, with no identifiers and no cross-site
-        tracking. Downloads are served by GitHub, whose own privacy terms apply.
+        Local planner tasks and under-notch reminders run entirely offline from
+        <code>notch-state.json</code>. If you optionally connect Google Calendar, OAuth sign-in uses
+        a loopback listener on <code>127.0.0.1:43822</code> and encrypts your session token locally
+        with Windows DPAPI (<code>safeStorage</code>). You can disconnect and purge the encrypted
+        session file at any time from Settings.
       </p>
 
-      <h2>Buying Notch</h2>
+      <h2>Multi-agent coding sessions (Codex, OpenCode, Anti Gravity &amp; Claude Code)</h2>
       <p>
-        Purchases go through a third-party checkout provider. They process your payment details
-        under their own privacy policy — we never see your card number. We receive only the email
-        address used for the purchase, so we can deliver the license and handle refunds. The app
-        itself has no account and no license server to contact.
+        The Sessions board opens the local SQLite and JSONL state files already written by your
+        installed coding tools (such as <code>~/.codex/</code>,
+        <code>~/.local/share/opencode/opencode.db</code>, and
+        <code>~/.gemini/antigravity/conversation_summaries.db</code>) in <strong>read-only</strong>
+        mode. When you send a reply from the notch composer, Notch invokes that tool’s own local CLI
+        or local language-server interface on your machine; your prompt goes directly to that
+        provider under their respective privacy policy, never through a Notch server.
+      </p>
+
+      <h2>Local Wi-Fi phone QR transfer</h2>
+      <p>
+        When you open the Phone Transfer modal, Notch starts a temporary HTTP server bound strictly
+        to your local LAN interface with a random one-time cryptographic token in the QR URL. Files
+        (up to 16 MB) and text snippets travel directly between your phone’s browser and your PC
+        over your local Wi-Fi router — zero cloud relays, zero external servers. Closing the modal
+        shuts down the local listener immediately.
+      </p>
+
+      <h2>Focus mode desktop backdrop</h2>
+      <p>
+        When Focus Mode is enabled, Notch captures a temporary local snapshot of your primary
+        display while collapsed so it can render a blurred backdrop behind the open notch. That
+        bitmap lives only on your machine and is never transmitted anywhere.
+      </p>
+
+      <h2>This website &amp; license checkout</h2>
+      <p>
+        This website uses cookieless, privacy-preserving pageview metrics with no cross-site
+        tracking or advertising pixels. Licensed release installers are delivered directly to paying
+        customers after purchase. When you buy a license, payment processing is handled by our
+        checkout provider — we never see or store your credit card number, and we retain only your
+        purchase email address to deliver your license receipt and updates.
       </p>
 
       <h2>Deleting everything</h2>
       <p>
-        Uninstall the app, then delete <code>%APPDATA%\notch</code>. Your notes remain until you
-        delete them yourself. Questions go to <a href={`mailto:${site.email}`}>{site.email}</a>.
+        Uninstall Notch from Windows Settings (or delete the portable executable), then delete the
+        <code>%APPDATA%\notch</code> directory. Your local Markdown notes folder remains untouched on
+        your drive. Questions? Email <a href={`mailto:${site.email}`}>{site.email}</a>.
       </p>
     </div>
   </section>

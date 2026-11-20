@@ -1,23 +1,30 @@
 ---
-import { AppWindow, Palette, Move, MousePointer2, FileText, Video } from '@lucide/astro'
+import { AppWindow, Layers, Move, QrCode, FileText, SlidersHorizontal } from '@lucide/astro'
+import PostureShowcase from '@/components/PostureShowcase.astro'
 import { bento } from '@/data/content'
 
 const icons = {
   taskbar: AppWindow,
-  palette: Palette,
+  palette: Layers,
   move: Move,
-  pointer: MousePointer2,
+  pointer: QrCode,
   file: FileText,
-  camera: Video
+  camera: SlidersHorizontal
 }
 ---
 
-<section class="section" aria-labelledby="details-title">
+<section class="section" id="details" aria-labelledby="details-title">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow"><span class="dot"></span> The quiet details</span>
-      <h2 class="h2" id="details-title">Details you only notice when they are missing.</h2>
+      <span class="eyebrow"><span class="dot"></span> Everything Inside</span>
+      <h2 class="h2" id="details-title">Built to stay quiet until you need it.</h2>
+      <p class="lede">
+        On-device posture coaching, plain Markdown on disk, live coding agents, calendar alerts,
+        media control and local Wi-Fi transfer — in one license.
+      </p>
     </div>
+
+    <PostureShowcase />
 
     <div class="bento">
       {

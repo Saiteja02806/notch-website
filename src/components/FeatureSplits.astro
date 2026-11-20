@@ -1,53 +1,1717 @@
 ---
-import { ArrowRight } from '@lucide/astro'
-import { features } from '@/data/content'
+import { ArrowRight, FileText, FolderOpen, Search, Check, Plus } from '@lucide/astro'
 ---
 
 <section class="section" id="features">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow"><span class="dot"></span> Features</span>
-      <h2 class="h2">Five surfaces, one strip of screen.</h2>
+      <span class="eyebrow"><span class="dot"></span> Features · Notes-First</span>
+      <h2 class="h2">Built around your local Markdown vault.</h2>
       <p class="lede">
-        Each one is complete on its own. Together they replace the five windows you keep open all
-        day.
+        Hero Notch starts with your plain <code>.md</code> files on disk — then surrounds them with your live
+        AI coding sessions, Google Calendar day plan, macOS &amp; Windows media, and local Wi-Fi phone transfer.
       </p>
     </div>
 
-    <div class="splits">
-      {
-        features.map((feature, index) => (
-          <article class:list={['split', index % 2 === 1 && 'split--flip']}>
-            <div class="split-copy">
-              <span class="kicker">{feature.kicker}</span>
-              <h2>{feature.title}</h2>
-              <p>{feature.body}</p>
-              <ul class="split-list">
-                {feature.bullets.map((bullet) => (
-                  <li>{bullet}</li>
-                ))}
-              </ul>
-              <a class="link" href="#tour">
-                See it in the tour <ArrowRight size={13} />
-              </a>
+    {/* Interactive "Inside the Notes Editor" showcase */}
+    <div class="notes-showcase" data-notes-workbench data-preview-mode="false">
+      <div class="notes-showcase-head">
+        <div>
+          <span class="notes-kicker">Inside the Notes Editor · Obsidian-Ready Local Workspace</span>
+          <h3>Try the live Markdown engine before you buy.</h3>
+          <p>
+            Point Hero Notch at any folder or Obsidian vault (<code>.obsidian</code>, <code>.trash</code> and
+            <code>.git</code> are ignored automatically). Toggle tasks, click <code>[[wiki-links]]</code> to jump
+            between notes, type in the live Markdown editor, or create a new <code>.md</code> note on the spot.
+          </p>
+        </div>
+        <div class="notes-showcase-actions">
+          <button class="btn btn--ghost btn--sm" type="button" data-new-note-btn>
+            <Plus size={14} /> New .md Note
+          </button>
+          <button class="btn btn--ghost btn--sm" type="button" data-download-md>
+            <FileText size={14} /> Export .md note
+          </button>
+          <a class="btn btn--ink btn--sm" href="/pricing">
+            Unlock Full App · $3.99 <ArrowRight size={14} />
+          </a>
+        </div>
+      </div>
+
+      {/* Top Notch Frame with MacBook & Windows Header */}
+      <div class="notch-shell">
+        <div class="notch-bezel">
+          <div class="notch-bezel-left">
+            <span class="os-pill is-active" data-os-pill="mac">
+              <svg viewBox="0 0 16 16" width="10" height="10" fill="currentColor" aria-hidden="true">
+                <path d="M11.182 8.51c-.015-1.57 1.283-2.327 1.341-2.363-.73-1.068-1.867-1.214-2.271-1.231-.967-.098-1.887.569-2.378.569-.49 0-1.248-.555-2.05-.54-1.055.015-2.027.613-2.57 1.556-1.096 1.9-.28 4.715.788 6.257.522.755 1.144 1.604 1.96 1.574.787-.031 1.084-.509 2.035-.509.951 0 1.218.509 2.05.493.847-.015 1.383-.77 1.903-1.525.6-.876.847-1.724.862-1.769-.019-.008-1.655-.635-1.67-2.512zm-1.564-4.62c.433-.525.725-1.254.645-1.98-.624.025-1.379.416-1.827.94-.401.464-.752 1.207-.658 1.92.697.054 1.407-.355 1.84-.88z" />
+              </svg>
+              <span>MacBook Pro · macOS</span>
+            </span>
+            <span class="os-pill" data-os-pill="win">
+              <svg viewBox="0 0 16 16" width="9" height="9" fill="currentColor" aria-hidden="true">
+                <path d="M1.5 1.5h5.8v5.8H1.5V1.5zm7.2 0h5.8v5.8H8.7V1.5zM1.5 8.7h5.8v5.8H1.5V8.7zm7.2 0h5.8v5.8H8.7V8.7z" />
+              </svg>
+              <span>Windows 11</span>
+            </span>
+          </div>
+          <div class="notch-cutout" aria-hidden="true">
+            <span class="notch-camera"></span>
+            <span class="notch-label">Hero Notch · Notes</span>
+            <span class="notch-live-dot"></span>
+          </div>
+          <div class="notch-bezel-right">
+            <span class="shortcut-hint"><kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd></span>
+          </div>
+        </div>
+
+        {/* Hero Notch App Top Bar */}
+        <div class="notch-appbar">
+          <div class="notch-appbar-tabs" aria-label="Hero Notch surfaces">
+            <span class="notch-brand-badge">
+              <span class="notch-brand-dot"></span>
+              Hero Notch
+            </span>
+            <span class="notch-surface-tab is-active">Notes</span>
+            <a class="notch-surface-tab" href="#details">Sessions</a>
+            <a class="notch-surface-tab" href="#details">Plan</a>
+            <a class="notch-surface-tab" href="#details">Music</a>
+            <a class="notch-surface-tab" href="#details">Posture</a>
+          </div>
+
+          <div class="notch-appbar-meta">
+            <span class="notes-autosave" data-note-save-status>
+              <Check size={11} /> Saved in 750ms to disk
+            </span>
+            <button
+              type="button"
+              class="notes-obsidian-btn"
+              data-open-obsidian
+              title="Opens obsidian://open?vault=HeroNotchVault in the desktop app"
+            >
+              Open in Obsidian ↗
+            </button>
+          </div>
+        </div>
+
+        <div class="notes-window">
+          <aside class="notes-sidebar" aria-label="Sample Obsidian vault tree">
+            <div class="notes-vault-bar">
+              <FolderOpen size={13} />
+              <span class="notes-vault-name" title="~/Obsidian/HeroNotchVault">~/Obsidian/HeroNotchVault</span>
+              <span class="notes-vault-count" data-vault-count>4 .md</span>
             </div>
 
-            <div class="split-media">
-              <div class="frame">
-                <img
-                  src={feature.image}
-                  alt={feature.alt}
-                  width="1600"
-                  height="1000"
-                  loading="lazy"
-                  decoding="async"
-                  onerror="this.style.display='none'"
-                />
+            <label class="notes-search">
+              <Search size={12} />
+              <input
+                type="search"
+                placeholder="Search (⌘K / Ctrl+K)…"
+                aria-label="Filter sample vault notes"
+                data-notes-search
+              />
+              <kbd>⌘K</kbd>
+            </label>
+
+            <div class="notes-tree-bar">
+              <span>VAULT FILES</span>
+              <button type="button" class="tree-new-link" data-new-note-btn>+ New Note</button>
+            </div>
+
+            <div class="notes-tree" role="listbox" aria-label="Markdown files" data-notes-tree>
+              <button
+                type="button"
+                class="notes-file is-active"
+                data-note-select="roadmap.md"
+                role="option"
+                aria-selected="true"
+              >
+                <span class="notes-file-name">roadmap.md</span>
+                <span class="notes-file-meta">macOS + Win</span>
+              </button>
+              <button
+                type="button"
+                class="notes-file"
+                data-note-select="obsidian-workflow.md"
+                role="option"
+                aria-selected="false"
+              >
+                <span class="notes-file-name">obsidian-workflow.md</span>
+                <span class="notes-file-meta">vault · links</span>
+              </button>
+              <button
+                type="button"
+                class="notes-file"
+                data-note-select="ai-sessions.md"
+                role="option"
+                aria-selected="false"
+              >
+                <span class="notes-file-name">ai-sessions.md</span>
+                <span class="notes-file-meta">4 agents</span>
+              </button>
+              <button
+                type="button"
+                class="notes-file"
+                data-note-select="daily-2026-11-17.md"
+                role="option"
+                aria-selected="false"
+              >
+                <span class="notes-file-name">daily-2026-11-17.md</span>
+                <span class="notes-file-meta">gcal · timer</span>
+              </button>
+            </div>
+
+            <div class="notes-ignored">
+              <span>Ignored automatically:</span>
+              <code>.obsidian/</code> <code>.trash/</code> <code>.git/</code>
+            </div>
+          </aside>
+
+          <div class="notes-main">
+            {/* Breadcrumb & Mode Bar */}
+            <div class="notes-toolbar">
+              <div class="notes-path">
+                <span class="notes-breadcrumb">HeroNotchVault /</span>
+                <strong data-note-filename>roadmap.md</strong>
+                <span class="notes-wordcount" data-note-words>64 words</span>
+              </div>
+
+              <div class="notes-mode-group" role="group" aria-label="Editor mode">
+                <button type="button" class="notes-mode-btn is-active" data-note-mode="inline">
+                  Inline Edit
+                </button>
+                <button type="button" class="notes-mode-btn" data-note-mode="preview">
+                  Preview
+                </button>
               </div>
             </div>
-          </article>
-        ))
-      }
+
+            {/* Formatting Toolbar (Just Like NotesPage.tsx) */}
+            <div class="notes-fmt-bar" role="toolbar" aria-label="Markdown formatting toolbar">
+              <div class="fmt-group">
+                <button type="button" class="fmt-btn" data-fmt="bold" title="Bold (Cmd/Ctrl+B)">
+                  <strong>B</strong>
+                </button>
+                <button type="button" class="fmt-btn" data-fmt="italic" title="Italic (Cmd/Ctrl+I)">
+                  <em>I</em>
+                </button>
+                <button type="button" class="fmt-btn" data-fmt="heading" title="Heading (#)">
+                  # H2
+                </button>
+              </div>
+              <span class="fmt-sep" aria-hidden="true"></span>
+              <div class="fmt-group">
+                <button type="button" class="fmt-btn" data-fmt="task" title="Insert Checklist (- [ ])">
+                  ☑ Task
+                </button>
+                <button type="button" class="fmt-btn" data-fmt="code" title="Inline Code (`)">
+                  <code>&lt;/&gt;</code> Code
+                </button>
+                <button type="button" class="fmt-btn" data-fmt="wikilink" title="Insert Obsidian Wiki-Link ([[]])">
+                  [[Wiki Link]]
+                </button>
+              </div>
+              <span class="fmt-sep" aria-hidden="true"></span>
+              <button type="button" class="fmt-btn fmt-btn--new" data-new-note-btn title="Create a new .md file in the vault">
+                + New Note
+              </button>
+              <span class="fmt-toast" data-obsidian-toast hidden></span>
+            </div>
+
+            {/* Dual Interactive Body: Rendered Live Inline Document + Editable Raw Markdown Scratchpad */}
+            <div class="notes-workspace-split">
+              <div class="notes-doc" data-notes-rendered aria-live="polite">
+                {/* Populated and kept in sync by the live Markdown engine below */}
+              </div>
+
+              <div class="notes-live-input-wrap" data-live-editor-pane>
+                <div class="notes-live-input-head">
+                  <span>LIVE MARKDOWN SOURCE (<code data-note-filename-mirror>roadmap.md</code>)</span>
+                  <span class="live-hint">Type Markdown or use toolbar buttons — renders above in real time</span>
+                </div>
+                <textarea
+                  class="notes-textarea"
+                  data-notes-textarea
+                  rows="7"
+                  spellcheck="false"
+                  aria-label="Live Markdown source editor"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="notes-statusbar">
+              <span>UTF-8 · Plain Markdown (<code>.md</code>) on disk</span>
+              <span data-note-task-summary>3 / 4 tasks completed</span>
+              <span>Click any <code>[[wiki-link]]</code> to jump notes · ⌘K / Ctrl+K Search</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .notes-showcase {
+    margin-bottom: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-stage);
+    background: var(--paper-2);
+    padding: clamp(22px, 3.2vw, 38px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .notes-showcase-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .notes-kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .notes-showcase-head h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(26px, 3vw, 38px);
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+  }
+
+  .notes-showcase-head p {
+    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 66ch;
+  }
+
+  .notes-showcase-head code,
+  .section-head code {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .notes-showcase-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Top Notch Shell */
+  .notch-shell {
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: #050507;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.1) inset,
+      0 36px 80px -34px rgba(0, 0, 0, 0.85);
+  }
+
+  .notch-bezel {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 16px;
+    height: 38px;
+    background: #020203;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .notch-bezel-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .os-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 9.5px;
+    white-space: nowrap;
+  }
+
+  .os-pill.is-active {
+    border-color: rgba(255, 255, 255, 0.32);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .notch-cutout {
+    height: 30px;
+    align-self: start;
+    padding: 0 18px;
+    border-radius: 0 0 14px 14px;
+    background: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+  }
+
+  .notch-camera {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #27272a 30%, #09090b 75%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .notch-live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px #ffffff;
+  }
+
+  .notch-bezel-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .shortcut-hint kbd {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .notch-appbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 18px;
+    background: #09090c;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-wrap: wrap;
+  }
+
+  .notch-appbar-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .notch-brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #ffffff;
+    padding-right: 10px;
+    margin-right: 4px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .notch-brand-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+  }
+
+  .notch-surface-tab {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.52);
+    border: 1px solid transparent;
+    transition: color 140ms ease, background 140ms ease;
+  }
+
+  .notch-surface-tab:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .notch-surface-tab.is-active {
+    color: #050505;
+    background: #ffffff;
+    font-weight: 600;
+  }
+
+  .notch-appbar-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .notes-obsidian-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    padding: 4px 11px;
+    cursor: pointer;
+    transition: background 140ms ease, border-color 140ms ease;
+  }
+
+  .notes-obsidian-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #ffffff;
+  }
+
+  .notes-window {
+    background: #070709;
+    color: #f2f2f2;
+    display: grid;
+    grid-template-columns: 278px minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .notes-sidebar {
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0b0b0e;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .notes-vault-bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.88);
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .notes-vault-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .notes-vault-count {
+    margin-left: auto;
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .notes-search {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .notes-search input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    font-family: var(--mono);
+    font-size: 11px;
+    outline: none;
+  }
+
+  .notes-search input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .notes-search kbd {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .notes-tree-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .tree-new-link {
+    border: 0;
+    background: none;
+    color: #ffffff;
+    font-family: var(--mono);
+    font-size: 10px;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .tree-new-link:hover {
+    text-decoration: underline;
+  }
+
+  .notes-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .notes-tree :global(.notes-file) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+  }
+
+  .notes-tree :global(.notes-file:hover) {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+  }
+
+  .notes-tree :global(.notes-file.is-active) {
+    background: rgba(255, 255, 255, 0.11);
+    border-color: rgba(255, 255, 255, 0.26);
+    color: #ffffff;
+  }
+
+  .notes-tree :global(.notes-file-name) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .notes-tree :global(.notes-file-meta) {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.38);
+  }
+
+  .notes-ignored {
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .notes-ignored code {
+    color: rgba(255, 255, 255, 0.68);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 1px 4px;
+    border-radius: 4px;
+  }
+
+  .notes-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+  }
+
+  .notes-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    flex-wrap: wrap;
+  }
+
+  .notes-path {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: #ffffff;
+  }
+
+  .notes-breadcrumb {
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .notes-wordcount {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.45);
+    padding-left: 6px;
+  }
+
+  .notes-autosave {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.78);
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .notes-mode-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .notes-mode-btn {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.62);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .notes-mode-btn.is-active {
+    background: #ffffff;
+    color: #090909;
+    border-color: #ffffff;
+    font-weight: 600;
+  }
+
+  /* Formatting Toolbar */
+  .notes-fmt-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0a0a0d;
+    flex-wrap: wrap;
+  }
+
+  .fmt-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .fmt-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .fmt-btn {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.82);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+  }
+
+  .fmt-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+  }
+
+  .fmt-btn--new {
+    border-color: rgba(255, 255, 255, 0.26);
+    color: #ffffff;
+  }
+
+  .fmt-toast {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .notes-workspace-split {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .notes-doc {
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    flex: 1;
+  }
+
+  :global([data-preview-mode="true"]) [data-live-editor-pane] {
+    display: none;
+  }
+
+  :global([data-preview-mode="true"]) .md-token {
+    display: none;
+  }
+
+  .notes-live-input-wrap {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: #050507;
+    padding: 10px 18px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .notes-live-input-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .live-hint {
+    color: rgba(255, 255, 255, 0.36);
+  }
+
+  .notes-textarea {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #09090c;
+    color: #f4f4f5;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.55;
+    padding: 9px 11px;
+    resize: vertical;
+    outline: none;
+  }
+
+  .notes-textarea:focus {
+    border-color: rgba(255, 255, 255, 0.38);
+  }
+
+  /* Dynamic Markdown elements rendered inside .notes-doc */
+  .notes-doc :global(.md-token) {
+    font-family: var(--mono);
+    color: rgba(255, 255, 255, 0.36);
+    font-weight: 400;
+    font-size: 0.88em;
+  }
+
+  .notes-doc :global(.notes-line-h1) {
+    font-family: var(--serif);
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    line-height: 1.15;
+  }
+
+  .notes-doc :global(.notes-line-h2) {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.76);
+    margin-top: 4px;
+  }
+
+  .notes-doc :global(.notes-line-quote) {
+    border-left: 2px solid rgba(255, 255, 255, 0.34);
+    padding-left: 12px;
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.74);
+    line-height: 1.55;
+  }
+
+  .notes-doc :global(.notes-line-p) {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.55;
+  }
+
+  .notes-doc :global(.notes-check) {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .notes-doc :global(.notes-check input) {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .notes-doc :global(.notes-check-box) {
+    width: 15px;
+    height: 15px;
+    margin-top: 3px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    flex: 0 0 auto;
+    position: relative;
+  }
+
+  .notes-doc :global(.notes-check.is-checked .notes-check-box) {
+    background: #ffffff;
+    border-color: #ffffff;
+  }
+
+  .notes-doc :global(.notes-check.is-checked .notes-check-box::after) {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border-right: 1.5px solid #080808;
+    border-bottom: 1.5px solid #080808;
+    transform: rotate(40deg);
+  }
+
+  .notes-doc :global(.notes-check.is-checked .notes-check-text) {
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration: line-through;
+  }
+
+  .notes-doc :global(code) {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.09);
+    color: #ffffff;
+  }
+
+  .notes-doc :global(.wiki-link) {
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+
+  .notes-doc :global(.wiki-link:hover) {
+    background: #ffffff;
+    color: #050505;
+    border-color: #ffffff;
+  }
+
+  .notes-statusbar {
+    margin-top: auto;
+    padding: 9px 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.46);
+  }
+
+  /* High-Precision Monochrome Feature Split Surfaces */
+  .split-surface {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    background:
+      radial-gradient(80% 60% at 50% 0%, rgba(255, 255, 255, 0.06), transparent 65%),
+      #060608 !important;
+    color: #fafafa;
+    font-family: var(--sans);
+  }
+
+  .surface-notch-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .surface-pill {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+  }
+
+  .surface-body {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  .surface-notes .sn-tree {
+    width: 38%;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
+  .sn-folder {
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 9.5px;
+    margin-bottom: 2px;
+  }
+
+  .sn-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 7px;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .sn-item.is-on {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  .sn-item span {
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 9px;
+  }
+
+  .sn-ignore {
+    margin-top: auto;
+    font-size: 8.5px;
+    color: rgba(255, 255, 255, 0.36);
+  }
+
+  .sn-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .sn-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .sn-badge {
+    color: #ffffff;
+  }
+
+  .sn-h1 {
+    font-family: var(--serif);
+    font-size: 19px;
+    color: #ffffff;
+  }
+
+  .sn-check {
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .sn-check.is-done {
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .ss-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ss-card {
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ss-card.is-active {
+    border-color: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .ss-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .ss-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+  }
+
+  .ss-badge--alert {
+    background: #ffffff;
+    color: #050505;
+    font-weight: 600;
+  }
+
+  .ss-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ss-turn {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .surface-plan {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .sp-agenda {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sp-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.56);
+  }
+
+  .sp-event {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+  }
+
+  .sp-event.is-now {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .sp-event small {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 10.5px;
+  }
+
+  .sp-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #ffffff;
+  }
+
+  .sp-toast {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    background: #0d0d12;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 11.5px;
+  }
+
+  .sp-toast span {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .surface-music {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .sm-now {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .sm-art {
+    width: 68px;
+    height: 68px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: radial-gradient(circle, #27272a 0%, #09090b 70%);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+  }
+
+  .sm-vinyl {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .sm-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sm-source {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .sm-info small {
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 11px;
+  }
+
+  .sm-bar {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 3px;
+  }
+
+  .sm-bar span {
+    display: block;
+    height: 100%;
+    background: #ffffff;
+  }
+
+  .sm-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  .sm-time {
+    margin-left: auto;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .sm-queue {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .sm-queue span {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.38);
+  }
+
+  .surface-posture {
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .spo-card,
+  .spo-qr {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .spo-ring,
+  .spo-qr-box {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    flex: 0 0 auto;
+  }
+
+  .spo-qr-box {
+    border-radius: 8px;
+    font-size: 10px;
+    line-height: 1.1;
+  }
+
+  .spo-ring strong {
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  .spo-ring span {
+    font-size: 7px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .spo-meta strong {
+    display: block;
+    font-size: 12.5px;
+  }
+
+  .spo-meta p {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.56);
+    margin-top: 2px;
+  }
+
+  .split-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 860px) {
+    .notch-bezel {
+      grid-template-columns: 1fr auto;
+    }
+
+    .notch-bezel-right {
+      display: none;
+    }
+
+    .notes-window {
+      grid-template-columns: 1fr;
+    }
+
+    .notes-sidebar {
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+</style>
+
+<script>
+  const workbench = document.querySelector<HTMLElement>('[data-notes-workbench]')
+  if (workbench) {
+    const treeEl = workbench.querySelector<HTMLElement>('[data-notes-tree]')
+    const renderedEl = workbench.querySelector<HTMLElement>('[data-notes-rendered]')
+    const textareaEl = workbench.querySelector<HTMLTextAreaElement>('[data-notes-textarea]')
+    const modeButtons = Array.from(workbench.querySelectorAll<HTMLButtonElement>('[data-note-mode]'))
+    const filenameEl = workbench.querySelector<HTMLElement>('[data-note-filename]')
+    const filenameMirrorEl = workbench.querySelector<HTMLElement>('[data-note-filename-mirror]')
+    const wordsEl = workbench.querySelector<HTMLElement>('[data-note-words]')
+    const vaultCountEl = workbench.querySelector<HTMLElement>('[data-vault-count]')
+    const saveStatusEl = workbench.querySelector<HTMLElement>('[data-note-save-status]')
+    const summaryEl = workbench.querySelector<HTMLElement>('[data-note-task-summary]')
+    const searchInput = workbench.querySelector<HTMLInputElement>('[data-notes-search]')
+    const exportBtn = workbench.querySelector<HTMLButtonElement>('[data-download-md]')
+    const newNoteBtns = Array.from(workbench.querySelectorAll<HTMLButtonElement>('[data-new-note-btn]'))
+    const fmtBtns = Array.from(workbench.querySelectorAll<HTMLButtonElement>('[data-fmt]'))
+    const obsidianBtn = workbench.querySelector<HTMLButtonElement>('[data-open-obsidian]')
+    const toastEl = workbench.querySelector<HTMLElement>('[data-obsidian-toast]')
+
+    const vaultNotes: Record<string, { meta: string; content: string }> = {
+      'roadmap.md': {
+        meta: 'macOS + Win',
+        content: [
+          '# Hero Notch 1.0 — Local Markdown Workspace',
+          '> Plain **.md files** on disk for MacBook & Windows. Zero cloud lock-in, instant access from the top edge.',
+          '## Release Checklist',
+          '- [x] Mount existing **Obsidian vault** with `750ms` debounced auto-save',
+          '- [x] Render inline `# headings`, `**bold**`, `_italic_`, `code` and [[obsidian-workflow.md]]',
+          '- [x] Stream live turns in [[ai-sessions.md]] & agenda in [[daily-2026-11-17.md]]',
+          '- [ ] Test drag-and-drop folder organization & click _Open in Obsidian_'
+        ].join('\n')
+      },
+      'obsidian-workflow.md': {
+        meta: 'vault · links',
+        content: [
+          '# Obsidian Vault & Local Folder Workflow',
+          '> Point Hero Notch at `~/Obsidian/HeroNotchVault` — `.obsidian`, `.trash` and `.git` are ignored automatically.',
+          '## How Bi-Directional Editing Works',
+          '- [x] Edits write straight back to plain UTF-8 `.md` files in `750ms`',
+          '- [x] Click any wiki-link like [[roadmap.md]] or [[ai-sessions.md]] to jump notes',
+          '- [x] Press `Cmd/Ctrl+K` for instant filename and full-text vault search',
+          '- [ ] Launch current note in desktop Obsidian via `obsidian://open`'
+        ].join('\n')
+      },
+      'ai-sessions.md': {
+        meta: '4 agents',
+        content: [
+          '# AI Coding Sessions Architecture',
+          '> Monitor **Claude Code**, **Codex**, **OpenCode** and **Anti Gravity** side by side from local session logs.',
+          '## Verified Follow-up Flow',
+          '- [x] Stream live turns, token totals and active model per project folder',
+          '- [x] Confirm reply delivery against local session store (`Delivered` badge)',
+          '- [x] Surface `OpenCode` tool-approval alerts at the top of your display',
+          '- [x] Link agent notes directly to [[roadmap.md]] and [[daily-2026-11-17.md]]'
+        ].join('\n')
+      },
+      'daily-2026-11-17.md': {
+        meta: 'gcal · timer',
+        content: [
+          '# Daily Plan — 2026-11-17',
+          '> Synced with **Google Calendar** agenda strip + 12-second under-notch reminder cards.',
+          '## Today’s Schedule & Focus Blocks',
+          '- [x] 10:00 — Review `NotesPage.tsx` inline Markdown parser & [[obsidian-workflow.md]]',
+          '- [x] 13:00 — Beam build screenshots to phone via `Phone QR` local Wi-Fi',
+          '- [ ] 15:00 — Check [[ai-sessions.md]] for Claude Code & Codex verification',
+          '- [ ] 16:30 — Run 25-minute breathing focus timer with desktop blur backdrop'
+        ].join('\n')
+      }
+    }
+
+    let activeNote = 'roadmap.md'
+    let saveTimer: number | undefined
+    let createdCounter = 1
+
+    const escapeHtml = (str: string): string =>
+      str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+    const formatInline = (raw: string): string => {
+      const codeSpans: string[] = []
+      let s = escapeHtml(raw)
+      // Stash `code` first so bold/italic markers inside code examples are preserved literally
+      s = s.replace(/`([^`]+)`/g, (_m, code: string) => {
+        const idx = codeSpans.push(`<code>${code}</code>`) - 1
+        return `\u0000CODE${idx}\u0000`
+      })
+      // [[wiki-links]]
+      s = s.replace(/\[\[([^\]]+)\]\]/g, (_m, target: string) => {
+        const clean = target.trim()
+        const fileTarget = clean.endsWith('.md') ? clean : `${clean}.md`
+        return `<button type="button" class="wiki-link" data-wiki-target="${fileTarget}">${clean}</button>`
+      })
+      // **bold**
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      // _italic_
+      s = s.replace(/(^|\s)_([^_]+)_/g, '$1<em>$2</em>')
+      // Restore stashed code spans
+      return s.replace(/\u0000CODE(\d+)\u0000/g, (_m, idx: string) => codeSpans[Number(idx)] ?? '')
+    }
+
+    const flashSaved = (): void => {
+      if (!saveStatusEl) return
+      saveStatusEl.textContent = 'Saving to disk…'
+      if (saveTimer) window.clearTimeout(saveTimer)
+      saveTimer = window.setTimeout(() => {
+        saveStatusEl.textContent = '✓ Saved in 750ms to disk'
+      }, 380)
+    }
+
+    const showToast = (msg: string): void => {
+      if (!toastEl) return
+      toastEl.textContent = msg
+      toastEl.hidden = false
+      window.setTimeout(() => {
+        toastEl.hidden = true
+      }, 2400)
+    }
+
+    const renderActiveNote = (syncTextarea = true): void => {
+      const note = vaultNotes[activeNote]
+      if (!note || !renderedEl) return
+      if (syncTextarea && textareaEl && textareaEl.value !== note.content) {
+        textareaEl.value = note.content
+      }
+      if (filenameEl) filenameEl.textContent = activeNote
+      if (filenameMirrorEl) filenameMirrorEl.textContent = activeNote
+
+      const words = note.content.trim() ? note.content.trim().split(/\s+/).length : 0
+      if (wordsEl) wordsEl.textContent = `${words} words`
+      if (vaultCountEl) vaultCountEl.textContent = `${Object.keys(vaultNotes).length} .md`
+
+      const lines = note.content.split('\n')
+      let totalTasks = 0
+      let completedTasks = 0
+
+      const html = lines
+        .map((line, lineIdx) => {
+          const h1 = /^#\s+(.*)$/.exec(line)
+          if (h1) {
+            return `<div class="notes-line notes-line-h1">${formatInline(h1[1])}</div>`
+          }
+          const h2 = /^##+\s+(.*)$/.exec(line)
+          if (h2) {
+            return `<div class="notes-line notes-line-h2">${formatInline(h2[1])}</div>`
+          }
+          const quote = /^>\s?(.*)$/.exec(line)
+          if (quote) {
+            return `<div class="notes-line notes-line-quote">${formatInline(quote[1])}</div>`
+          }
+          const task = /^(\s*[-*+]\s+\[)([ xX])(\]\s+)(.*)$/.exec(line)
+          if (task) {
+            totalTasks += 1
+            const isChecked = task[2].toLowerCase() === 'x'
+            if (isChecked) completedTasks += 1
+            return `<label class="notes-check${isChecked ? ' is-checked' : ''}">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} data-line-index="${lineIdx}" />
+              <span class="notes-check-box" aria-hidden="true"></span>
+              <span class="notes-check-text">${formatInline(task[4])}</span>
+            </label>`
+          }
+          if (!line.trim()) return ''
+          return `<div class="notes-line notes-line-p">${formatInline(line)}</div>`
+        })
+        .join('')
+
+      renderedEl.innerHTML = html
+      if (summaryEl) {
+        summaryEl.textContent =
+          totalTasks > 0 ? `${completedTasks} / ${totalTasks} tasks completed` : `${lines.length} lines · UTF-8`
+      }
+    }
+
+    const selectNote = (name: string): void => {
+      if (!vaultNotes[name]) return
+      activeNote = name
+      if (treeEl) {
+        Array.from(treeEl.querySelectorAll<HTMLButtonElement>('[data-note-select]')).forEach((btn) => {
+          const isCurrent = btn.dataset.noteSelect === name
+          btn.classList.toggle('is-active', isCurrent)
+          btn.setAttribute('aria-selected', String(isCurrent))
+        })
+      }
+      renderActiveNote(true)
+    }
+
+    treeEl?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-note-select]')
+      if (!btn) return
+      selectNote(btn.dataset.noteSelect ?? 'roadmap.md')
+    })
+
+    renderedEl?.addEventListener('change', (e) => {
+      const input = e.target as HTMLInputElement
+      if (input.tagName !== 'INPUT' || input.dataset.lineIndex === undefined) return
+      const idx = Number(input.dataset.lineIndex)
+      const lines = vaultNotes[activeNote].content.split('\n')
+      if (lines[idx] !== undefined) {
+        lines[idx] = lines[idx].replace(/^(\s*[-*+]\s+\[)[ xX](\]\s+)/, `$1${input.checked ? 'x' : ' '}$2`)
+        vaultNotes[activeNote].content = lines.join('\n')
+        renderActiveNote(true)
+        flashSaved()
+      }
+    })
+
+    renderedEl?.addEventListener('click', (e) => {
+      const wiki = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-wiki-target]')
+      if (!wiki) return
+      e.preventDefault()
+      const target = wiki.dataset.wikiTarget ?? ''
+      if (vaultNotes[target]) {
+        selectNote(target)
+        showToast(`Jumped to [[${target}]]`)
+      }
+    })
+
+    textareaEl?.addEventListener('input', () => {
+      vaultNotes[activeNote].content = textareaEl.value
+      renderActiveNote(false)
+      flashSaved()
+    })
+
+    const applyToolbarFormat = (kind: string): void => {
+      if (!textareaEl) return
+      const start = textareaEl.selectionStart ?? textareaEl.value.length
+      const end = textareaEl.selectionEnd ?? textareaEl.value.length
+      const selected = textareaEl.value.slice(start, end)
+      let replacement = ''
+      if (kind === 'bold') replacement = `**${selected || 'bold text'}**`
+      else if (kind === 'italic') replacement = `_${selected || 'italic text'}_`
+      else if (kind === 'heading') replacement = `\n## ${selected || 'New Section'}`
+      else if (kind === 'task') replacement = `\n- [ ] ${selected || 'New checklist item'}`
+      else if (kind === 'code') replacement = `\`${selected || 'code'}\``
+      else if (kind === 'wikilink') replacement = `[[${selected || 'ai-sessions.md'}]]`
+
+      textareaEl.setRangeText(replacement, start, end, 'end')
+      textareaEl.focus()
+      vaultNotes[activeNote].content = textareaEl.value
+      renderActiveNote(false)
+      flashSaved()
+    }
+
+    fmtBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        applyToolbarFormat(btn.dataset.fmt ?? 'bold')
+      })
+    })
+
+    newNoteBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filename = `note-${createdCounter++}.md`
+        vaultNotes[filename] = {
+          meta: 'just now',
+          content: [
+            `# Untitled Note ${createdCounter - 1}`,
+            '> Created in `~/Obsidian/HeroNotchVault` — edits auto-save in 750ms.',
+            '## Quick Thoughts',
+            '- [ ] Link back to [[roadmap.md]] or [[obsidian-workflow.md]]',
+            '- [ ] Type below or toggle tasks right inside the notch'
+          ].join('\n')
+        }
+        if (treeEl) {
+          const item = document.createElement('button')
+          item.type = 'button'
+          item.className = 'notes-file'
+          item.dataset.noteSelect = filename
+          item.setAttribute('role', 'option')
+          item.setAttribute('aria-selected', 'false')
+          item.innerHTML = `<span class="notes-file-name">${filename}</span><span class="notes-file-meta">just now</span>`
+          treeEl.appendChild(item)
+        }
+        workbench.dataset.previewMode = 'false'
+        modeButtons.forEach((b) => b.classList.toggle('is-active', b.dataset.noteMode === 'inline'))
+        selectNote(filename)
+        textareaEl?.focus()
+        flashSaved()
+        showToast(`Created ${filename} in ~/Obsidian/HeroNotchVault`)
+      })
+    })
+
+    obsidianBtn?.addEventListener('click', () => {
+      showToast(`obsidian://open?vault=HeroNotchVault&file=${encodeURIComponent(activeNote)}`)
+    })
+
+    modeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.noteMode ?? 'inline'
+        workbench.dataset.previewMode = String(mode === 'preview')
+        modeButtons.forEach((b) => b.classList.toggle('is-active', b === btn))
+      })
+    })
+
+    searchInput?.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase()
+      if (!treeEl) return
+      Array.from(treeEl.querySelectorAll<HTMLButtonElement>('[data-note-select]')).forEach((btn) => {
+        const file = btn.dataset.noteSelect ?? ''
+        const body = vaultNotes[file]?.content.toLowerCase() ?? ''
+        const match = !q || file.toLowerCase().includes(q) || body.includes(q)
+        btn.style.display = match ? '' : 'none'
+      })
+    })
+
+    exportBtn?.addEventListener('click', () => {
+      const raw = vaultNotes[activeNote]?.content ?? ''
+      const blob = new Blob([raw + '\n'], { type: 'text/markdown;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = activeNote
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(url)
+    })
+
+    renderActiveNote(true)
+  }
+</script>

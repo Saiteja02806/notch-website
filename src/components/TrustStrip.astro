@@ -1,16 +1,163 @@
 ---
+import { FileText, KeyRound, Laptop, ShieldCheck } from '@lucide/astro'
 import { trustItems } from '@/data/site'
+
+const icons = [Laptop, FileText, ShieldCheck, KeyRound] as const
 ---
 
 <div class="wrap">
-  <div class="trust" role="list">
-    {
-      trustItems.map((item) => (
-        <div role="listitem">
-          <strong>{item.label}</strong>
-          <span>{item.detail}</span>
-        </div>
-      ))
-    }
+  <div class="trust-frame">
+    <div class="trust-head">
+      <span class="trust-title">
+        <span class="trust-dot" aria-hidden="true"></span>
+        Local-first engineering guarantees
+      </span>
+      <span class="trust-meta">Zero cloud sync · Zero telemetry</span>
+    </div>
+
+    <div class="trust trust-grid" role="list" aria-label="Architecture and licensing guarantees">
+      {
+        trustItems.map((item, idx) => {
+          const Icon = icons[idx] ?? ShieldCheck
+          return (
+            <div class="trust-item" role="listitem">
+              <div class="trust-item-head">
+                <span class="trust-icon" aria-hidden="true">
+                  <Icon size={13} />
+                </span>
+                <strong>{item.label}</strong>
+              </div>
+              <span>{item.detail}</span>
+            </div>
+          )
+        })
+      }
+    </div>
   </div>
 </div>
+
+<style>
+  .trust-frame {
+    margin-block: clamp(12px, 2vw, 24px);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-card);
+    background: var(--paper-2);
+    overflow: hidden;
+  }
+
+  .trust-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    padding: 9px 18px;
+    border-bottom: 1px solid var(--line-strong);
+    background: var(--paper-2);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .trust-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .trust-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .trust.trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .trust.trust-grid > .trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 18px;
+    margin: 0;
+    border: 0;
+    background: var(--paper);
+    text-align: left;
+    min-width: 0;
+  }
+
+  .trust.trust-grid > .trust-item > .trust-item-head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  .trust.trust-grid > .trust-item .trust-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-2);
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .trust.trust-grid > .trust-item strong {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .trust.trust-grid > .trust-item > span {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .trust.trust-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .trust.trust-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-head {
+      padding: 9px 14px;
+    }
+
+    .trust.trust-grid > .trust-item {
+      padding: 13px 14px;
+      border-bottom: 0;
+    }
+
+    .trust.trust-grid > .trust-item > .trust-item-head {
+      flex-direction: row;
+      padding: 0;
+      border: 0;
+    }
+  }
+</style>

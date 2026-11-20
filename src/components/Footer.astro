@@ -4,19 +4,16 @@ import { site } from '@/data/site'
 import { release } from '@/data/release'
 
 const product = [
-  { href: '/#tour', label: 'Tour' },
-  { href: '/#features', label: 'Features' },
-  { href: '/#install', label: 'Install' },
-  { href: '/changelog', label: 'Changelog' },
-  { href: '/download', label: 'Download' },
+  { href: '/#hero-canvas', label: 'Interactive Canvas' },
+  { href: '/#setup-video', label: 'Setup Video (51s)' },
+  { href: '/#details', label: 'Capabilities' },
+  { href: '/#install', label: 'Setup Guide' },
   { href: '/pricing', label: 'Pricing' }
 ]
 
-const project = [
-  { href: site.repoUrl, label: 'GitHub', external: true },
-  { href: site.releasesUrl, label: 'All releases', external: true },
-  { href: site.issuesUrl, label: 'Report an issue', external: true },
-  { href: `${site.repoUrl}/blob/main/README.md`, label: 'Read the docs', external: true }
+const access = [
+  { href: '/pricing', label: 'Prebook Early Bird ($3.99)' },
+  { href: '/download', label: 'Prebook & License Key' }
 ]
 
 const help = [
@@ -32,8 +29,8 @@ const help = [
     <div class="footer-grid">
       <div class="footer-brand">
         <Wordmark />
-        <p>{site.tagline} A one-time-license Windows app that keeps music, notes, plans, posture and your AI sessions one hover away.</p>
-        <span class="chip">v{release.version}</span>
+        <p>{site.tagline} A one-time-license app for macOS and Windows that keeps music, notes, plans, posture and your AI sessions one hover away.</p>
+        <span class="chip chip--live">v{release.version} · macOS &amp; Windows</span>
       </div>
 
       <div class="footer-col">
@@ -44,17 +41,9 @@ const help = [
       </div>
 
       <div class="footer-col">
-        <h4>Project</h4>
+        <h4>Access</h4>
         <ul>
-          {
-            project.map((item) => (
-              <li>
-                <a href={item.href} rel="noopener">
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
+          {access.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
         </ul>
       </div>
 
@@ -68,12 +57,12 @@ const help = [
 
     <div class="footer-fine">
       <p>
-        Notch is an independent project, not affiliated with Spotify, OpenAI, Obsidian or any other
+        Hero Notch is an independent project, not affiliated with Apple, Microsoft, Spotify, OpenAI, Obsidian or any other
         product it integrates with. Product names are used only to describe compatibility.
       </p>
       <div class="row">
         <span>© {site.year} {site.author}. Built with Astro.</span>
-        <span>One-time license · Windows 10/11 · Unsigned build</span>
+        <span>One-time license · macOS &amp; Windows · Local-first</span>
       </div>
     </div>
   </div>
